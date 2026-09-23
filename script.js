@@ -28,9 +28,7 @@ let hospitals = [];
 // ======================================================
 // API
 // ======================================================
-
-const API_BASE_URL =
-   "https://jeevansetu-5bpe.onrender.com";
+const API_BASE_URL = "https://jeevansetu-new.onrender.com";
 
 // ======================================================
 // AUTH DATA
