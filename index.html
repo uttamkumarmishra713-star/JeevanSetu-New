@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>JeevanSetu | Government Healthcare</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+
+        <div class="logo">
+            🏥 <span>JeevanSetu</span>
+        </div>
+
+        <div class="nav-links">
+
+            <a href="#">Home</a>
+            <a href="#results">Hospitals</a>
+            <a href="#my-appointments">Appointments</a>
+            <a href="#emergency">Emergency</a>
+
+        </div>
+
+        <!-- IMPORTANT: ID auth-area -->
+        <div class="auth-area" id="auth-area">
+
+            <button
+                type="button"
+                class="auth-login-btn"
+                onclick="showLoginForm()">
+                Login
+            </button>
+
+            <button
+                type="button"
+                class="auth-register-btn"
+                onclick="showRegisterForm()">
+                Register
+            </button>
+
+        </div>
+
+    </nav>
+
+
+    <!-- AUTH MODAL -->
+
+    <div id="auth-modal" class="auth-modal">
+
+        <div class="auth-box">
+
+            <button
+                type="button"
+                class="auth-close-btn"
+                onclick="closeAuthModal()">
+                ✕
+            </button>
+
+
+            <!-- LOGIN -->
+
+            <div id="login-form" class="auth-form">
+
+                <h2>Welcome Back</h2>
+
+                <p>
+                    Login to your JeevanSetu account
+                </p>
+
+                <input
+                    type="text"
+                    id="login-user-id"
+                    placeholder="Enter User ID">
+
+                <input
+                    type="password"
+                    id="login-password"
+                    placeholder="Enter password">
+
+                <button
+                    type="button"
+                    class="auth-submit-btn"
+                    onclick="loginUser()">
+                    Login
+                </button>
+
+                <div class="forgot-links">
+
+                    <button
+                        type="button"
+                        onclick="showForgotUserId()">
+                        Forgot User ID?
+                    </button>
+
+                    <button
+                        type="button"
+                        onclick="showForgotPassword()">
+                        Forgot Password?
+                    </button>
+
+                </div>
+
+                <p class="auth-switch">
+
+                    Don't have an account?
+
+                    <button
+                        type="button"
+                        onclick="showRegisterForm()">
+                        Register
+                    </button>
+
+                </p>
+
+            </div>
+
+
+            <!-- REGISTER -->
+
+            <div
+                id="register-form"
+                class="auth-form"
+                style="display:none;">
+
+                <h2>Create Account</h2>
+
+                <p>
+                    Register on JeevanSetu
+                </p>
+
+                <input
+                    type="text"
+                    id="register-name"
+                    placeholder="Enter full name">
+
+                <input
+                    type="tel"
+                    id="register-mobile"
+                    placeholder="Enter mobile number"
+                    maxlength="10"
+                    inputmode="numeric">
+
+                <input
+                    type="email"
+                    id="register-email"
+                    placeholder="Enter email address">
+
+                <input
+                    type="password"
+                    id="register-password"
+                    placeholder="Create password">
+
+                <button
+                    type="button"
+                    class="auth-submit-btn"
+                    onclick="registerUser()">
+                    Create Account
+                </button>
+
+                <p class="auth-switch">
+
+                    Already have an account?
+
+                    <button
+                        type="button"
+                        onclick="showLoginForm()">
+                        Login
+                    </button>
+
+                </p>
+
+            </div>
+
+
+            <!-- FORGOT USER ID -->
+
+            <div
+                id="forgot-user-id-form"
+                class="auth-form"
+                style="display:none;">
+
+                <h2>Forgot User ID?</h2>
+
+                <p>
+                    Enter your registered mobile number.
+                </p>
+
+                <input
+                    type="tel"
+                    id="forgot-id-mobile"
+                    placeholder="Enter registered mobile"
+                    maxlength="10"
+                    inputmode="numeric">
+
+                <button
+                    type="button"
+                    class="auth-submit-btn"
+                    onclick="sendUserIdOTP()">
+                    Send OTP
+                </button>
+
+                <div
+                    id="forgot-id-otp-section"
+                    style="display:none;">
+
+                    <input
+                        type="text"
+                        id="forgot-id-otp"
+                        placeholder="Enter OTP"
+                        maxlength="6"
+                        inputmode="numeric">
+
+                    <button
+                        type="button"
+                        class="auth-submit-btn"
+                        onclick="verifyUserIdOTP()">
+                        Verify OTP
+                    </button>
+
+                </div>
+
+                <p
+                    id="forgot-id-result"
+                    class="recovery-result">
+                </p>
+
+                <p class="auth-switch">
+
+                    Remember your User ID?
+
+                    <button
+                        type="button"
+                        onclick="showLoginForm()">
+                        Login
+                    </button>
+
+                </p>
+
+            </div>
+
+
+            <!-- FORGOT PASSWORD STEP 1 -->
+
+            <div
+                id="forgot-password-form"
+                class="auth-form"
+                style="display:none;">
+
+                <h2>Forgot Password?</h2>
+
+                <p>
+                    Verify your User ID and registered mobile number.
+                </p>
+
+                <input
+                    type="text"
+                    id="forgot-password-user-id"
+                    placeholder="Enter User ID">
+
+                <input
+                    type="tel"
+                    id="forgot-password-mobile"
+                    placeholder="Enter registered mobile"
+                    maxlength="10"
+                    inputmode="numeric">
+
+                <button
+                    type="button"
+                    class="auth-submit-btn"
+                    onclick="sendPasswordOTP()">
+                    Send OTP
+                </button>
+
+                <div
+                    id="forgot-password-otp-section"
+                    style="display:none;">
+
+                    <input
+                        type="text"
+                        id="forgot-password-otp"
+                        placeholder="Enter OTP"
+                        maxlength="6"
+                        inputmode="numeric">
+
+                    <button
+                        type="button"
+                        class="auth-submit-btn"
+                        onclick="verifyPasswordOTP()">
+                        Verify OTP
+                    </button>
+
+                </div>
+
+                <p
+                    id="forgot-password-message"
+                    class="recovery-result">
+                </p>
+
+                <p class="auth-switch">
+
+                    Remember your password?
+
+                    <button
+                        type="button"
+                        onclick="showLoginForm()">
+                        Login
+                    </button>
+
+                </p>
+
+            </div>
+
+
+            <!-- NEW PASSWORD -->
+
+            <div
+                id="new-password-form"
+                class="auth-form"
+                style="display:none;">
+
+                <h2>Set New Password</h2>
+
+                <p>
+                    Create a new password for your account.
+                </p>
+
+                <!-- NO DEFAULT PASSWORD -->
+                <input
+                    type="password"
+                    id="new-password"
+                    placeholder="Enter new password">
+
+                <input
+                    type="password"
+                    id="confirm-new-password"
+                    placeholder="Confirm new password">
+
+                <button
+                    type="button"
+                    class="auth-submit-btn"
+                    onclick="resetPassword()">
+                    Reset Password
+                </button>
+
+            </div>
+
+
+            <!-- USER PROFILE -->
+
+            <div
+                id="user-profile"
+                class="user-profile"
+                style="display:none;">
+
+                <div class="profile-icon">
+                    👤
+                </div>
+
+                <h2>
+                    Welcome to JeevanSetu
+                </h2>
+
+                <p
+                    id="profile-name"
+                    class="profile-name">
+                    User
+                </p>
+
+                <div class="user-id-box">
+
+                    <span>
+                        Your User ID
+                    </span>
+
+                    <div class="user-id-row">
+
+                        <strong id="profile-user-id">
+                            JSU-000000
+                        </strong>
+
+                        <button
+                            type="button"
+                            class="copy-id-btn"
+                            onclick="copyUserId()">
+                            📋 Copy ID
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <button
+                    type="button"
+                    class="logout-btn"
+                    onclick="logoutUser()">
+                    Logout
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- HERO -->
+
+    <section class="hero">
+
+        <h1>
+            Government Healthcare,
+            <span>Made Accessible.</span>
+        </h1>
+
+        <p>
+            Find government hospitals, doctors and
+            healthcare services before you leave home.
+        </p>
+
+        <div class="search-box">
+
+            <select id="service-select">
+
+                <option value="">
+                    Select your required service
+                </option>
+
+                <option value="General Doctor">
+                    General Doctor
+                </option>
+
+                <option value="Specialist Doctor">
+                    Specialist Doctor
+                </option>
+
+                <option value="Blood Test">
+                    Blood Test
+                </option>
+
+                <option value="X-Ray">
+                    X-Ray
+                </option>
+
+                <option value="Pharmacy">
+                    Pharmacy
+                </option>
+
+                <option value="Emergency Service">
+                    Emergency Service
+                </option>
+
+            </select>
+
+            <button
+                class="search-btn"
+                type="button">
+                Find Healthcare
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- RESULTS -->
+
+    <section
+        class="results"
+        id="results">
+
+        <div class="results-header">
+
+            <h2>
+                Available Healthcare Services
+            </h2>
+
+            <p id="result-message">
+                Select a service to see
+                available hospitals.
+            </p>
+
+        </div>
+
+        <div
+            class="hospital-list"
+            id="hospital-list">
+        </div>
+
+    </section>
+
+
+    <!-- APPOINTMENTS -->
+
+    <section
+        class="appointments-section"
+        id="my-appointments">
+
+        <div class="appointments-header">
+
+            <h2>
+                My Appointments
+            </h2>
+
+            <p>
+                View your booked healthcare appointments
+            </p>
+
+        </div>
+
+        <div id="appointments-list">
+
+            <div class="appointment-empty">
+
+                <p>
+                    No appointments loaded yet.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- SERVICES -->
+
+    <section class="services">
+
+        <h2>
+            What can we help you with?
+        </h2>
+
+        <div class="service-grid">
+
+            <div class="service-card">
+
+                <div class="icon">🏥</div>
+
+                <h3>
+                    Find Hospital
+                </h3>
+
+                <p>
+                    Find government hospitals
+                    and available healthcare facilities.
+                </p>
+
+            </div>
+
+
+            <div class="service-card">
+
+                <div class="icon">👨‍⚕️</div>
+
+                <h3>
+                    Find Doctor
+                </h3>
+
+                <p>
+                    Check doctor availability
+                    and OPD information.
+                </p>
+
+            </div>
+
+
+            <div class="service-card">
+
+                <div class="icon">📅</div>
+
+                <h3>
+                    Book Appointment
+                </h3>
+
+                <p>
+                    Book an appointment with
+                    an available doctor.
+                </p>
+
+            </div>
+
+
+            <div class="service-card">
+
+                <div class="icon">💊</div>
+
+                <h3>
+                    Health Services
+                </h3>
+
+                <p>
+                    Check laboratory, pharmacy,
+                    diagnostic and emergency services.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- EMERGENCY -->
+
+    <section
+        class="emergency"
+        id="emergency">
+
+        <h2>
+            🚨 Emergency Assistance
+        </h2>
+
+        <p>
+            Need immediate medical help?
+        </p>
+
+        <button
+            type="button"
+            onclick="showEmergency()">
+            🚑 Get Emergency Help
+        </button>
+
+    </section>
+
+
+    <!-- EMERGENCY POPUP -->
+
+    <div
+        id="emergency-panel"
+        class="emergency-modal">
+
+        <div class="emergency-box">
+
+            <button
+                class="close-btn"
+                type="button"
+                onclick="closeEmergency()">
+                ✕
+            </button>
+
+            <h2>
+                🚨 Emergency Services
+            </h2>
+
+            <p>
+                Select what you need:
+            </p>
+
+            <button
+                type="button"
+                onclick="requestAmbulance()">
+                🚑 Request Ambulance
+            </button>
+
+            <button
+                type="button"
+                onclick="findEmergencyHospital()">
+                🏥 Find Emergency Hospital
+            </button>
+
+            <button
+                type="button"
+                onclick="callEmergency()">
+                📞 Call Emergency Helpline
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        <p>
+            © 2026 JeevanSetu —
+            Government Healthcare Access Platform
+        </p>
+
+        <p>
+            Know Before You Go.
+        </p>
+
+    </footer>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
