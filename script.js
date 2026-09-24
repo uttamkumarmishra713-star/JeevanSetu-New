@@ -552,7 +552,39 @@ function logoutUser() {
 
 function updateLoginState() {
 
+    const authArea =
+        document.getElementById("auth-area");
+
+    if (!authArea) {
+        return;
+    }
+
+
+    // USER LOGGED IN
     if (currentUser) {
+
+        authArea.innerHTML = `
+
+            <button
+                type="button"
+                class="auth-profile-btn"
+                onclick="showUserProfile()">
+
+                👤 ${escapeHTML(currentUser.name)}
+
+            </button>
+
+            <button
+                type="button"
+                class="auth-logout-btn"
+                onclick="logoutUser()">
+
+                Logout
+
+            </button>
+
+        `;
+
 
         console.log(
             "Logged in as:",
@@ -560,7 +592,33 @@ function updateLoginState() {
         );
 
     }
+
+
+    // USER NOT LOGGED IN
     else {
+
+        authArea.innerHTML = `
+
+            <button
+                type="button"
+                class="auth-login-btn"
+                onclick="showLoginForm()">
+
+                Login
+
+            </button>
+
+            <button
+                type="button"
+                class="auth-register-btn"
+                onclick="showRegisterForm()">
+
+                Register
+
+            </button>
+
+        `;
+
 
         console.log(
             "No user logged in."
