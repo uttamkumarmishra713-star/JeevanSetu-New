@@ -2608,3 +2608,43 @@ button:disabled {
     }
 
 }
+/* Contact Footer */
+
+footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 30px;
+}
+
+.footer-left {
+    text-align: left;
+}
+
+.footer-contact {
+    text-align: right;
+}
+
+.footer-contact strong {
+    display: block;
+    margin-bottom: 6px;
+}
+
+.footer-contact p {
+    margin: 3px 0;
+    font-size: 14px;
+}
+
+@media (max-width: 700px) {
+
+    footer {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .footer-left,
+    .footer-contact {
+        text-align: center;
+    }
+
+}
