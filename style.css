@@ -2570,3 +2570,300 @@ footer {
     }
 
 }
+
+/* =====================================================
+   JEEVANSETU PROFILE SECTION
+   DESKTOP + MOBILE RESPONSIVE
+===================================================== */
+
+.profile-section {
+    width: 100%;
+    padding: 35px 20px 50px;
+    background: #f5f9fa;
+}
+
+.profile-container {
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.profile-heading {
+    margin-bottom: 22px;
+}
+
+.profile-heading h2 {
+    font-size: 30px;
+    margin: 0 0 6px;
+    color: #173b3a;
+}
+
+.profile-heading p {
+    margin: 0;
+    color: #687878;
+    font-size: 15px;
+}
+
+.profile-card {
+    width: 100%;
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
+}
+
+
+/* PROFILE PHOTO */
+
+.profile-photo-area {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    padding-bottom: 25px;
+    margin-bottom: 25px;
+    border-bottom: 1px solid #e5eeee;
+}
+
+.profile-photo {
+    width: 115px;
+    height: 115px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #0b8f87;
+    background: #eef7f6;
+}
+
+.photo-info h3 {
+    margin: 0 0 10px;
+    font-size: 18px;
+    color: #233333;
+}
+
+.change-photo-btn {
+    display: inline-block;
+    padding: 10px 15px;
+    background: #0b8f87;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: 0.2s;
+}
+
+.change-photo-btn:hover {
+    background: #08736d;
+}
+
+
+/* SECTION TITLES */
+
+.profile-section-title {
+    margin: 28px 0 16px;
+    font-size: 19px;
+    color: #173b3a;
+}
+
+.emergency-heading {
+    color: #b33a3a;
+}
+
+
+/* FORM GRID */
+
+.profile-grid {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.profile-field {
+    min-width: 0;
+}
+
+.profile-field.profile-full {
+    grid-column: 1 / -1;
+}
+
+.profile-field label {
+    display: block;
+    margin-bottom: 7px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #344545;
+}
+
+.profile-field label span {
+    color: #888;
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.profile-field input,
+.profile-field select,
+.profile-field textarea {
+    width: 100%;
+    max-width: 100%;
+    padding: 12px 13px;
+    border: 1px solid #d6dfdf;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #263535;
+    font-size: 14px;
+    font-family: inherit;
+    outline: none;
+    transition: border 0.2s, box-shadow 0.2s;
+}
+
+.profile-field textarea {
+    resize: vertical;
+    min-height: 85px;
+}
+
+.profile-field input:focus,
+.profile-field select:focus,
+.profile-field textarea:focus {
+    border-color: #0b8f87;
+    box-shadow: 0 0 0 3px rgba(11, 143, 135, 0.10);
+}
+
+
+/* BUTTONS */
+
+.profile-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid #e5eeee;
+}
+
+.profile-actions button {
+    min-height: 44px;
+    padding: 11px 18px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.profile-edit-btn {
+    background: #ffffff;
+    color: #0b817b;
+    border: 1px solid #0b8f87;
+}
+
+.profile-save-btn {
+    background: #0b8f87;
+    color: #ffffff;
+    border: 1px solid #0b8f87;
+}
+
+.profile-password-btn {
+    background: #f1f5f5;
+    color: #344545;
+    border: 1px solid #d7e0e0;
+}
+
+.profile-actions button:hover {
+    transform: translateY(-1px);
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 768px) {
+
+    .profile-section {
+        padding: 22px 12px 35px;
+    }
+
+    .profile-container {
+        width: 100%;
+    }
+
+    .profile-heading h2 {
+        font-size: 25px;
+    }
+
+    .profile-heading p {
+        font-size: 14px;
+        line-height: 1.5;
+    }
+
+    .profile-card {
+        padding: 20px 15px;
+        border-radius: 13px;
+    }
+
+    .profile-photo-area {
+        flex-direction: column;
+        text-align: center;
+        gap: 14px;
+    }
+
+    .profile-photo {
+        width: 105px;
+        height: 105px;
+    }
+
+    .profile-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .profile-field.profile-full {
+        grid-column: auto;
+    }
+
+    .profile-section-title {
+        font-size: 18px;
+        margin-top: 25px;
+    }
+
+    .profile-actions {
+        flex-direction: column;
+    }
+
+    .profile-actions button {
+        width: 100%;
+        min-height: 46px;
+    }
+
+}
+
+
+/* SMALL PHONES */
+
+@media (max-width: 400px) {
+
+    .profile-section {
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+
+    .profile-card {
+        padding: 17px 12px;
+    }
+
+    .profile-heading h2 {
+        font-size: 22px;
+    }
+
+    .profile-field input,
+    .profile-field select,
+    .profile-field textarea {
+        font-size: 14px;
+        padding: 11px;
+    }
+
+    .profile-photo {
+        width: 95px;
+        height: 95px;
+    }
+
+   }
