@@ -3335,5 +3335,293 @@ document.addEventListener(
 
         loadAppointments();
 
+    }/* =====================================================
+   JEEVANSETU PROFILE JAVASCRIPT
+===================================================== */
+
+
+/* PROFILE PHOTO PREVIEW */
+
+const profilePhotoInput =
+    document.getElementById("profilePhotoInput");
+
+const profilePreview =
+    document.getElementById("profilePreview");
+
+
+if (profilePhotoInput && profilePreview) {
+
+    profilePhotoInput.addEventListener(
+        "change",
+        function () {
+
+            const file = this.files[0];
+
+            if (!file) {
+                return;
+            }
+
+            if (!file.type.startsWith("image/")) {
+
+                alert("Please select an image file.");
+
+                this.value = "";
+
+                return;
+            }
+
+            const reader = new FileReader();
+
+            reader.onload = function (event) {
+
+                profilePreview.src =
+                    event.target.result;
+
+            };
+
+            reader.readAsDataURL(file);
+        }
+    );
+}
+
+
+/* EDIT PROFILE */
+
+const editProfileBtn =
+    document.getElementById("editProfileBtn");
+
+
+if (editProfileBtn) {
+
+    editProfileBtn.addEventListener(
+        "click",
+        function () {
+
+            const fields =
+                document.querySelectorAll(
+                    "#profileSection input, #profileSection select, #profileSection textarea"
+                );
+
+            fields.forEach(function (field) {
+
+                if (field.id !== "profilePhotoInput") {
+                    field.disabled = false;
+                }
+
+            });
+
+            alert("You can now edit your profile.");
+
+        }
+    );
+}
+
+
+/* SAVE PROFILE */
+
+const saveProfileBtn =
+    document.getElementById("saveProfileBtn");
+
+
+if (saveProfileBtn) {
+
+    saveProfileBtn.addEventListener(
+        "click",
+        function () {
+
+            const profileData = {
+
+                firstName:
+                    document.getElementById(
+                        "profileFirstName"
+                    )?.value || "",
+
+                lastName:
+                    document.getElementById(
+                        "profileLastName"
+                    )?.value || "",
+
+                mobile:
+                    document.getElementById(
+                        "profileMobile"
+                    )?.value || "",
+
+                email:
+                    document.getElementById(
+                        "profileEmail"
+                    )?.value || "",
+
+                dob:
+                    document.getElementById(
+                        "profileDOB"
+                    )?.value || "",
+
+                gender:
+                    document.getElementById(
+                        "profileGender"
+                    )?.value || "",
+
+                address:
+                    document.getElementById(
+                        "profileAddress"
+                    )?.value || "",
+
+                city:
+                    document.getElementById(
+                        "profileCity"
+                    )?.value || "",
+
+                state:
+                    document.getElementById(
+                        "profileState"
+                    )?.value || "",
+
+                pin:
+                    document.getElementById(
+                        "profilePin"
+                    )?.value || "",
+
+                bloodGroup:
+                    document.getElementById(
+                        "profileBloodGroup"
+                    )?.value || "",
+
+                height:
+                    document.getElementById(
+                        "profileHeight"
+                    )?.value || "",
+
+                weight:
+                    document.getElementById(
+                        "profileWeight"
+                    )?.value || "",
+
+                emergencyName:
+                    document.getElementById(
+                        "emergencyContactName"
+                    )?.value || "",
+
+                emergencyNumber:
+                    document.getElementById(
+                        "emergencyContactNumber"
+                    )?.value || ""
+            };
+
+
+            /*
+             * Temporary local save.
+             * Later this can be connected
+             * to your Node.js backend.
+             */
+
+            localStorage.setItem(
+                "jeevansetuProfile",
+                JSON.stringify(profileData)
+            );
+
+
+            alert(
+                "Profile changes saved successfully!"
+            );
+
+        }
+    );
+}
+
+
+/* LOAD SAVED PROFILE */
+
+function loadJeevanSetuProfile() {
+
+    const savedProfile =
+        localStorage.getItem(
+            "jeevansetuProfile"
+        );
+
+    if (!savedProfile) {
+        return;
     }
+
+    try {
+
+        const data =
+            JSON.parse(savedProfile);
+
+
+        const fields = {
+
+            profileFirstName: data.firstName,
+            profileLastName: data.lastName,
+            profileMobile: data.mobile,
+            profileEmail: data.email,
+            profileDOB: data.dob,
+            profileGender: data.gender,
+            profileAddress: data.address,
+            profileCity: data.city,
+            profileState: data.state,
+            profilePin: data.pin,
+            profileBloodGroup: data.bloodGroup,
+            profileHeight: data.height,
+            profileWeight: data.weight,
+            emergencyContactName: data.emergencyName,
+            emergencyContactNumber: data.emergencyNumber
+
+        };
+
+
+        Object.keys(fields).forEach(
+            function (id) {
+
+                const element =
+                    document.getElementById(id);
+
+                if (element) {
+                    element.value =
+                        fields[id] || "";
+                }
+
+            }
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Could not load profile:",
+            error
+        );
+
+    }
+}
+
+
+/* LOAD PROFILE WHEN PAGE OPENS */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    loadJeevanSetuProfile
 );
+
+
+/* CHANGE PASSWORD */
+
+const changePasswordBtn =
+    document.getElementById(
+        "changePasswordBtn"
+    );
+
+
+if (changePasswordBtn) {
+
+    changePasswordBtn.addEventListener(
+        "click",
+        function () {
+
+            alert(
+                "Change Password feature will be connected to the account system."
+            );
+
+        }
+    );
+                }
+);
+
