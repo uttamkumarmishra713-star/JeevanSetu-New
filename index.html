@@ -355,60 +355,388 @@
 
             <!-- USER PROFILE -->
 
-            <div
-                id="user-profile"
-                class="user-profile"
-                style="display:none;">
+<div
+    id="user-profile"
+    class="user-profile"
+    style="display:none;">
 
-                <div class="profile-icon">
-                    👤
-                </div>
+    <div class="profile-icon">
+        👤
+    </div>
 
-                <h2>
-                    Welcome to JeevanSetu
-                </h2>
+    <h2>My Profile</h2>
 
-                <p
-                    id="profile-name"
-                    class="profile-name">
-                    User
-                </p>
+    <p
+        id="profile-name"
+        class="profile-name">
+        User
+    </p>
 
-                <div class="user-id-box">
 
-                    <span>
-                        Your User ID
-                    </span>
+    <!-- PROFILE PHOTO -->
 
-                    <div class="user-id-row">
+    <div class="profile-photo-area">
 
-                        <strong id="profile-user-id">
-                            JSU-000000
-                        </strong>
+        <img
+            id="profilePreview"
+            class="profile-photo"
+            src="https://via.placeholder.com/120"
+            alt="Profile Photo">
 
-                        <button
-                            type="button"
-                            class="copy-id-btn"
-                            onclick="copyUserId()">
-                            📋 Copy ID
-                        </button>
+        <label
+            for="profilePhotoInput"
+            class="change-photo-btn">
 
-                    </div>
+            📷 Upload / Change Photo
 
-                </div>
+        </label>
 
-                <button
-                    type="button"
-                    class="logout-btn"
-                    onclick="logoutUser()">
-                    Logout
-                </button>
+        <input
+            type="file"
+            id="profilePhotoInput"
+            accept="image/*"
+            hidden>
 
-            </div>
+    </div>
+
+
+    <!-- PERSONAL INFORMATION -->
+
+    <h3 class="profile-section-title">
+        Personal Information
+    </h3>
+
+    <div class="profile-grid">
+
+        <div class="profile-field">
+
+            <label>First Name</label>
+
+            <input
+                type="text"
+                id="profileFirstName"
+                placeholder="Enter first name">
+
+        </div>
+
+
+        <div class="profile-field">
+
+            <label>Last Name</label>
+
+            <input
+                type="text"
+                id="profileLastName"
+                placeholder="Enter last name">
+
+        </div>
+
+
+        <div class="profile-field">
+
+            <label>Mobile Number</label>
+
+            <input
+                type="tel"
+                id="profileMobile"
+                placeholder="Enter mobile number">
+
+        </div>
+
+
+        <div class="profile-field">
+
+            <label>Email Address</label>
+
+            <input
+                type="email"
+                id="profileEmail"
+                placeholder="Enter email address">
+
+        </div>
+
+
+        <div class="profile-field">
+
+            <label>
+                Date of Birth
+                <span>(Optional)</span>
+            </label>
+
+            <input
+                type="date"
+                id="profileDOB">
+
+        </div>
+
+
+        <div class="profile-field">
+
+            <label>
+                Gender
+                <span>(Optional)</span>
+            </label>
+
+            <select id="profileGender">
+
+                <option value="">
+                    Select Gender
+                </option>
+
+                <option>Male</option>
+                <option>Female</option>
+                <option>Other</option>
+                <option>Prefer not to say</option>
+
+            </select>
 
         </div>
 
     </div>
+
+
+    <!-- ADDRESS -->
+
+    <h3 class="profile-section-title">
+        📍 Address
+    </h3>
+
+    <div class="profile-grid">
+
+        <div class="profile-field profile-full">
+
+            <label>Full Address</label>
+
+            <textarea
+                id="profileAddress"
+                rows="3"
+                placeholder="Enter your full address">
+            </textarea>
+
+        </div>
+
+
+        <div class="profile-field">
+
+            <label>City</label>
+
+            <input
+                type="text"
+                id="profileCity"
+                placeholder="Enter city">
+
+        </div>
+
+
+        <div class="profile-field">
+
+            <label>State</label>
+
+            <input
+                type="text"
+                id="profileState"
+                placeholder="Enter state">
+
+        </div>
+
+
+        <div class="profile-field">
+
+            <label>PIN Code</label>
+
+            <input
+                type="text"
+                id="profilePin"
+                maxlength="6"
+                placeholder="Enter PIN code">
+
+        </div>
+
+    </div>
+
+
+    <!-- HEALTH INFORMATION -->
+
+    <h3 class="profile-section-title">
+        🩺 Health Information
+    </h3>
+
+    <div class="profile-grid">
+
+        <div class="profile-field">
+
+            <label>
+                Blood Group
+                <span>(Optional)</span>
+            </label>
+
+            <select id="profileBloodGroup">
+
+                <option value="">
+                    Select Blood Group
+                </option>
+
+                <option>A+</option>
+                <option>A-</option>
+                <option>B+</option>
+                <option>B-</option>
+                <option>AB+</option>
+                <option>AB-</option>
+                <option>O+</option>
+                <option>O-</option>
+
+            </select>
+
+        </div>
+
+
+        <div class="profile-field">
+
+            <label>
+                Height (cm)
+                <span>(Optional)</span>
+            </label>
+
+            <input
+                type="number"
+                id="profileHeight"
+                placeholder="Example: 170">
+
+        </div>
+
+
+        <div class="profile-field">
+
+            <label>
+                Weight (kg)
+                <span>(Optional)</span>
+            </label>
+
+            <input
+                type="number"
+                id="profileWeight"
+                placeholder="Example: 65">
+
+        </div>
+
+    </div>
+
+
+    <!-- EMERGENCY CONTACT -->
+
+    <h3 class="profile-section-title emergency-heading">
+        🚨 Emergency Contact
+    </h3>
+
+    <div class="profile-grid">
+
+        <div class="profile-field">
+
+            <label>
+                Emergency Contact Name
+            </label>
+
+            <input
+                type="text"
+                id="emergencyContactName"
+                placeholder="Enter contact name">
+
+        </div>
+
+
+        <div class="profile-field">
+
+            <label>
+                Emergency Contact Number
+            </label>
+
+            <input
+                type="tel"
+                id="emergencyContactNumber"
+                placeholder="Enter contact number">
+
+        </div>
+
+    </div>
+
+
+    <!-- USER ID -->
+
+    <div class="user-id-box">
+
+        <span>
+            Your User ID
+        </span>
+
+        <div class="user-id-row">
+
+            <strong id="profile-user-id">
+                JSU-000000
+            </strong>
+
+            <button
+                type="button"
+                class="copy-id-btn"
+                onclick="copyUserId()">
+
+                📋 Copy ID
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- PROFILE BUTTONS -->
+
+    <div class="profile-actions">
+
+        <button
+            type="button"
+            class="profile-edit-btn"
+            id="editProfileBtn">
+
+            ✏️ Edit Profile
+
+        </button>
+
+
+        <button
+            type="button"
+            class="profile-save-btn"
+            id="saveProfileBtn">
+
+            ✓ Save Changes
+
+        </button>
+
+
+        <button
+            type="button"
+            class="profile-password-btn"
+            id="changePasswordBtn">
+
+            🔐 Change Password
+
+        </button>
+
+    </div>
+
+
+    <!-- LOGOUT -->
+
+    <button
+        type="button"
+        class="logout-btn"
+        onclick="logoutUser()">
+
+        Logout
+
+    </button>
+
+</div>
+
 
 
     <!-- HERO -->
