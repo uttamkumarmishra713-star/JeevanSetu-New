@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="google-site-verification" content="9exPLoME2myYAouIARbFxRu_icRgEDIwJccAz_wOV6M" />
+
+    <meta name="google-site-verification"
+          content="9exPLoME2myYAouIARbFxRu_icRgEDIwJccAz_wOV6M">
+
     <title>JeevanSetu | Government Healthcare</title>
 
     <link rel="stylesheet" href="style.css">
@@ -12,998 +14,948 @@
 
 <body>
 
-    <!-- NAVBAR -->
-    <nav class="navbar">
+<!-- =====================================================
+     NAVBAR
+===================================================== -->
 
-        <div class="logo">
-            🏥 <span>JeevanSetu</span>
-        </div>
+<nav class="navbar">
 
-        <div class="nav-links">
+    <div class="logo">
+        🏥 <span>JeevanSetu</span>
+    </div>
 
-            <a href="#">Home</a>
-            <a href="#results">Hospitals</a>
-            <a href="#my-appointments">Appointments</a>
-            <a href="#emergency">Emergency</a>
-            <a href="#contact">Contact Us</a>
+    <div class="nav-links">
+        <a href="#home">Home</a>
+        <a href="#results">Hospitals</a>
+        <a href="#my-appointments">Appointments</a>
+        <a href="#emergency">Emergency</a>
+        <a href="#contact">Contact Us</a>
+    </div>
 
-        </div>
+    <div class="auth-area" id="auth-area">
 
-        <!-- IMPORTANT: ID auth-area -->
-        <div class="auth-area" id="auth-area">
-
-            <button
-                type="button"
+        <button type="button"
                 class="auth-login-btn"
                 onclick="showLoginForm()">
+            Login
+        </button>
+
+        <button type="button"
+                class="auth-register-btn"
+                onclick="showRegisterForm()">
+            Register
+        </button>
+
+    </div>
+
+</nav>
+
+
+<!-- =====================================================
+     AUTH MODAL
+===================================================== -->
+
+<div id="auth-modal" class="auth-modal">
+
+    <div class="auth-box">
+
+        <button type="button"
+                class="auth-close-btn"
+                onclick="closeAuthModal()">
+            ✕
+        </button>
+
+
+        <!-- LOGIN -->
+
+        <div id="login-form" class="auth-form">
+
+            <h2>Welcome Back</h2>
+
+            <p>Login to your JeevanSetu account</p>
+
+            <input
+                type="text"
+                id="login-user-id"
+                placeholder="Enter User ID"
+                autocomplete="username">
+
+            <input
+                type="password"
+                id="login-password"
+                placeholder="Enter password"
+                autocomplete="current-password">
+
+            <button type="button"
+                    class="auth-submit-btn"
+                    onclick="loginUser()">
                 Login
             </button>
 
-            <button
-                type="button"
-                class="auth-register-btn"
-                onclick="showRegisterForm()">
-                Register
-            </button>
+            <div class="forgot-links">
 
-        </div>
-
-    </nav>
-
-
-    <!-- AUTH MODAL -->
-
-    <div id="auth-modal" class="auth-modal">
-
-        <div class="auth-box">
-
-            <button
-                type="button"
-                class="auth-close-btn"
-                onclick="closeAuthModal()">
-                ✕
-            </button>
-
-
-            <!-- LOGIN -->
-
-            <div id="login-form" class="auth-form">
-
-                <h2>Welcome Back</h2>
-
-                <p>
-                    Login to your JeevanSetu account
-                </p>
-
-                <input
-                    type="text"
-                    id="login-user-id"
-                    placeholder="Enter User ID">
-
-                <input
-                    type="password"
-                    id="login-password"
-                    placeholder="Enter password">
-
-                <button
-                    type="button"
-                    class="auth-submit-btn"
-                    onclick="loginUser()">
-                    Login
-                </button>
-
-                <div class="forgot-links">
-
-                    <button
-                        type="button"
+                <button type="button"
                         onclick="showForgotUserId()">
-                        Forgot User ID?
-                    </button>
+                    Forgot User ID?
+                </button>
 
-                    <button
-                        type="button"
+                <button type="button"
                         onclick="showForgotPassword()">
-                        Forgot Password?
-                    </button>
+                    Forgot Password?
+                </button>
 
-                </div>
+            </div>
 
-                <p class="auth-switch">
-
-                    Don't have an account?
-
-                    <button
-                        type="button"
+            <p class="auth-switch">
+                Don't have an account?
+                <button type="button"
                         onclick="showRegisterForm()">
-                        Register
-                    </button>
-
-                </p>
-
-            </div>
-
-
-            <!-- REGISTER -->
-
-            <div
-                id="register-form"
-                class="auth-form"
-                style="display:none;">
-
-                <h2>Create Account</h2>
-
-                <p>
-                    Register on JeevanSetu
-                </p>
-
-                <input
-                    type="text"
-                    id="register-name"
-                    placeholder="Enter full name">
-
-                <input
-                    type="tel"
-                    id="register-mobile"
-                    placeholder="Enter mobile number"
-                    maxlength="10"
-                    inputmode="numeric">
-
-                <input
-                    type="email"
-                    id="register-email"
-                    placeholder="Enter email address">
-
-                <input
-                    type="password"
-                    id="register-password"
-                    placeholder="Create password">
-
-                <button
-                    type="button"
-                    class="auth-submit-btn"
-                    onclick="registerUser()">
-                    Create Account
+                    Register
                 </button>
-
-                <p class="auth-switch">
-
-                    Already have an account?
-
-                    <button
-                        type="button"
-                        onclick="showLoginForm()">
-                        Login
-                    </button>
-
-                </p>
-
-            </div>
-
-
-            <!-- FORGOT USER ID -->
-
-            <div
-                id="forgot-user-id-form"
-                class="auth-form"
-                style="display:none;">
-
-                <h2>Forgot User ID?</h2>
-
-                <p>
-                    Enter your registered mobile number.
-                </p>
-
-                <input
-                    type="tel"
-                    id="forgot-id-mobile"
-                    placeholder="Enter registered mobile"
-                    maxlength="10"
-                    inputmode="numeric">
-
-                <button
-                    type="button"
-                    class="auth-submit-btn"
-                    onclick="sendUserIdOTP()">
-                    Send OTP
-                </button>
-
-                <div
-                    id="forgot-id-otp-section"
-                    style="display:none;">
-
-                    <input
-                        type="text"
-                        id="forgot-id-otp"
-                        placeholder="Enter OTP"
-                        maxlength="6"
-                        inputmode="numeric">
-
-                    <button
-                        type="button"
-                        class="auth-submit-btn"
-                        onclick="verifyUserIdOTP()">
-                        Verify OTP
-                    </button>
-
-                </div>
-
-                <p
-                    id="forgot-id-result"
-                    class="recovery-result">
-                </p>
-
-                <p class="auth-switch">
-
-                    Remember your User ID?
-
-                    <button
-                        type="button"
-                        onclick="showLoginForm()">
-                        Login
-                    </button>
-
-                </p>
-
-            </div>
-
-
-            <!-- FORGOT PASSWORD STEP 1 -->
-
-            <div
-                id="forgot-password-form"
-                class="auth-form"
-                style="display:none;">
-
-                <h2>Forgot Password?</h2>
-
-                <p>
-                    Verify your User ID and registered mobile number.
-                </p>
-
-                <input
-                    type="text"
-                    id="forgot-password-user-id"
-                    placeholder="Enter User ID">
-
-                <input
-                    type="tel"
-                    id="forgot-password-mobile"
-                    placeholder="Enter registered mobile"
-                    maxlength="10"
-                    inputmode="numeric">
-
-                <button
-                    type="button"
-                    class="auth-submit-btn"
-                    onclick="sendPasswordOTP()">
-                    Send OTP
-                </button>
-
-                <div
-                    id="forgot-password-otp-section"
-                    style="display:none;">
-
-                    <input
-                        type="text"
-                        id="forgot-password-otp"
-                        placeholder="Enter OTP"
-                        maxlength="6"
-                        inputmode="numeric">
-
-                    <button
-                        type="button"
-                        class="auth-submit-btn"
-                        onclick="verifyPasswordOTP()">
-                        Verify OTP
-                    </button>
-
-                </div>
-
-                <p
-                    id="forgot-password-message"
-                    class="recovery-result">
-                </p>
-
-                <p class="auth-switch">
-
-                    Remember your password?
-
-                    <button
-                        type="button"
-                        onclick="showLoginForm()">
-                        Login
-                    </button>
-
-                </p>
-
-            </div>
-
-
-            <!-- NEW PASSWORD -->
-
-            <div
-                id="new-password-form"
-                class="auth-form"
-                style="display:none;">
-
-                <h2>Set New Password</h2>
-
-                <p>
-                    Create a new password for your account.
-                </p>
-
-                <!-- NO DEFAULT PASSWORD -->
-                <input
-                    type="password"
-                    id="new-password"
-                    placeholder="Enter new password">
-
-                <input
-                    type="password"
-                    id="confirm-new-password"
-                    placeholder="Confirm new password">
-
-                <button
-                    type="button"
-                    class="auth-submit-btn"
-                    onclick="resetPassword()">
-                    Reset Password
-                </button>
-
-            </div>
-
-
-            <!-- USER PROFILE -->
-
-<div
-    id="user-profile"
-    class="user-profile"
-    style="display:none;">
-
-    <div class="profile-icon">
-        👤
-    </div>
-
-    <h2>My Profile</h2>
-
-    <p
-        id="profile-name"
-        class="profile-name">
-        User
-    </p>
-
-
-    <!-- PROFILE PHOTO -->
-
-    <div class="profile-photo-area">
-
-        <img
-            id="profilePreview"
-            class="profile-photo"
-            src="https://via.placeholder.com/120"
-            alt="Profile Photo">
-
-        <label
-            for="profilePhotoInput"
-            class="change-photo-btn">
-
-            📷 Upload / Change Photo
-
-        </label>
-
-        <input
-            type="file"
-            id="profilePhotoInput"
-            accept="image/*"
-            hidden>
-
-    </div>
-
-
-    <!-- PERSONAL INFORMATION -->
-
-    <h3 class="profile-section-title">
-        Personal Information
-    </h3>
-
-    <div class="profile-grid">
-
-        <div class="profile-field">
-
-            <label>First Name</label>
-
-            <input
-                type="text"
-                id="profileFirstName"
-                placeholder="Enter first name">
+            </p>
 
         </div>
 
 
-        <div class="profile-field">
+        <!-- REGISTER -->
 
-            <label>Last Name</label>
+        <div id="register-form"
+             class="auth-form"
+             style="display:none;">
+
+            <h2>Create Account</h2>
+
+            <p>Register on JeevanSetu</p>
 
             <input
                 type="text"
-                id="profileLastName"
-                placeholder="Enter last name">
-
-        </div>
-
-
-        <div class="profile-field">
-
-            <label>Mobile Number</label>
+                id="register-name"
+                placeholder="Enter full name">
 
             <input
                 type="tel"
-                id="profileMobile"
-                placeholder="Enter mobile number">
-
-        </div>
-
-
-        <div class="profile-field">
-
-            <label>Email Address</label>
+                id="register-mobile"
+                placeholder="Enter mobile number"
+                maxlength="10"
+                inputmode="numeric">
 
             <input
                 type="email"
-                id="profileEmail"
+                id="register-email"
                 placeholder="Enter email address">
 
-        </div>
-
-
-        <div class="profile-field">
-
-            <label>
-                Date of Birth
-                <span>(Optional)</span>
-            </label>
-
             <input
-                type="date"
-                id="profileDOB">
+                type="password"
+                id="register-password"
+                placeholder="Create password"
+                autocomplete="new-password">
+
+            <button type="button"
+                    class="auth-submit-btn"
+                    onclick="registerUser()">
+                Create Account
+            </button>
+
+            <p class="auth-switch">
+                Already have an account?
+                <button type="button"
+                        onclick="showLoginForm()">
+                    Login
+                </button>
+            </p>
 
         </div>
 
 
-        <div class="profile-field">
+        <!-- FORGOT USER ID -->
 
-            <label>
-                Gender
-                <span>(Optional)</span>
-            </label>
+        <div id="forgot-user-id-form"
+             class="auth-form"
+             style="display:none;">
 
-            <select id="profileGender">
+            <h2>Forgot User ID?</h2>
 
-                <option value="">
-                    Select Gender
-                </option>
-
-                <option>Male</option>
-                <option>Female</option>
-                <option>Other</option>
-                <option>Prefer not to say</option>
-
-            </select>
-
-        </div>
-
-    </div>
-
-
-    <!-- ADDRESS -->
-
-    <h3 class="profile-section-title">
-        📍 Address
-    </h3>
-
-    <div class="profile-grid">
-
-        <div class="profile-field profile-full">
-
-            <label>Full Address</label>
-
-            <textarea
-                id="profileAddress"
-                rows="3"
-                placeholder="Enter your full address">
-            </textarea>
-
-        </div>
-
-
-        <div class="profile-field">
-
-            <label>City</label>
-
-            <input
-                type="text"
-                id="profileCity"
-                placeholder="Enter city">
-
-        </div>
-
-
-        <div class="profile-field">
-
-            <label>State</label>
-
-            <input
-                type="text"
-                id="profileState"
-                placeholder="Enter state">
-
-        </div>
-
-
-        <div class="profile-field">
-
-            <label>PIN Code</label>
-
-            <input
-                type="text"
-                id="profilePin"
-                maxlength="6"
-                placeholder="Enter PIN code">
-
-        </div>
-
-    </div>
-
-
-    <!-- HEALTH INFORMATION -->
-
-    <h3 class="profile-section-title">
-        🩺 Health Information
-    </h3>
-
-    <div class="profile-grid">
-
-        <div class="profile-field">
-
-            <label>
-                Blood Group
-                <span>(Optional)</span>
-            </label>
-
-            <select id="profileBloodGroup">
-
-                <option value="">
-                    Select Blood Group
-                </option>
-
-                <option>A+</option>
-                <option>A-</option>
-                <option>B+</option>
-                <option>B-</option>
-                <option>AB+</option>
-                <option>AB-</option>
-                <option>O+</option>
-                <option>O-</option>
-
-            </select>
-
-        </div>
-
-
-        <div class="profile-field">
-
-            <label>
-                Height (cm)
-                <span>(Optional)</span>
-            </label>
-
-            <input
-                type="number"
-                id="profileHeight"
-                placeholder="Example: 170">
-
-        </div>
-
-
-        <div class="profile-field">
-
-            <label>
-                Weight (kg)
-                <span>(Optional)</span>
-            </label>
-
-            <input
-                type="number"
-                id="profileWeight"
-                placeholder="Example: 65">
-
-        </div>
-
-    </div>
-
-
-    <!-- EMERGENCY CONTACT -->
-
-    <h3 class="profile-section-title emergency-heading">
-        🚨 Emergency Contact
-    </h3>
-
-    <div class="profile-grid">
-
-        <div class="profile-field">
-
-            <label>
-                Emergency Contact Name
-            </label>
-
-            <input
-                type="text"
-                id="emergencyContactName"
-                placeholder="Enter contact name">
-
-        </div>
-
-
-        <div class="profile-field">
-
-            <label>
-                Emergency Contact Number
-            </label>
+            <p>Enter your registered mobile number.</p>
 
             <input
                 type="tel"
-                id="emergencyContactNumber"
-                placeholder="Enter contact number">
+                id="forgot-id-mobile"
+                placeholder="Enter registered mobile"
+                maxlength="10"
+                inputmode="numeric">
+
+            <button type="button"
+                    class="auth-submit-btn"
+                    onclick="sendUserIdOTP()">
+                Send OTP
+            </button>
+
+            <div id="forgot-id-otp-section"
+                 style="display:none;">
+
+                <input
+                    type="text"
+                    id="forgot-id-otp"
+                    placeholder="Enter OTP"
+                    maxlength="6"
+                    inputmode="numeric">
+
+                <button type="button"
+                        class="auth-submit-btn"
+                        onclick="verifyUserIdOTP()">
+                    Verify OTP
+                </button>
+
+            </div>
+
+            <p id="forgot-id-result"
+               class="recovery-result">
+            </p>
+
+            <p class="auth-switch">
+                Remember your User ID?
+                <button type="button"
+                        onclick="showLoginForm()">
+                    Login
+                </button>
+            </p>
 
         </div>
 
-    </div>
+
+        <!-- FORGOT PASSWORD -->
+
+        <div id="forgot-password-form"
+             class="auth-form"
+             style="display:none;">
+
+            <h2>Forgot Password?</h2>
+
+            <p>
+                Verify your User ID and registered mobile number.
+            </p>
+
+            <input
+                type="text"
+                id="forgot-password-user-id"
+                placeholder="Enter User ID">
+
+            <input
+                type="tel"
+                id="forgot-password-mobile"
+                placeholder="Enter registered mobile"
+                maxlength="10"
+                inputmode="numeric">
+
+            <button type="button"
+                    class="auth-submit-btn"
+                    onclick="sendPasswordOTP()">
+                Send OTP
+            </button>
+
+            <div id="forgot-password-otp-section"
+                 style="display:none;">
+
+                <input
+                    type="text"
+                    id="forgot-password-otp"
+                    placeholder="Enter OTP"
+                    maxlength="6"
+                    inputmode="numeric">
+
+                <button type="button"
+                        class="auth-submit-btn"
+                        onclick="verifyPasswordOTP()">
+                    Verify OTP
+                </button>
+
+            </div>
+
+            <p id="forgot-password-message"
+               class="recovery-result">
+            </p>
+
+            <p class="auth-switch">
+                Remember your password?
+                <button type="button"
+                        onclick="showLoginForm()">
+                    Login
+                </button>
+            </p>
+
+        </div>
 
 
-    <!-- USER ID -->
+        <!-- NEW PASSWORD -->
 
-    <div class="user-id-box">
+        <div id="new-password-form"
+             class="auth-form"
+             style="display:none;">
 
-        <span>
-            Your User ID
-        </span>
+            <h2>Set New Password</h2>
 
-        <div class="user-id-row">
+            <p>Create a new password for your account.</p>
 
-            <strong id="profile-user-id">
-                JSU-000000
-            </strong>
+            <input
+                type="password"
+                id="new-password"
+                placeholder="Enter new password"
+                autocomplete="new-password">
+
+            <input
+                type="password"
+                id="confirm-new-password"
+                placeholder="Confirm new password"
+                autocomplete="new-password">
+
+            <button type="button"
+                    class="auth-submit-btn"
+                    onclick="resetPassword()">
+                Reset Password
+            </button>
+
+        </div>
+
+
+        <!-- =================================================
+             PROFILE
+        ================================================== -->
+
+        <div id="user-profile"
+             class="user-profile"
+             style="display:none;">
+
+            <div class="profile-icon">
+                👤
+            </div>
+
+            <h2>My Profile</h2>
+
+            <p id="profile-name"
+               class="profile-name">
+                User
+            </p>
+
+
+            <!-- PROFILE PHOTO -->
+
+            <div class="profile-photo-area">
+
+                <img
+                    id="profilePreview"
+                    class="profile-photo"
+                    src="https://via.placeholder.com/120"
+                    alt="Profile Photo">
+
+                <label
+                    for="profilePhotoInput"
+                    class="change-photo-btn">
+                    📷 Upload / Change Photo
+                </label>
+
+                <input
+                    type="file"
+                    id="profilePhotoInput"
+                    accept="image/*"
+                    hidden>
+
+            </div>
+
+
+            <!-- PERSONAL INFORMATION -->
+
+            <h3 class="profile-section-title">
+                Personal Information
+            </h3>
+
+            <div class="profile-grid">
+
+                <div class="profile-field">
+
+                    <label>First Name</label>
+
+                    <input
+                        type="text"
+                        id="profileFirstName"
+                        placeholder="Enter first name"
+                        disabled>
+
+                </div>
+
+                <div class="profile-field">
+
+                    <label>Last Name</label>
+
+                    <input
+                        type="text"
+                        id="profileLastName"
+                        placeholder="Enter last name"
+                        disabled>
+
+                </div>
+
+                <div class="profile-field">
+
+                    <label>Mobile Number</label>
+
+                    <input
+                        type="tel"
+                        id="profileMobile"
+                        placeholder="Enter mobile number"
+                        disabled>
+
+                </div>
+
+                <div class="profile-field">
+
+                    <label>Email Address</label>
+
+                    <input
+                        type="email"
+                        id="profileEmail"
+                        placeholder="Enter email address"
+                        disabled>
+
+                </div>
+
+                <div class="profile-field">
+
+                    <label>
+                        Date of Birth
+                        <span>(Optional)</span>
+                    </label>
+
+                    <input
+                        type="date"
+                        id="profileDOB"
+                        disabled>
+
+                </div>
+
+                <div class="profile-field">
+
+                    <label>
+                        Gender
+                        <span>(Optional)</span>
+                    </label>
+
+                    <select id="profileGender"
+                            disabled>
+
+                        <option value="">
+                            Select Gender
+                        </option>
+
+                        <option value="Male">
+                            Male
+                        </option>
+
+                        <option value="Female">
+                            Female
+                        </option>
+
+                        <option value="Other">
+                            Other
+                        </option>
+
+                        <option value="Prefer not to say">
+                            Prefer not to say
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <!-- ADDRESS -->
+
+            <h3 class="profile-section-title">
+                📍 Address
+            </h3>
+
+            <div class="profile-grid">
+
+                <div class="profile-field profile-full">
+
+                    <label>Full Address</label>
+
+                    <textarea
+                        id="profileAddress"
+                        rows="3"
+                        placeholder="Enter your full address"
+                        disabled></textarea>
+
+                </div>
+
+                <div class="profile-field">
+
+                    <label>City</label>
+
+                    <input
+                        type="text"
+                        id="profileCity"
+                        placeholder="Enter city"
+                        disabled>
+
+                </div>
+
+                <div class="profile-field">
+
+                    <label>State</label>
+
+                    <input
+                        type="text"
+                        id="profileState"
+                        placeholder="Enter state"
+                        disabled>
+
+                </div>
+
+                <div class="profile-field">
+
+                    <label>PIN Code</label>
+
+                    <input
+                        type="text"
+                        id="profilePin"
+                        maxlength="6"
+                        placeholder="Enter PIN code"
+                        disabled>
+
+                </div>
+
+            </div>
+
+
+            <!-- HEALTH -->
+
+            <h3 class="profile-section-title">
+                🩺 Health Information
+            </h3>
+
+            <div class="profile-grid">
+
+                <div class="profile-field">
+
+                    <label>
+                        Blood Group
+                        <span>(Optional)</span>
+                    </label>
+
+                    <select id="profileBloodGroup"
+                            disabled>
+
+                        <option value="">
+                            Select Blood Group
+                        </option>
+
+                        <option>A+</option>
+                        <option>A-</option>
+                        <option>B+</option>
+                        <option>B-</option>
+                        <option>AB+</option>
+                        <option>AB-</option>
+                        <option>O+</option>
+                        <option>O-</option>
+
+                    </select>
+
+                </div>
+
+                <div class="profile-field">
+
+                    <label>
+                        Height (cm)
+                        <span>(Optional)</span>
+                    </label>
+
+                    <input
+                        type="number"
+                        id="profileHeight"
+                        placeholder="Example: 170"
+                        disabled>
+
+                </div>
+
+                <div class="profile-field">
+
+                    <label>
+                        Weight (kg)
+                        <span>(Optional)</span>
+                    </label>
+
+                    <input
+                        type="number"
+                        id="profileWeight"
+                        placeholder="Example: 65"
+                        disabled>
+
+                </div>
+
+            </div>
+
+
+            <!-- EMERGENCY CONTACT -->
+
+            <h3 class="profile-section-title emergency-heading">
+                🚨 Emergency Contact
+            </h3>
+
+            <div class="profile-grid">
+
+                <div class="profile-field">
+
+                    <label>Emergency Contact Name</label>
+
+                    <input
+                        type="text"
+                        id="emergencyContactName"
+                        placeholder="Enter contact name"
+                        disabled>
+
+                </div>
+
+                <div class="profile-field">
+
+                    <label>Emergency Contact Number</label>
+
+                    <input
+                        type="tel"
+                        id="emergencyContactNumber"
+                        placeholder="Enter contact number"
+                        disabled>
+
+                </div>
+
+            </div>
+
+
+            <!-- USER ID -->
+
+            <div class="user-id-box">
+
+                <span>Your User ID</span>
+
+                <div class="user-id-row">
+
+                    <strong id="profile-user-id">
+                        JSU-000000
+                    </strong>
+
+                    <button
+                        type="button"
+                        class="copy-id-btn"
+                        onclick="copyUserId()">
+                        📋 Copy ID
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- PROFILE ACTIONS -->
+
+            <div class="profile-actions">
+
+                <button
+                    type="button"
+                    class="profile-edit-btn"
+                    id="editProfileBtn">
+                    ✏️ Edit Profile
+                </button>
+
+                <button
+                    type="button"
+                    class="profile-save-btn"
+                    id="saveProfileBtn">
+                    ✓ Save Changes
+                </button>
+
+                <button
+                    type="button"
+                    class="profile-password-btn"
+                    id="changePasswordBtn">
+                    🔐 Change Password
+                </button>
+
+            </div>
+
 
             <button
                 type="button"
-                class="copy-id-btn"
-                onclick="copyUserId()">
-
-                📋 Copy ID
-
+                class="logout-btn"
+                onclick="logoutUser()">
+                Logout
             </button>
 
         </div>
 
     </div>
+</div>
 
 
-    <!-- PROFILE BUTTONS -->
+<!-- =====================================================
+     HERO
+===================================================== -->
 
-    <div class="profile-actions">
+<section class="hero" id="home">
+
+    <h1>
+        Government Healthcare,
+        <span>Made Accessible.</span>
+    </h1>
+
+    <p>
+        Find government hospitals, doctors and
+        healthcare services before you leave home.
+    </p>
+
+    <div class="search-box">
+
+        <select id="service-select">
+
+            <option value="">
+                Select your required service
+            </option>
+
+            <option value="General Doctor">
+                General Doctor
+            </option>
+
+            <option value="Specialist Doctor">
+                Specialist Doctor
+            </option>
+
+            <option value="Blood Test">
+                Blood Test
+            </option>
+
+            <option value="X-Ray">
+                X-Ray
+            </option>
+
+            <option value="Pharmacy">
+                Pharmacy
+            </option>
+
+            <option value="Emergency Service">
+                Emergency Service
+            </option>
+
+        </select>
 
         <button
-            type="button"
-            class="profile-edit-btn"
-            id="editProfileBtn">
-
-            ✏️ Edit Profile
-
-        </button>
-
-
-        <button
-            type="button"
-            class="profile-save-btn"
-            id="saveProfileBtn">
-
-            ✓ Save Changes
-
-        </button>
-
-
-        <button
-            type="button"
-            class="profile-password-btn"
-            id="changePasswordBtn">
-
-            🔐 Change Password
-
+            class="search-btn"
+            type="button">
+            Find Healthcare
         </button>
 
     </div>
 
+</section>
 
-    <!-- LOGOUT -->
+
+<!-- =====================================================
+     RESULTS
+===================================================== -->
+
+<section class="results" id="results">
+
+    <div class="results-header">
+
+        <h2>
+            Available Healthcare Services
+        </h2>
+
+        <p id="result-message">
+            Select a service to see available hospitals.
+        </p>
+
+    </div>
+
+    <div class="hospital-list"
+         id="hospital-list">
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     APPOINTMENTS
+===================================================== -->
+
+<section class="appointments-section"
+         id="my-appointments">
+
+    <div class="appointments-header">
+
+        <h2>My Appointments</h2>
+
+        <p>
+            View your booked healthcare appointments
+        </p>
+
+    </div>
+
+    <div id="appointments-list">
+
+        <div class="appointment-empty">
+
+            <p>
+                🔐 Please login to view your appointments.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     SERVICES
+===================================================== -->
+
+<section class="services">
+
+    <h2>
+        What can we help you with?
+    </h2>
+
+    <div class="service-grid">
+
+        <div class="service-card">
+
+            <div class="icon">🏥</div>
+
+            <h3>Find Hospital</h3>
+
+            <p>
+                Find government hospitals
+                and available healthcare facilities.
+            </p>
+
+        </div>
+
+        <div class="service-card">
+
+            <div class="icon">👨‍⚕️</div>
+
+            <h3>Find Doctor</h3>
+
+            <p>
+                Check doctor availability
+                and OPD information.
+            </p>
+
+        </div>
+
+        <div class="service-card">
+
+            <div class="icon">📅</div>
+
+            <h3>Book Appointment</h3>
+
+            <p>
+                Book an appointment with
+                an available doctor.
+            </p>
+
+        </div>
+
+        <div class="service-card">
+
+            <div class="icon">💊</div>
+
+            <h3>Health Services</h3>
+
+            <p>
+                Check laboratory, pharmacy,
+                diagnostic and emergency services.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     EMERGENCY
+===================================================== -->
+
+<section class="emergency"
+         id="emergency">
+
+    <h2>
+        🚨 Emergency Assistance
+    </h2>
+
+    <p>
+        Need immediate medical help?
+    </p>
 
     <button
         type="button"
-        class="logout-btn"
-        onclick="logoutUser()">
-
-        Logout
-
+        onclick="showEmergency()">
+        🚑 Get Emergency Help
     </button>
+
+</section>
+
+
+<!-- EMERGENCY MODAL -->
+
+<div id="emergency-panel"
+     class="emergency-modal">
+
+    <div class="emergency-box">
+
+        <button
+            class="close-btn"
+            type="button"
+            onclick="closeEmergency()">
+            ✕
+        </button>
+
+        <h2>
+            🚨 Emergency Services
+        </h2>
+
+        <p>
+            Select what you need:
+        </p>
+
+        <button
+            type="button"
+            onclick="requestAmbulance()">
+            🚑 Request Ambulance
+        </button>
+
+        <button
+            type="button"
+            onclick="findEmergencyHospital()">
+            🏥 Find Emergency Hospital
+        </button>
+
+        <button
+            type="button"
+            onclick="callEmergency()">
+            📞 Call Emergency Helpline
+        </button>
+
+    </div>
 
 </div>
 
 
-
-    <!-- HERO -->
-
-    <section class="hero">
-
-        <h1>
-            Government Healthcare,
-            <span>Made Accessible.</span>
-        </h1>
-
-        <p>
-            Find government hospitals, doctors and
-            healthcare services before you leave home.
-        </p>
-
-        <div class="search-box">
-
-            <select id="service-select">
-
-                <option value="">
-                    Select your required service
-                </option>
-
-                <option value="General Doctor">
-                    General Doctor
-                </option>
-
-                <option value="Specialist Doctor">
-                    Specialist Doctor
-                </option>
-
-                <option value="Blood Test">
-                    Blood Test
-                </option>
-
-                <option value="X-Ray">
-                    X-Ray
-                </option>
-
-                <option value="Pharmacy">
-                    Pharmacy
-                </option>
-
-                <option value="Emergency Service">
-                    Emergency Service
-                </option>
-
-            </select>
-
-            <button
-                class="search-btn"
-                type="button">
-                Find Healthcare
-            </button>
-
-        </div>
-
-    </section>
-
-
-    <!-- RESULTS -->
-
-    <section
-        class="results"
-        id="results">
-
-        <div class="results-header">
-
-            <h2>
-                Available Healthcare Services
-            </h2>
-
-            <p id="result-message">
-                Select a service to see
-                available hospitals.
-            </p>
-
-        </div>
-
-        <div
-            class="hospital-list"
-            id="hospital-list">
-        </div>
-
-    </section>
-
-
-    <!-- APPOINTMENTS -->
-
-    <section
-        class="appointments-section"
-        id="my-appointments">
-
-        <div class="appointments-header">
-
-            <h2>
-                My Appointments
-            </h2>
-
-            <p>
-                View your booked healthcare appointments
-            </p>
-
-        </div>
-
-        <div id="appointments-list">
-
-            <div class="appointment-empty">
-
-                <p>
-                    No appointments loaded yet.
-                </p>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- SERVICES -->
-
-    <section class="services">
-
-        <h2>
-            What can we help you with?
-        </h2>
-
-        <div class="service-grid">
-
-            <div class="service-card">
-
-                <div class="icon">🏥</div>
-
-                <h3>
-                    Find Hospital
-                </h3>
-
-                <p>
-                    Find government hospitals
-                    and available healthcare facilities.
-                </p>
-
-            </div>
-
-
-            <div class="service-card">
-
-                <div class="icon">👨‍⚕️</div>
-
-                <h3>
-                    Find Doctor
-                </h3>
-
-                <p>
-                    Check doctor availability
-                    and OPD information.
-                </p>
-
-            </div>
-
-
-            <div class="service-card">
-
-                <div class="icon">📅</div>
-
-                <h3>
-                    Book Appointment
-                </h3>
-
-                <p>
-                    Book an appointment with
-                    an available doctor.
-                </p>
-
-            </div>
-
-
-            <div class="service-card">
-
-                <div class="icon">💊</div>
-
-                <h3>
-                    Health Services
-                </h3>
-
-                <p>
-                    Check laboratory, pharmacy,
-                    diagnostic and emergency services.
-                </p>
-
-            </div>
-
-        </div>
-
-    </section>
-    
-    
-    <!-- EMERGENCY -->
-
-    <section
-        class="emergency"
-        id="emergency">
-
-        <h2>
-            🚨 Emergency Assistance
-        </h2>
-
-        <p>
-            Need immediate medical help?
-        </p>
-
-        <button
-            type="button"
-            onclick="showEmergency()">
-            🚑 Get Emergency Help
-        </button>
-
-    </section>
-
-
-    <!-- EMERGENCY POPUP -->
-
-    <div
-        id="emergency-panel"
-        class="emergency-modal">
-
-        <div class="emergency-box">
-
-            <button
-                class="close-btn"
-                type="button"
-                onclick="closeEmergency()">
-                ✕
-            </button>
-
-            <h2>
-                🚨 Emergency Services
-            </h2>
-
-            <p>
-                Select what you need:
-            </p>
-
-            <button
-                type="button"
-                onclick="requestAmbulance()">
-                🚑 Request Ambulance
-            </button>
-
-            <button
-                type="button"
-                onclick="findEmergencyHospital()">
-                🏥 Find Emergency Hospital
-            </button>
-
-            <button
-                type="button"
-                onclick="callEmergency()">
-                📞 Call Emergency Helpline
-            </button>
-
-        </div>
-
-    </div>
-    <!-- FOOTER -->
+<!-- =====================================================
+     FOOTER
+===================================================== -->
 
 <footer id="contact">
 
@@ -1024,9 +976,7 @@
 
         <strong>Contact Us</strong>
 
-        <p>
-            👨‍💻 Uttam Kumar
-        </p>
+        <p>👨‍💻 Uttam Kumar</p>
 
         <p>
             📧 uttamkumarmishra713@gmail.com
@@ -1039,4 +989,5 @@
 
 <script src="script.js"></script>
 
-    
+</body>
+</html>
