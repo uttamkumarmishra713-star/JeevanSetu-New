@@ -2125,3 +2125,473 @@ footer p {
         height: 95px;
     }
 }
+
+/* =====================================================
+   PROFILE DESIGN IMPROVEMENTS
+===================================================== */
+
+/* Profile main container */
+.user-profile {
+    background: linear-gradient(180deg, #ffffff 0%, #f5fbfa 100%);
+    padding: 28px;
+    border-radius: 24px;
+}
+
+/* Profile heading */
+.user-profile h2 {
+    color: #123f3b;
+    font-size: 30px;
+    font-weight: 800;
+    margin: 12px 0 5px;
+}
+
+.profile-name {
+    color: #0b9188;
+    font-size: 21px;
+    font-weight: 700;
+    margin-bottom: 24px;
+}
+
+
+/* =====================================================
+   PROFILE PHOTO
+===================================================== */
+
+.profile-photo-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 10px auto 30px;
+}
+
+.profile-photo {
+    width: 145px;
+    height: 145px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+
+    border: 5px solid #0b978e;
+    padding: 4px;
+
+    background: #eaf8f6;
+
+    box-shadow:
+        0 8px 20px rgba(11, 145, 136, 0.18),
+        0 0 0 7px rgba(11, 145, 136, 0.06);
+}
+
+/* Upload button */
+.change-photo-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-top: 20px;
+    padding: 13px 24px;
+
+    background: linear-gradient(135deg, #0b9188, #087c75);
+    color: white;
+
+    border-radius: 12px;
+
+    font-size: 16px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    box-shadow: 0 5px 14px rgba(11, 145, 136, 0.20);
+
+    transition: all 0.2s ease;
+}
+
+.change-photo-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(11, 145, 136, 0.28);
+}
+
+
+/* =====================================================
+   PROFILE SECTION TITLES
+===================================================== */
+
+.profile-section-title {
+    margin: 30px 0 20px;
+    padding: 14px 18px;
+
+    background: linear-gradient(
+        135deg,
+        #e9f8f6,
+        #f4fbfa
+    );
+
+    border-left: 5px solid #0b9188;
+    border-radius: 12px;
+
+    color: #164b47;
+
+    font-size: 22px;
+    font-weight: 800;
+
+    box-shadow: 0 3px 10px rgba(0, 80, 75, 0.06);
+}
+
+/* Emergency title different color */
+.profile-section-title.emergency-heading {
+    background: linear-gradient(
+        135deg,
+        #fff1f1,
+        #fff8f8
+    );
+
+    border-left-color: #d84b4b;
+    color: #a93636;
+}
+
+
+/* =====================================================
+   PROFILE GRID
+===================================================== */
+
+.profile-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+
+    padding: 20px;
+
+    background: #ffffff;
+
+    border: 1px solid #e2eeee;
+    border-radius: 18px;
+
+    box-shadow:
+        0 5px 18px rgba(20, 80, 75, 0.06);
+}
+
+/* Full width field */
+.profile-full {
+    grid-column: 1 / -1;
+}
+
+
+/* =====================================================
+   PROFILE FIELDS
+===================================================== */
+
+.profile-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.profile-field label {
+    color: #294642;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.profile-field label span {
+    color: #899795;
+    font-weight: 500;
+    font-size: 13px;
+}
+
+/* Inputs */
+.profile-field input,
+.profile-field select,
+.profile-field textarea {
+    width: 100%;
+    box-sizing: border-box;
+
+    padding: 13px 15px;
+
+    border: 1.5px solid #d6e4e2;
+    border-radius: 11px;
+
+    background: #f9fcfc;
+
+    color: #263d3a;
+
+    font-size: 15px;
+
+    outline: none;
+
+    transition: all 0.2s ease;
+}
+
+/* Focus */
+.profile-field input:focus,
+.profile-field select:focus,
+.profile-field textarea:focus {
+    border-color: #0b9188;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 0 0 3px rgba(11, 145, 136, 0.10);
+}
+
+/* Disabled fields */
+.profile-field input:disabled,
+.profile-field select:disabled,
+.profile-field textarea:disabled {
+    color: #3d504d;
+    background: #f5f9f8;
+    opacity: 1;
+    cursor: default;
+}
+
+
+/* =====================================================
+   USER ID BOX
+===================================================== */
+
+.user-id-box {
+    margin-top: 24px;
+    padding: 18px 20px;
+
+    background: linear-gradient(
+        135deg,
+        #eaf9f7,
+        #f5fbff
+    );
+
+    border: 1px solid #c9e8e4;
+    border-radius: 17px;
+
+    box-shadow:
+        0 5px 15px rgba(11, 145, 136, 0.08);
+}
+
+.user-id-box > span {
+    display: block;
+
+    color: #6b8581;
+    font-size: 14px;
+    font-weight: 600;
+
+    margin-bottom: 7px;
+}
+
+.user-id-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+.user-id-row strong {
+    color: #087f77;
+    font-size: 23px;
+    letter-spacing: 1px;
+}
+
+
+/* Copy ID button */
+.copy-id-btn {
+    border: 1px solid #a9d9d4;
+
+    background: #ffffff;
+    color: #087f77;
+
+    padding: 10px 16px;
+
+    border-radius: 10px;
+
+    font-weight: 700;
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+}
+
+.copy-id-btn:hover {
+    background: #eaf8f6;
+    transform: translateY(-1px);
+}
+
+
+/* =====================================================
+   PROFILE ACTION BUTTONS
+===================================================== */
+
+.profile-actions {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+
+    margin-top: 28px;
+    padding-top: 24px;
+
+    border-top: 1px solid #deebea;
+}
+
+.profile-actions button {
+    min-height: 52px;
+
+    border-radius: 12px;
+
+    font-size: 15px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+}
+
+/* Edit */
+.profile-edit-btn {
+    background: #ffffff;
+    color: #087f77;
+    border: 2px solid #0b9188;
+}
+
+.profile-edit-btn:hover {
+    background: #eaf8f6;
+    transform: translateY(-2px);
+}
+
+
+/* Save */
+.profile-save-btn {
+    background: linear-gradient(
+        135deg,
+        #0b9188,
+        #087b74
+    );
+
+    color: #ffffff;
+    border: none;
+
+    box-shadow:
+        0 5px 14px rgba(11, 145, 136, 0.20);
+}
+
+.profile-save-btn:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 18px rgba(11, 145, 136, 0.28);
+}
+
+
+/* Change password */
+.profile-password-btn {
+    background: #f2f7f7;
+    color: #31514e;
+
+    border: 1px solid #d6e4e2;
+}
+
+.profile-password-btn:hover {
+    background: #e6f2f1;
+    transform: translateY(-2px);
+}
+
+
+/* =====================================================
+   LOGOUT BUTTON
+===================================================== */
+
+.logout-btn {
+    width: 100%;
+
+    margin-top: 18px;
+    padding: 14px 20px;
+
+    border: 1px solid #f0b7b7;
+    border-radius: 12px;
+
+    background: linear-gradient(
+        135deg,
+        #fff5f5,
+        #ffeaea
+    );
+
+    color: #c13d3d;
+
+    font-size: 16px;
+    font-weight: 800;
+
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+}
+
+.logout-btn:hover {
+    background: linear-gradient(
+        135deg,
+        #ffe9e9,
+        #ffdede
+    );
+
+    border-color: #e58c8c;
+
+    color: #a92f2f;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 6px 15px rgba(193, 61, 61, 0.12);
+}
+
+.logout-btn:active {
+    transform: translateY(0);
+}
+
+
+/* =====================================================
+   MOBILE RESPONSIVE
+===================================================== */
+
+@media (max-width: 700px) {
+
+    .user-profile {
+        padding: 18px 14px;
+        border-radius: 18px;
+    }
+
+    .user-profile h2 {
+        font-size: 27px;
+    }
+
+    .profile-photo {
+        width: 135px;
+        height: 135px;
+    }
+
+    .profile-grid {
+        grid-template-columns: 1fr;
+        padding: 16px;
+        gap: 16px;
+    }
+
+    .profile-full {
+        grid-column: auto;
+    }
+
+    .profile-section-title {
+        font-size: 20px;
+        padding: 13px 15px;
+    }
+
+    .profile-actions {
+        grid-template-columns: 1fr;
+        gap: 11px;
+    }
+
+    .user-id-row {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .copy-id-btn {
+        width: 100%;
+    }
+
+    .change-photo-btn {
+        width: 100%;
+        box-sizing: border-box;
+    }
+}
