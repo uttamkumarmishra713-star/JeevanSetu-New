@@ -1,5 +1,5 @@
 /* ============================================================
-   JEEVANSETU - CLEAN JAVASCRIPT
+   JEEVANSETU - COMPLETE JAVASCRIPT
    ============================================================ */
 
 const API_BASE_URL = "https://jeevansetu-new.onrender.com";
@@ -33,6 +33,7 @@ function escapeHTML(value) {
 
 function getLocalStorageJSON(key) {
     try {
+
         const value = localStorage.getItem(key);
 
         if (!value) {
@@ -42,14 +43,18 @@ function getLocalStorageJSON(key) {
         return JSON.parse(value);
 
     } catch (error) {
+
         console.error("LocalStorage error:", error);
+
         return null;
     }
 }
 
 
 function setLocalStorageJSON(key, value) {
+
     try {
+
         localStorage.setItem(
             key,
             JSON.stringify(value)
@@ -58,7 +63,12 @@ function setLocalStorageJSON(key, value) {
         return true;
 
     } catch (error) {
-        console.error("LocalStorage save error:", error);
+
+        console.error(
+            "LocalStorage save error:",
+            error
+        );
+
         return false;
     }
 }
@@ -68,15 +78,18 @@ function getLocalDateString() {
 
     const now = new Date();
 
-    const year = now.getFullYear();
+    const year =
+        now.getFullYear();
 
-    const month = String(
-        now.getMonth() + 1
-    ).padStart(2, "0");
+    const month =
+        String(
+            now.getMonth() + 1
+        ).padStart(2, "0");
 
-    const day = String(
-        now.getDate()
-    ).padStart(2, "0");
+    const day =
+        String(
+            now.getDate()
+        ).padStart(2, "0");
 
     return `${year}-${month}-${day}`;
 }
@@ -86,7 +99,8 @@ function generateOTP() {
 
     return String(
         Math.floor(
-            100000 + Math.random() * 900000
+            100000 +
+            Math.random() * 900000
         )
     );
 
@@ -97,28 +111,44 @@ function generateOTP() {
    LOADING
    ============================================================ */
 
-function showLoading(container, message = "Loading...") {
+function showLoading(
+    container,
+    message = "Loading..."
+) {
 
     if (!container) return;
 
     container.innerHTML = `
+
         <div class="loading-state">
+
             <div class="loading-spinner"></div>
-            <p>${escapeHTML(message)}</p>
+
+            <p>
+                ${escapeHTML(message)}
+            </p>
+
         </div>
+
     `;
 }
 
 
-function setButtonLoading(button, text) {
+function setButtonLoading(
+    button,
+    text
+) {
 
     if (!button) return;
 
     if (!button.dataset.originalText) {
-        button.dataset.originalText = button.innerText;
+
+        button.dataset.originalText =
+            button.innerText;
     }
 
     button.disabled = true;
+
     button.innerText = text;
 }
 
@@ -130,9 +160,11 @@ function restoreButton(button) {
     button.disabled = false;
 
     if (button.dataset.originalText) {
+
         button.innerText =
             button.dataset.originalText;
     }
+
 }
 
 
@@ -142,10 +174,13 @@ function restoreButton(button) {
 
 function openAuthModal() {
 
-    const modal = getElement("auth-modal");
+    const modal =
+        getElement("auth-modal");
 
     if (modal) {
-        modal.style.display = "flex";
+
+        modal.style.display =
+            "flex";
     }
 
 }
@@ -153,10 +188,13 @@ function openAuthModal() {
 
 function closeAuthModal() {
 
-    const modal = getElement("auth-modal");
+    const modal =
+        getElement("auth-modal");
 
     if (modal) {
-        modal.style.display = "none";
+
+        modal.style.display =
+            "none";
     }
 
 }
@@ -165,20 +203,26 @@ function closeAuthModal() {
 function hideAllAuthForms() {
 
     const forms = [
+
         "login-form",
         "register-form",
         "forgot-user-id-form",
         "forgot-password-form",
         "new-password-form",
         "user-profile"
+
     ];
+
 
     forms.forEach(id => {
 
-        const element = getElement(id);
+        const element =
+            getElement(id);
 
         if (element) {
-            element.style.display = "none";
+
+            element.style.display =
+                "none";
         }
 
     });
@@ -196,7 +240,15 @@ function showLoginForm() {
 
     hideAllAuthForms();
 
-    getElement("login-form").style.display = "block";
+    const form =
+        getElement("login-form");
+
+    if (form) {
+
+        form.style.display =
+            "block";
+    }
+
 }
 
 
@@ -206,7 +258,15 @@ function showRegisterForm() {
 
     hideAllAuthForms();
 
-    getElement("register-form").style.display = "block";
+    const form =
+        getElement("register-form");
+
+    if (form) {
+
+        form.style.display =
+            "block";
+    }
+
 }
 
 
@@ -220,17 +280,88 @@ function generateUserId() {
 
     do {
 
-        const number = Math.floor(
-            100000 + Math.random() * 900000
-        );
+        const number =
+            Math.floor(
+                100000 +
+                Math.random() * 900000
+            );
 
-        id = `JSU-${number}`;
+        id =
+            `JSU-${number}`;
 
     } while (
-        getLocalStorageJSON("jeevansetu_user")?.id === id
+        getAllUsers().some(
+            user => user.id === id
+        )
     );
 
     return id;
+}
+
+
+/* ============================================================
+   USER DATABASE - LOCAL STORAGE
+   ============================================================ */
+
+function getAllUsers() {
+
+    let users =
+        getLocalStorageJSON(
+            "jeevansetu_users"
+        );
+
+
+    if (!Array.isArray(users)) {
+
+        users = [];
+
+    }
+
+
+    /*
+       OLD VERSION COMPATIBILITY
+
+       If old account exists in
+       jeevansetu_user, move it into
+       the new users array.
+    */
+
+    const oldUser =
+        getLocalStorageJSON(
+            "jeevansetu_user"
+        );
+
+
+    if (
+        oldUser &&
+        oldUser.id &&
+        !users.some(
+            user =>
+                user.id === oldUser.id
+        )
+    ) {
+
+        users.push(oldUser);
+
+        setLocalStorageJSON(
+            "jeevansetu_users",
+            users
+        );
+
+    }
+
+
+    return users;
+}
+
+
+function saveAllUsers(users) {
+
+    setLocalStorageJSON(
+        "jeevansetu_users",
+        users
+    );
+
 }
 
 
@@ -241,26 +372,51 @@ function generateUserId() {
 function registerUser() {
 
     const name =
-        getElement("register-name").value.trim();
+        getElement("register-name")
+            ?.value
+            .trim();
 
     const mobile =
-        getElement("register-mobile").value.trim();
+        getElement("register-mobile")
+            ?.value
+            .trim();
 
     const email =
-        getElement("register-email").value.trim();
+        getElement("register-email")
+            ?.value
+            .trim();
 
     const password =
-        getElement("register-password").value;
+        getElement("register-password")
+            ?.value;
 
 
-    if (!name || !mobile || !email || !password) {
+    /* --------------------------------
+       BASIC VALIDATION
+    -------------------------------- */
 
-        alert("Please fill all registration details.");
+    if (
+        !name ||
+        !mobile ||
+        !email ||
+        !password
+    ) {
+
+        alert(
+            "Please fill all registration details."
+        );
+
         return;
     }
 
 
-    if (!/^[0-9]{10}$/.test(mobile)) {
+    /* --------------------------------
+       MOBILE VALIDATION
+    -------------------------------- */
+
+    if (
+        !/^[0-9]{10}$/.test(mobile)
+    ) {
 
         alert(
             "Please enter a valid 10-digit mobile number."
@@ -270,14 +426,30 @@ function registerUser() {
     }
 
 
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    /* --------------------------------
+       EMAIL VALIDATION
+    -------------------------------- */
 
-        alert("Please enter a valid email address.");
+    if (
+        !/^[^\s@]+@[^\s@]+\.[^\s@]+$/
+            .test(email)
+    ) {
+
+        alert(
+            "Please enter a valid email address."
+        );
+
         return;
     }
 
 
-    if (password.length < 6) {
+    /* --------------------------------
+       PASSWORD VALIDATION
+    -------------------------------- */
+
+    if (
+        password.length < 6
+    ) {
 
         alert(
             "Password must contain at least 6 characters."
@@ -287,40 +459,102 @@ function registerUser() {
     }
 
 
-    const existingUser =
-        getLocalStorageJSON("jeevansetu_user");
+    /* --------------------------------
+       GET USERS
+    -------------------------------- */
+
+    const users =
+        getAllUsers();
 
 
-    if (existingUser) {
+    /* --------------------------------
+       CHECK MOBILE
+    -------------------------------- */
+
+    const mobileExists =
+        users.some(
+            user =>
+                user.mobile === mobile
+        );
+
+
+    if (mobileExists) {
 
         alert(
-            "An account is already registered on this browser."
+            "❌ This mobile number is already registered."
         );
 
         showLoginForm();
+
         return;
     }
 
 
+    /* --------------------------------
+       CHECK EMAIL
+    -------------------------------- */
+
+    const emailExists =
+        users.some(
+            user =>
+                String(user.email)
+                    .toLowerCase() ===
+                email.toLowerCase()
+        );
+
+
+    if (emailExists) {
+
+        alert(
+            "❌ This email address is already registered."
+        );
+
+        return;
+    }
+
+
+    /* --------------------------------
+       CREATE NEW USER
+    -------------------------------- */
+
     const user = {
 
-        id: generateUserId(),
+        id:
+            generateUserId(),
 
-        name,
+        name:
+            name,
 
-        mobile,
+        mobile:
+            mobile,
 
-        email,
+        email:
+            email,
 
-        password
+        password:
+            password
 
     };
 
+
+    /* --------------------------------
+       SAVE USER
+    -------------------------------- */
+
+    users.push(user);
+
+    saveAllUsers(users);
+
+
+    /*
+       Keep compatibility with old code
+    */
 
     setLocalStorageJSON(
         "jeevansetu_user",
         user
     );
+
 
     setLocalStorageJSON(
         "jeevansetu_current_user",
@@ -328,14 +562,24 @@ function registerUser() {
     );
 
 
-    currentUser = user;
+    currentUser =
+        user;
 
+
+    /* --------------------------------
+       SUCCESS
+    -------------------------------- */
 
     alert(
+
         "✅ Registration Successful!\n\n" +
+
         "Your User ID:\n" +
+
         user.id +
+
         "\n\nPlease save your User ID."
+
     );
 
 
@@ -354,58 +598,124 @@ function registerUser() {
 
 function loginUser() {
 
-    const userId =
+    const loginInput =
         getElement("login-user-id")
-            .value
-            .trim()
-            .toUpperCase();
+            ?.value
+            .trim();
 
     const password =
         getElement("login-password")
-            .value;
+            ?.value;
 
 
-    if (!userId || !password) {
+    if (
+        !loginInput ||
+        !password
+    ) {
 
         alert(
-            "Please enter User ID and password."
+            "Please enter Mobile Number / User ID / Email and password."
         );
 
         return;
     }
 
 
-    const user =
-        getLocalStorageJSON(
-            "jeevansetu_user"
-        );
+    /* --------------------------------
+       GET ALL USERS
+    -------------------------------- */
 
+    const users =
+        getAllUsers();
+
+
+    /* --------------------------------
+       FIND USER
+    -------------------------------- */
+
+    const loginValue =
+        loginInput.toLowerCase();
+
+
+    const user =
+        users.find(item => {
+
+            const mobile =
+                String(
+                    item.mobile || ""
+                );
+
+
+            const id =
+                String(
+                    item.id || ""
+                )
+                .toLowerCase();
+
+
+            const email =
+                String(
+                    item.email || ""
+                )
+                .toLowerCase();
+
+
+            return (
+
+                mobile === loginInput ||
+
+                id === loginValue ||
+
+                email === loginValue
+
+            );
+
+        });
+
+
+    /* --------------------------------
+       USER NOT FOUND
+    -------------------------------- */
 
     if (!user) {
 
         alert(
-            "No registered account found."
+            "❌ Mobile number / User ID / Email is not registered."
         );
 
-        showRegisterForm();
         return;
     }
 
 
+    /* --------------------------------
+       PASSWORD CHECK
+    -------------------------------- */
+
     if (
-        user.id.toUpperCase() !== userId ||
         user.password !== password
     ) {
 
         alert(
-            "❌ Invalid User ID or password."
+            "❌ Incorrect password."
         );
 
         return;
     }
 
 
-    currentUser = user;
+    /* --------------------------------
+       LOGIN SUCCESS
+    -------------------------------- */
+
+    currentUser =
+        user;
+
+
+    setLocalStorageJSON(
+        "jeevansetu_user",
+        user
+    );
+
 
     setLocalStorageJSON(
         "jeevansetu_current_user",
@@ -413,7 +723,10 @@ function loginUser() {
     );
 
 
-    alert("✅ Login Successful!");
+    alert(
+        "✅ Login Successful!"
+    );
+
 
     closeAuthModal();
 
@@ -439,24 +752,33 @@ function logoutUser() {
 
     updateLoginState();
 
+
     const list =
-        getElement("appointments-list");
+        getElement(
+            "appointments-list"
+        );
 
 
     if (list) {
 
         list.innerHTML = `
+
             <div class="appointment-empty">
+
                 <p>
                     🔐 Please login to view your appointments.
                 </p>
+
             </div>
+
         `;
 
     }
 
 
-    alert("✅ You have been logged out.");
+    alert(
+        "✅ You have been logged out."
+    );
 
 }
 
@@ -470,6 +792,7 @@ function updateLoginState() {
     const authArea =
         getElement("auth-area");
 
+
     if (!authArea) return;
 
 
@@ -482,9 +805,13 @@ function updateLoginState() {
                 class="auth-profile-btn"
                 onclick="showUserProfile()">
 
-                👤 ${escapeHTML(currentUser.name)}
+                👤
+                ${escapeHTML(
+                    currentUser.name
+                )}
 
             </button>
+
 
             <button
                 type="button"
@@ -509,6 +836,7 @@ function updateLoginState() {
                 Login
 
             </button>
+
 
             <button
                 type="button"
@@ -536,19 +864,44 @@ function showForgotUserId() {
 
     hideAllAuthForms();
 
-    getElement(
-        "forgot-user-id-form"
-    ).style.display = "block";
+
+    const form =
+        getElement(
+            "forgot-user-id-form"
+        );
 
 
-    getElement(
-        "forgot-id-otp-section"
-    ).style.display = "none";
+    if (form) {
+
+        form.style.display =
+            "block";
+    }
 
 
-    getElement(
-        "forgot-id-result"
-    ).innerHTML = "";
+    const otpSection =
+        getElement(
+            "forgot-id-otp-section"
+        );
+
+
+    if (otpSection) {
+
+        otpSection.style.display =
+            "none";
+    }
+
+
+    const result =
+        getElement(
+            "forgot-id-result"
+        );
+
+
+    if (result) {
+
+        result.innerHTML =
+            "";
+    }
 
 }
 
@@ -556,17 +909,20 @@ function showForgotUserId() {
 function sendUserIdOTP() {
 
     const mobile =
-        getElement("forgot-id-mobile")
-            .value.trim();
+        getElement(
+            "forgot-id-mobile"
+        )
+        ?.value
+        .trim();
 
 
-    const user =
-        getLocalStorageJSON(
-            "jeevansetu_user"
-        );
+    const users =
+        getAllUsers();
 
 
-    if (!/^[0-9]{10}$/.test(mobile)) {
+    if (
+        !/^[0-9]{10}$/.test(mobile)
+    ) {
 
         alert(
             "Please enter a valid 10-digit mobile number."
@@ -576,17 +932,14 @@ function sendUserIdOTP() {
     }
 
 
-    if (!user) {
-
-        alert(
-            "No JeevanSetu account found."
+    const user =
+        users.find(
+            item =>
+                item.mobile === mobile
         );
 
-        return;
-    }
 
-
-    if (user.mobile !== mobile) {
+    if (!user) {
 
         alert(
             "This mobile number is not registered."
@@ -596,18 +949,31 @@ function sendUserIdOTP() {
     }
 
 
-    userIdOTP = generateOTP();
+    userIdOTP =
+        generateOTP();
 
 
-    getElement(
-        "forgot-id-otp-section"
-    ).style.display = "block";
+    const section =
+        getElement(
+            "forgot-id-otp-section"
+        );
+
+
+    if (section) {
+
+        section.style.display =
+            "block";
+    }
 
 
     alert(
+
         "📱 OTP sent successfully!\n\n" +
+
         "DEMO OTP: " +
+
         userIdOTP
+
     );
 
 }
@@ -616,43 +982,82 @@ function sendUserIdOTP() {
 function verifyUserIdOTP() {
 
     const otp =
-        getElement("forgot-id-otp")
-            .value.trim();
+        getElement(
+            "forgot-id-otp"
+        )
+        ?.value
+        .trim();
 
 
     if (!otp) {
 
-        alert("Please enter OTP.");
+        alert(
+            "Please enter OTP."
+        );
+
         return;
     }
 
 
     if (otp !== userIdOTP) {
 
-        alert("❌ Invalid OTP.");
+        alert(
+            "❌ Invalid OTP."
+        );
+
         return;
     }
 
 
+    const users =
+        getAllUsers();
+
+
+    const mobile =
+        getElement(
+            "forgot-id-mobile"
+        )
+        ?.value
+        .trim();
+
+
     const user =
-        getLocalStorageJSON(
-            "jeevansetu_user"
+        users.find(
+            item =>
+                item.mobile === mobile
         );
 
 
     if (!user) {
 
-        alert("User account not found.");
+        alert(
+            "User account not found."
+        );
+
         return;
     }
 
 
-    getElement(
-        "forgot-id-result"
-    ).innerHTML = `
-        ✅ OTP verified.<br><br>
-        <strong>Your User ID: ${escapeHTML(user.id)}</strong>
-    `;
+    const result =
+        getElement(
+            "forgot-id-result"
+        );
+
+
+    if (result) {
+
+        result.innerHTML = `
+
+            ✅ OTP verified.<br><br>
+
+            <strong>
+                Your User ID:
+                ${escapeHTML(user.id)}
+            </strong>
+
+        `;
+
+    }
 
 
     userIdOTP = null;
@@ -670,22 +1075,48 @@ function showForgotPassword() {
 
     hideAllAuthForms();
 
-    getElement(
-        "forgot-password-form"
-    ).style.display = "block";
+
+    const form =
+        getElement(
+            "forgot-password-form"
+        );
 
 
-    getElement(
-        "forgot-password-otp-section"
-    ).style.display = "none";
+    if (form) {
+
+        form.style.display =
+            "block";
+    }
 
 
-    getElement(
-        "forgot-password-message"
-    ).innerText = "";
+    const section =
+        getElement(
+            "forgot-password-otp-section"
+        );
 
 
-    passwordRecoveryUser = null;
+    if (section) {
+
+        section.style.display =
+            "none";
+    }
+
+
+    const message =
+        getElement(
+            "forgot-password-message"
+        );
+
+
+    if (message) {
+
+        message.innerText =
+            "";
+    }
+
+
+    passwordRecoveryUser =
+        null;
 
 }
 
@@ -693,23 +1124,30 @@ function showForgotPassword() {
 function sendPasswordOTP() {
 
     const userId =
-        getElement("forgot-password-user-id")
-            .value
-            .trim()
-            .toUpperCase();
+        getElement(
+            "forgot-password-user-id"
+        )
+        ?.value
+        .trim()
+        .toUpperCase();
+
 
     const mobile =
-        getElement("forgot-password-mobile")
-            .value.trim();
+        getElement(
+            "forgot-password-mobile"
+        )
+        ?.value
+        .trim();
 
 
-    const user =
-        getLocalStorageJSON(
-            "jeevansetu_user"
-        );
+    const users =
+        getAllUsers();
 
 
-    if (!userId || !mobile) {
+    if (
+        !userId ||
+        !mobile
+    ) {
 
         alert(
             "Please enter User ID and mobile number."
@@ -719,7 +1157,9 @@ function sendPasswordOTP() {
     }
 
 
-    if (!/^[0-9]{10}$/.test(mobile)) {
+    if (
+        !/^[0-9]{10}$/.test(mobile)
+    ) {
 
         alert(
             "Please enter a valid 10-digit mobile number."
@@ -729,20 +1169,18 @@ function sendPasswordOTP() {
     }
 
 
-    if (!user) {
-
-        alert(
-            "No JeevanSetu account found."
+    const user =
+        users.find(
+            item =>
+                String(item.id)
+                    .toUpperCase() ===
+                    userId &&
+                item.mobile ===
+                    mobile
         );
 
-        return;
-    }
 
-
-    if (
-        user.id.toUpperCase() !== userId ||
-        user.mobile !== mobile
-    ) {
+    if (!user) {
 
         alert(
             "User ID and mobile number do not match."
@@ -752,20 +1190,35 @@ function sendPasswordOTP() {
     }
 
 
-    passwordRecoveryUser = user;
+    passwordRecoveryUser =
+        user;
 
-    passwordOTP = generateOTP();
+
+    passwordOTP =
+        generateOTP();
 
 
-    getElement(
-        "forgot-password-otp-section"
-    ).style.display = "block";
+    const section =
+        getElement(
+            "forgot-password-otp-section"
+        );
+
+
+    if (section) {
+
+        section.style.display =
+            "block";
+    }
 
 
     alert(
+
         "📱 OTP sent successfully!\n\n" +
+
         "DEMO OTP: " +
+
         passwordOTP
+
     );
 
 }
@@ -774,13 +1227,19 @@ function sendPasswordOTP() {
 function verifyPasswordOTP() {
 
     const otp =
-        getElement("forgot-password-otp")
-            .value.trim();
+        getElement(
+            "forgot-password-otp"
+        )
+        ?.value
+        .trim();
 
 
     if (otp !== passwordOTP) {
 
-        alert("❌ Invalid OTP.");
+        alert(
+            "❌ Invalid OTP."
+        );
+
         return;
     }
 
@@ -802,12 +1261,23 @@ function verifyPasswordOTP() {
     hideAllAuthForms();
 
 
+    const form =
+        getElement(
+            "new-password-form"
+        );
+
+
+    if (form) {
+
+        form.style.display =
+            "block";
+    }
+
+
     getElement(
-        "new-password-form"
-    ).style.display = "block";
+        "new-password"
+    ).value = "";
 
-
-    getElement("new-password").value = "";
 
     getElement(
         "confirm-new-password"
@@ -835,15 +1305,23 @@ function resetPassword() {
 
 
     const newPassword =
-        getElement("new-password").value;
+        getElement(
+            "new-password"
+        )
+        ?.value;
+
 
     const confirmPassword =
         getElement(
             "confirm-new-password"
-        ).value;
+        )
+        ?.value;
 
 
-    if (!newPassword || !confirmPassword) {
+    if (
+        !newPassword ||
+        !confirmPassword
+    ) {
 
         alert(
             "Please enter and confirm your new password."
@@ -853,7 +1331,9 @@ function resetPassword() {
     }
 
 
-    if (newPassword.length < 6) {
+    if (
+        newPassword.length < 6
+    ) {
 
         alert(
             "Password must contain at least 6 characters."
@@ -863,7 +1343,10 @@ function resetPassword() {
     }
 
 
-    if (newPassword !== confirmPassword) {
+    if (
+        newPassword !==
+        confirmPassword
+    ) {
 
         alert(
             "❌ New passwords do not match."
@@ -873,29 +1356,43 @@ function resetPassword() {
     }
 
 
-    const user =
-        getLocalStorageJSON(
-            "jeevansetu_user"
+    const users =
+        getAllUsers();
+
+
+    const index =
+        users.findIndex(
+            user =>
+                user.id ===
+                passwordRecoveryUser.id
         );
 
 
-    if (!user) {
+    if (index === -1) {
 
-        alert("User account not found.");
+        alert(
+            "User account not found."
+        );
+
         return;
     }
 
 
-    user.password = newPassword;
+    users[index].password =
+        newPassword;
+
+
+    saveAllUsers(users);
 
 
     setLocalStorageJSON(
         "jeevansetu_user",
-        user
+        users[index]
     );
 
 
-    passwordRecoveryUser = null;
+    passwordRecoveryUser =
+        null;
 
 
     alert(
@@ -906,9 +1403,17 @@ function resetPassword() {
     showLoginForm();
 
 
-    getElement(
-        "login-user-id"
-    ).value = user.id;
+    const loginInput =
+        getElement(
+            "login-user-id"
+        );
+
+
+    if (loginInput) {
+
+        loginInput.value =
+            users[index].mobile;
+    }
 
 }
 
@@ -922,6 +1427,7 @@ function showUserProfile() {
     if (!currentUser) {
 
         showLoginForm();
+
         return;
     }
 
@@ -931,9 +1437,17 @@ function showUserProfile() {
     hideAllAuthForms();
 
 
-    getElement(
-        "user-profile"
-    ).style.display = "block";
+    const profile =
+        getElement(
+            "user-profile"
+        );
+
+
+    if (profile) {
+
+        profile.style.display =
+            "block";
+    }
 
 
     loadProfile();
@@ -944,7 +1458,9 @@ function showUserProfile() {
 function enableProfileEditing() {
 
     const profile =
-        getElement("user-profile");
+        getElement(
+            "user-profile"
+        );
 
 
     if (!profile) return;
@@ -958,7 +1474,8 @@ function enableProfileEditing() {
 
     fields.forEach(field => {
 
-        field.disabled = false;
+        field.disabled =
+            false;
 
     });
 
@@ -974,7 +1491,10 @@ function saveProfile() {
 
     if (!currentUser) {
 
-        alert("Please login first.");
+        alert(
+            "Please login first."
+        );
+
         return;
     }
 
@@ -1042,86 +1562,119 @@ function saveProfile() {
 
 
     setLocalStorageJSON(
+
         `jeevansetu_profile_${currentUser.id}`,
+
         profile
+
     );
 
 
-    /* Update main account details */
+    /* --------------------------------
+       UPDATE ACCOUNT
+    -------------------------------- */
 
-    const user =
-        getLocalStorageJSON(
-            "jeevansetu_user"
+    const users =
+        getAllUsers();
+
+
+    const index =
+        users.findIndex(
+            user =>
+                user.id ===
+                currentUser.id
         );
 
 
-    if (user) {
+    if (index !== -1) {
 
-        if (profile.firstName ||
-            profile.lastName) {
+        if (
+            profile.firstName ||
+            profile.lastName
+        ) {
 
-            user.name =
+            users[index].name =
                 `${profile.firstName} ${profile.lastName}`
                     .trim();
-
         }
 
+
         if (profile.mobile) {
-            user.mobile =
+
+            users[index].mobile =
                 profile.mobile;
         }
 
+
         if (profile.email) {
-            user.email =
+
+            users[index].email =
                 profile.email;
         }
 
 
+        currentUser =
+            users[index];
+
+
+        saveAllUsers(users);
+
+
         setLocalStorageJSON(
             "jeevansetu_user",
-            user
+            currentUser
         );
-
-
-        currentUser = user;
 
 
         setLocalStorageJSON(
             "jeevansetu_current_user",
-            user
+            currentUser
         );
 
     }
 
 
     const fields =
-        getElement("user-profile")
-            .querySelectorAll(
-                "input, select, textarea"
-            );
+        getElement(
+            "user-profile"
+        )
+        ?.querySelectorAll(
+            "input, select, textarea"
+        );
 
 
-    fields.forEach(field => {
+    if (fields) {
 
-        if (
-            field.id !==
-            "profilePhotoInput"
-        ) {
+        fields.forEach(field => {
 
-            field.disabled = true;
+            if (
+                field.id !==
+                "profilePhotoInput"
+            ) {
 
-        }
+                field.disabled =
+                    true;
+            }
 
-    });
+        });
+
+    }
 
 
     updateLoginState();
 
 
-    getElement(
-        "profile-name"
-    ).innerText =
-        currentUser.name;
+    const profileName =
+        getElement(
+            "profile-name"
+        );
+
+
+    if (profileName) {
+
+        profileName.innerText =
+            currentUser.name;
+    }
 
 
     alert(
@@ -1142,18 +1695,22 @@ function loadProfile() {
         );
 
 
+    const nameParts =
+        String(
+            currentUser.name || ""
+        ).split(" ");
+
+
     const profile =
         saved || {
 
             firstName:
-                currentUser.name
-                    ?.split(" ")[0] || "",
+                nameParts[0] || "",
 
             lastName:
-                currentUser.name
-                    ?.split(" ")
+                nameParts
                     .slice(1)
-                    .join(" ") || "",
+                    .join(" "),
 
             mobile:
                 currentUser.mobile || "",
@@ -1214,35 +1771,54 @@ function loadProfile() {
     };
 
 
-    Object.entries(fields).forEach(
-        ([id, value]) => {
+    Object.entries(fields)
+        .forEach(
+            ([id, value]) => {
 
-            const element =
-                getElement(id);
+                const element =
+                    getElement(id);
 
-            if (element) {
+                if (element) {
 
-                element.value =
-                    value || "";
+                    element.value =
+                        value || "";
 
-                element.disabled = true;
+                    element.disabled =
+                        true;
+                }
 
             }
-
-        }
-    );
+        );
 
 
-    getElement(
-        "profile-name"
-    ).innerText =
-        currentUser.name || "User";
+    const profileName =
+        getElement(
+            "profile-name"
+        );
 
 
-    getElement(
-        "profile-user-id"
-    ).innerText =
-        currentUser.id || "";
+    if (profileName) {
+
+        profileName.innerText =
+            currentUser.name ||
+            "User";
+    }
+
+
+    const profileId =
+        getElement(
+            "profile-user-id"
+        );
+
+
+    if (profileId) {
+
+        profileId.innerText =
+            currentUser.id || "";
+    }
+
+
+    loadProfilePhoto();
 
 }
 
@@ -1254,13 +1830,21 @@ function loadProfile() {
 function initializeProfilePhoto() {
 
     const input =
-        getElement("profilePhotoInput");
+        getElement(
+            "profilePhotoInput"
+        );
+
 
     const preview =
-        getElement("profilePreview");
+        getElement(
+            "profilePreview"
+        );
 
 
-    if (!input || !preview) return;
+    if (
+        !input ||
+        !preview
+    ) return;
 
 
     input.addEventListener(
@@ -1275,14 +1859,18 @@ function initializeProfilePhoto() {
 
 
             if (
-                !file.type.startsWith("image/")
+                !file.type.startsWith(
+                    "image/"
+                )
             ) {
 
                 alert(
                     "Please select an image file."
                 );
 
-                this.value = "";
+                this.value =
+                    "";
+
                 return;
             }
 
@@ -1301,8 +1889,11 @@ function initializeProfilePhoto() {
                     if (currentUser) {
 
                         localStorage.setItem(
+
                             `jeevansetu_photo_${currentUser.id}`,
+
                             event.target.result
+
                         );
 
                     }
@@ -1325,16 +1916,25 @@ function loadProfilePhoto() {
 
     const photo =
         localStorage.getItem(
+
             `jeevansetu_photo_${currentUser.id}`
+
         );
 
 
-    if (photo) {
-
+    const preview =
         getElement(
             "profilePreview"
-        ).src = photo;
+        );
 
+
+    if (
+        photo &&
+        preview
+    ) {
+
+        preview.src =
+            photo;
     }
 
 }
@@ -1355,16 +1955,23 @@ async function copyUserId() {
             currentUser.id
         );
 
+
         alert(
+
             "✅ User ID copied!\n\n" +
+
             currentUser.id
+
         );
 
     } catch {
 
         alert(
+
             "Your User ID:\n" +
+
             currentUser.id
+
         );
 
     }
@@ -1380,27 +1987,41 @@ function changePassword() {
 
     if (!currentUser) {
 
-        alert("Please login first.");
+        alert(
+            "Please login first."
+        );
+
         return;
     }
 
 
     const oldPassword =
-        prompt("Enter your current password:");
+        prompt(
+            "Enter your current password:"
+        );
 
 
-    if (oldPassword === null) return;
+    if (
+        oldPassword === null
+    ) return;
+
+
+    const users =
+        getAllUsers();
 
 
     const user =
-        getLocalStorageJSON(
-            "jeevansetu_user"
+        users.find(
+            item =>
+                item.id ===
+                currentUser.id
         );
 
 
     if (
         !user ||
-        user.password !== oldPassword
+        user.password !==
+            oldPassword
     ) {
 
         alert(
@@ -1412,13 +2033,17 @@ function changePassword() {
 
 
     const newPassword =
-        prompt("Enter your new password:");
+        prompt(
+            "Enter your new password:"
+        );
 
 
     if (!newPassword) return;
 
 
-    if (newPassword.length < 6) {
+    if (
+        newPassword.length < 6
+    ) {
 
         alert(
             "Password must contain at least 6 characters."
@@ -1428,16 +2053,21 @@ function changePassword() {
     }
 
 
-    user.password = newPassword;
+    user.password =
+        newPassword;
+
+
+    saveAllUsers(users);
+
+
+    currentUser =
+        user;
 
 
     setLocalStorageJSON(
         "jeevansetu_user",
         user
     );
-
-
-    currentUser = user;
 
 
     setLocalStorageJSON(
@@ -1469,7 +2099,9 @@ function isUserLoggedIn() {
 
 function requireLoginForAppointment() {
 
-    if (!isUserLoggedIn()) {
+    if (
+        !isUserLoggedIn()
+    ) {
 
         alert(
             "🔐 Please login first to book an appointment."
@@ -1480,7 +2112,9 @@ function requireLoginForAppointment() {
         return false;
     }
 
+
     return true;
+
 }
 
 
@@ -1491,10 +2125,15 @@ function requireLoginForAppointment() {
 async function loadHospitals() {
 
     const list =
-        getElement("hospital-list");
+        getElement(
+            "hospital-list"
+        );
+
 
     const message =
-        getElement("result-message");
+        getElement(
+            "result-message"
+        );
 
 
     if (list) {
@@ -1528,7 +2167,9 @@ async function loadHospitals() {
             await response.json();
 
 
-        if (!Array.isArray(data)) {
+        if (
+            !Array.isArray(data)
+        ) {
 
             throw new Error(
                 "Invalid hospital data"
@@ -1537,11 +2178,15 @@ async function loadHospitals() {
         }
 
 
-        hospitals = data;
+        hospitals =
+            data;
 
 
         if (list) {
-            list.innerHTML = "";
+
+            list.innerHTML =
+                "";
+
         }
 
 
@@ -1575,7 +2220,9 @@ async function loadHospitals() {
                     <button
                         type="button"
                         onclick="loadHospitals()">
+
                         🔄 Try Again
+
                     </button>
 
                 </div>
@@ -1593,13 +2240,20 @@ async function loadHospitals() {
    SHOW HOSPITALS
    ============================================================ */
 
-async function showHospitals(service) {
+async function showHospitals(
+    service
+) {
 
     const list =
-        getElement("hospital-list");
+        getElement(
+            "hospital-list"
+        );
+
 
     const message =
-        getElement("result-message");
+        getElement(
+            "result-message"
+        );
 
 
     if (!list) return;
@@ -1612,21 +2266,27 @@ async function showHospitals(service) {
 
 
     const filtered =
-        hospitals.filter(hospital => {
+        hospitals.filter(
+            hospital => {
 
-            return (
-                Array.isArray(
-                    hospital.services
-                ) &&
-                hospital.services.includes(
-                    service
-                )
-            );
+                return (
 
-        });
+                    Array.isArray(
+                        hospital.services
+                    ) &&
+
+                    hospital.services.includes(
+                        service
+                    )
+
+                );
+
+            }
+        );
 
 
-    list.innerHTML = "";
+    list.innerHTML =
+        "";
 
 
     if (message) {
@@ -1637,7 +2297,9 @@ async function showHospitals(service) {
     }
 
 
-    if (filtered.length === 0) {
+    if (
+        filtered.length === 0
+    ) {
 
         list.innerHTML = `
 
@@ -1660,69 +2322,92 @@ async function showHospitals(service) {
     }
 
 
-    filtered.forEach(hospital => {
+    filtered.forEach(
+        hospital => {
 
-        const doctorCount =
-            Array.isArray(hospital.doctors)
-                ? hospital.doctors.length
-                : 0;
-
-
-        const card =
-            document.createElement("div");
-
-
-        card.className =
-            "hospital-card";
+            const doctorCount =
+                Array.isArray(
+                    hospital.doctors
+                )
+                    ? hospital.doctors.length
+                    : 0;
 
 
-        card.innerHTML = `
-
-            <h3>
-                🏥 ${escapeHTML(hospital.name)}
-            </h3>
-
-            <p>
-                📍 ${escapeHTML(hospital.district)}
-            </p>
-
-            <p>
-                🏛️ ${escapeHTML(
-                    hospital.type ||
-                    "Government Healthcare Facility"
-                )}
-            </p>
-
-            <p>
-                🩺 ${doctorCount} doctor(s) listed
-            </p>
-
-            <button
-                type="button"
-                class="view-doctors-btn">
-                👨‍⚕️ View Doctors
-            </button>
-
-        `;
+            const card =
+                document.createElement(
+                    "div"
+                );
 
 
-        card.querySelector(
-            ".view-doctors-btn"
-        ).onclick = () => {
-
-            showDoctors(hospital.id);
-
-        };
+            card.className =
+                "hospital-card";
 
 
-        list.appendChild(card);
+            card.innerHTML = `
 
-    });
+                <h3>
+                    🏥
+                    ${escapeHTML(
+                        hospital.name
+                    )}
+                </h3>
+
+
+                <p>
+                    📍
+                    ${escapeHTML(
+                        hospital.district
+                    )}
+                </p>
+
+
+                <p>
+                    🏛️
+                    ${escapeHTML(
+                        hospital.type ||
+                        "Government Healthcare Facility"
+                    )}
+                </p>
+
+
+                <p>
+                    🩺
+                    ${doctorCount}
+                    doctor(s) listed
+                </p>
+
+
+                <button
+                    type="button"
+                    class="view-doctors-btn">
+
+                    👨‍⚕️ View Doctors
+
+                </button>
+
+            `;
+
+
+            card.querySelector(
+                ".view-doctors-btn"
+            ).onclick = () => {
+
+                showDoctors(
+                    hospital.id
+                );
+
+            };
+
+
+            list.appendChild(card);
+
+        }
+    );
 
 
     getElement(
         "results"
-    ).scrollIntoView({
+    )?.scrollIntoView({
         behavior: "smooth"
     });
 
@@ -1733,13 +2418,20 @@ async function showHospitals(service) {
    SHOW DOCTORS
    ============================================================ */
 
-function showDoctors(hospitalId) {
+function showDoctors(
+    hospitalId
+) {
 
     const list =
-        getElement("hospital-list");
+        getElement(
+            "hospital-list"
+        );
+
 
     const message =
-        getElement("result-message");
+        getElement(
+            "result-message"
+        );
 
 
     const hospital =
@@ -1760,7 +2452,8 @@ function showDoctors(hospitalId) {
     }
 
 
-    list.innerHTML = "";
+    list.innerHTML =
+        "";
 
 
     if (message) {
@@ -1772,14 +2465,18 @@ function showDoctors(hospitalId) {
 
 
     const back =
-        document.createElement("button");
+        document.createElement(
+            "button"
+        );
 
 
     back.className =
         "back-button";
 
+
     back.type =
         "button";
+
 
     back.innerText =
         "← Back to Hospitals";
@@ -1790,10 +2487,15 @@ function showDoctors(hospitalId) {
         const service =
             getElement(
                 "service-select"
-            ).value;
+            )?.value;
+
 
         if (service) {
-            showHospitals(service);
+
+            showHospitals(
+                service
+            );
+
         }
 
     };
@@ -1803,12 +2505,16 @@ function showDoctors(hospitalId) {
 
 
     const doctors =
-        Array.isArray(hospital.doctors)
+        Array.isArray(
+            hospital.doctors
+        )
             ? hospital.doctors
             : [];
 
 
-    if (!doctors.length) {
+    if (
+        !doctors.length
+    ) {
 
         list.innerHTML += `
 
@@ -1830,104 +2536,133 @@ function showDoctors(hospitalId) {
     }
 
 
-    doctors.forEach(doctor => {
+    doctors.forEach(
+        doctor => {
 
-        const card =
-            document.createElement("div");
-
-
-        card.className =
-            "hospital-card";
-
-
-        const available =
-            Boolean(doctor.available);
+            const card =
+                document.createElement(
+                    "div"
+                );
 
 
-        card.innerHTML = `
-
-            <h3>
-                👨‍⚕️ ${escapeHTML(
-                    doctor.name || "Doctor"
-                )}
-            </h3>
-
-            <p>
-                🏥 ${escapeHTML(hospital.name)}
-            </p>
-
-            <p>
-                🩺 ${escapeHTML(
-                    doctor.department ||
-                    "General Medicine"
-                )}
-            </p>
-
-            <p>
-                🕐 OPD:
-                ${escapeHTML(
-                    doctor.timing ||
-                    "Timing not available"
-                )}
-            </p>
-
-            <p>
-                ${
-                    available
-                    ? "🟢 Available"
-                    : "🔴 Currently Unavailable"
-                }
-            </p>
-
-        `;
+            card.className =
+                "hospital-card";
 
 
-        const button =
-            document.createElement("button");
+            const available =
+                Boolean(
+                    doctor.available
+                );
 
 
-        button.type =
-            "button";
+            card.innerHTML = `
+
+                <h3>
+                    👨‍⚕️
+                    ${escapeHTML(
+                        doctor.name ||
+                        "Doctor"
+                    )}
+                </h3>
 
 
-        if (available) {
+                <p>
+                    🏥
+                    ${escapeHTML(
+                        hospital.name
+                    )}
+                </p>
 
-            button.innerText =
-                "📅 Book Appointment";
+
+                <p>
+                    🩺
+                    ${escapeHTML(
+                        doctor.department ||
+                        "General Medicine"
+                    )}
+                </p>
 
 
-            button.onclick = () => {
+                <p>
+                    🕐 OPD:
+                    ${escapeHTML(
+                        doctor.timing ||
+                        "Timing not available"
+                    )}
+                </p>
 
-                if (
-                    requireLoginForAppointment()
-                ) {
 
-                    showAppointmentForm(
-                        doctor.name,
-                        hospital.name,
-                        doctor.timing
-                    );
+                <p>
+                    ${
+                        available
+                            ? "🟢 Available"
+                            : "🔴 Currently Unavailable"
+                    }
+                </p>
 
-                }
+            `;
 
-            };
 
-        } else {
+            const button =
+                document.createElement(
+                    "button"
+                );
 
-            button.innerText =
-                "Appointment Unavailable";
 
-            button.disabled =
-                true;
+            button.type =
+                "button";
+
+
+            if (available) {
+
+                button.innerText =
+                    "📅 Book Appointment";
+
+
+                button.onclick =
+                    () => {
+
+                        if (
+                            requireLoginForAppointment()
+                        ) {
+
+                            showAppointmentForm(
+
+                                doctor.name,
+
+                                hospital.name,
+
+                                doctor.timing
+
+                            );
+
+                        }
+
+                    };
+
+            } else {
+
+                button.innerText =
+                    "Appointment Unavailable";
+
+
+                button.disabled =
+                    true;
+
+            }
+
+
+            card.appendChild(
+                button
+            );
+
+
+            list.appendChild(
+                card
+            );
 
         }
-
-
-        card.appendChild(button);
-
-        list.appendChild(card);
-
-    });
+    );
 
 }
 
@@ -1948,7 +2683,9 @@ function showAppointmentForm(
 
 
     const list =
-        getElement("hospital-list");
+        getElement(
+            "hospital-list"
+        );
 
 
     list.innerHTML = `
@@ -1959,19 +2696,30 @@ function showAppointmentForm(
                 📅 Book Appointment
             </h3>
 
+
             <p>
-                👨‍⚕️ <strong>
-                    ${escapeHTML(doctorName)}
+                👨‍⚕️
+                <strong>
+                    ${escapeHTML(
+                        doctorName
+                    )}
                 </strong>
             </p>
 
-            <p>
-                🏥 ${escapeHTML(hospitalName)}
-            </p>
 
             <p>
-                🕐 ${escapeHTML(
-                    timing || "Timing not available"
+                🏥
+                ${escapeHTML(
+                    hospitalName
+                )}
+            </p>
+
+
+            <p>
+                🕐
+                ${escapeHTML(
+                    timing ||
+                    "Timing not available"
                 )}
             </p>
 
@@ -1982,6 +2730,7 @@ function showAppointmentForm(
                 placeholder="Enter patient's name"
                 maxlength="60">
 
+
             <input
                 type="tel"
                 id="patient-mobile"
@@ -1989,12 +2738,14 @@ function showAppointmentForm(
                 maxlength="10"
                 inputmode="numeric">
 
+
             <input
                 type="number"
                 id="patient-age"
                 placeholder="Enter age"
                 min="1"
                 max="120">
+
 
             <input
                 type="date"
@@ -2004,7 +2755,9 @@ function showAppointmentForm(
             <button
                 type="button"
                 id="confirm-appointment-btn">
+
                 ✅ Confirm Appointment
+
             </button>
 
 
@@ -2012,7 +2765,9 @@ function showAppointmentForm(
                 type="button"
                 class="back-button"
                 id="back-doctor-btn">
+
                 ← Back to Doctors
+
             </button>
 
         </div>
@@ -2028,37 +2783,40 @@ function showAppointmentForm(
 
     getElement(
         "confirm-appointment-btn"
-    ).onclick = () => {
+    ).onclick =
+        () => {
 
-        submitAppointment(
-            doctorName,
-            hospitalName,
-            timing
-        );
+            submitAppointment(
+                doctorName,
+                hospitalName,
+                timing
+            );
 
-    };
+        };
 
 
     getElement(
         "back-doctor-btn"
-    ).onclick = () => {
+    ).onclick =
+        () => {
 
-        const hospital =
-            hospitals.find(
-                h =>
-                    h.name ===
-                    hospitalName
-            );
+            const hospital =
+                hospitals.find(
+                    h =>
+                        h.name ===
+                        hospitalName
+                );
 
-        if (hospital) {
 
-            showDoctors(
-                hospital.id
-            );
+            if (hospital) {
 
-        }
+                showDoctors(
+                    hospital.id
+                );
 
-    };
+            }
+
+        };
 
 }
 
@@ -2079,22 +2837,33 @@ async function submitAppointment(
 
 
     const patientName =
-        getElement("patient-name")
-            .value.trim();
+        getElement(
+            "patient-name"
+        )
+        ?.value
+        .trim();
+
 
     const mobile =
-        getElement("patient-mobile")
-            .value.trim();
+        getElement(
+            "patient-mobile"
+        )
+        ?.value
+        .trim();
+
 
     const age =
         Number(
-            getElement("patient-age")
-                .value
+            getElement(
+                "patient-age"
+            )?.value
         );
 
+
     const appointmentDate =
-        getElement("appointment-date")
-            .value;
+        getElement(
+            "appointment-date"
+        )?.value;
 
 
     if (
@@ -2113,9 +2882,8 @@ async function submitAppointment(
 
 
     if (
-        !/^[A-Za-z\s.'-]+$/.test(
-            patientName
-        )
+        !/^[A-Za-z\s.'-]+$/
+            .test(patientName)
     ) {
 
         alert(
@@ -2181,38 +2949,45 @@ async function submitAppointment(
 
         const response =
             await fetch(
+
                 `${API_BASE_URL}/api/appointments`,
+
                 {
 
-                    method: "POST",
+                    method:
+                        "POST",
 
                     headers: {
+
                         "Content-Type":
                             "application/json"
+
                     },
 
-                    body: JSON.stringify({
+                    body:
+                        JSON.stringify({
 
-                        patientName,
+                            patientName,
 
-                        mobile,
+                            mobile,
 
-                        age,
+                            age,
 
-                        appointmentDate,
+                            appointmentDate,
 
-                        doctorName,
+                            doctorName,
 
-                        hospitalName,
+                            hospitalName,
 
-                        timing,
+                            timing,
 
-                        userId:
-                            currentUser.id
+                            userId:
+                                currentUser.id
 
-                    })
+                        })
 
                 }
+
             );
 
 
@@ -2223,8 +2998,11 @@ async function submitAppointment(
         if (!response.ok) {
 
             throw new Error(
+
                 data.message ||
+
                 "Appointment booking failed."
+
             );
 
         }
@@ -2236,16 +3014,22 @@ async function submitAppointment(
 
         const appointmentId =
             appointment?.id
+
                 ? formatAppointmentId(
                     appointment.id
                 )
+
                 : "Not available";
 
 
         alert(
+
             "✅ Appointment booked successfully!\n\n" +
+
             "Appointment ID: " +
+
             appointmentId
+
         );
 
 
@@ -2254,7 +3038,7 @@ async function submitAppointment(
 
         getElement(
             "my-appointments"
-        ).scrollIntoView({
+        )?.scrollIntoView({
             behavior: "smooth"
         });
 
@@ -2265,9 +3049,13 @@ async function submitAppointment(
 
 
         alert(
+
             error.message ||
+
             "Backend se connection nahi ho pa raha."
+
         );
+
 
     } finally {
 
@@ -2321,9 +3109,11 @@ async function loadAppointments() {
 
         const response =
             await fetch(
+
                 `${API_BASE_URL}/api/appointments?userId=${encodeURIComponent(
                     currentUser.id
                 )}`
+
             );
 
 
@@ -2340,11 +3130,14 @@ async function loadAppointments() {
             await response.json();
 
 
-        list.innerHTML = "";
+        list.innerHTML =
+            "";
 
 
         if (
-            !Array.isArray(appointments) ||
+            !Array.isArray(
+                appointments
+            ) ||
             appointments.length === 0
         ) {
 
@@ -2368,7 +3161,9 @@ async function loadAppointments() {
             appointment => {
 
                 const card =
-                    document.createElement("div");
+                    document.createElement(
+                        "div"
+                    );
 
 
                 card.className =
@@ -2388,94 +3183,131 @@ async function loadAppointments() {
                         <div class="appointment-top">
 
                             <h3>
+
                                 Appointment
+
                                 ${escapeHTML(
                                     appointmentId
                                 )}
+
                             </h3>
 
-                            <span class="appointment-status">
+
+                            <span
+                                class="appointment-status">
+
                                 ${escapeHTML(
                                     appointment.status ||
                                     "Booked"
                                 )}
+
                             </span>
 
                         </div>
 
 
                         <p>
+
                             👨‍⚕️
+
                             <strong>
+
                                 ${escapeHTML(
                                     appointment.doctorName
                                 )}
+
                             </strong>
+
                         </p>
 
 
                         <p>
+
                             🏥
+
                             ${escapeHTML(
                                 appointment.hospitalName
                             )}
+
                         </p>
 
 
                         <p>
+
                             👤
+
                             ${escapeHTML(
                                 appointment.patientName
                             )}
+
                             (${escapeHTML(
                                 appointment.age
                             )} years)
+
                         </p>
 
 
                         <p>
+
                             📱
+
                             ${escapeHTML(
                                 appointment.mobile
                             )}
+
                         </p>
 
 
                         <p>
+
                             📅 Appointment:
+
                             <strong>
+
                                 ${formatDate(
                                     appointment.appointmentDate
                                 )}
+
                             </strong>
+
                         </p>
 
 
                         <p>
+
                             🕐
+
                             ${escapeHTML(
                                 appointment.timing ||
                                 "Not available"
                             )}
+
                         </p>
 
 
-                        <div class="appointment-id-box">
+                        <div
+                            class="appointment-id-box">
 
                             <strong>
                                 Appointment ID:
                             </strong>
 
+
                             <span>
+
                                 ${escapeHTML(
                                     appointmentId
                                 )}
+
                             </span>
+
 
                             <button
                                 type="button"
                                 class="copy-appointment-btn">
+
                                 📋 Copy ID
+
                             </button>
 
                         </div>
@@ -2486,7 +3318,9 @@ async function loadAppointments() {
                     <button
                         type="button"
                         class="cancel-appointment-btn">
+
                         ❌ Cancel Appointment
+
                     </button>
 
                 `;
@@ -2494,28 +3328,37 @@ async function loadAppointments() {
 
                 card.querySelector(
                     ".copy-appointment-btn"
-                ).onclick = () => {
+                ).onclick =
+                    () => {
 
-                    copyAppointmentId(
-                        appointmentId
-                    );
+                        copyAppointmentId(
+                            appointmentId
+                        );
 
-                };
+                    };
 
 
                 card.querySelector(
                     ".cancel-appointment-btn"
-                ).onclick = event => {
+                ).onclick =
+                    event => {
 
-                    cancelAppointment(
-                        Number(appointment.id),
-                        event.currentTarget
-                    );
+                        cancelAppointment(
 
-                };
+                            Number(
+                                appointment.id
+                            ),
+
+                            event.currentTarget
+
+                        );
+
+                    };
 
 
-                list.appendChild(card);
+                list.appendChild(
+                    card
+                );
 
             }
         );
@@ -2534,10 +3377,13 @@ async function loadAppointments() {
                     ⚠️ Unable to load appointments.
                 </p>
 
+
                 <button
                     type="button"
                     onclick="loadAppointments()">
+
                     🔄 Try Again
+
                 </button>
 
             </div>
@@ -2580,12 +3426,16 @@ async function cancelAppointment(
 
         const response =
             await fetch(
+
                 `${API_BASE_URL}/api/appointments/${appointmentId}?userId=${encodeURIComponent(
                     currentUser.id
                 )}`,
+
                 {
-                    method: "DELETE"
+                    method:
+                        "DELETE"
                 }
+
             );
 
 
@@ -2596,8 +3446,11 @@ async function cancelAppointment(
         if (!response.ok) {
 
             throw new Error(
+
                 data.message ||
+
                 "Cancellation failed."
+
             );
 
         }
@@ -2617,9 +3470,13 @@ async function cancelAppointment(
 
 
         alert(
+
             error.message ||
+
             "Backend se connection nahi ho pa raha."
+
         );
+
 
     } finally {
 
@@ -2636,7 +3493,8 @@ async function cancelAppointment(
 
 function formatAppointmentId(id) {
 
-    const number = Number(id);
+    const number =
+        Number(id);
 
 
     if (
@@ -2650,8 +3508,12 @@ function formatAppointmentId(id) {
 
 
     return (
+
         "JS-" +
-        String(number).padStart(4, "0")
+
+        String(number)
+            .padStart(4, "0")
+
     );
 
 }
@@ -2660,21 +3522,31 @@ function formatAppointmentId(id) {
 function formatDate(dateString) {
 
     if (!dateString) {
+
         return "Not available";
+
     }
 
 
     const parts =
-        String(dateString).split("-");
+        String(
+            dateString
+        ).split("-");
 
 
-    if (parts.length !== 3) {
+    if (
+        parts.length !== 3
+    ) {
+
         return dateString;
+
     }
 
 
     return (
+
         `${parts[2]}/${parts[1]}/${parts[0]}`
+
     );
 
 }
@@ -2684,18 +3556,27 @@ async function copyAppointmentId(id) {
 
     try {
 
-        await navigator.clipboard.writeText(id);
+        await navigator.clipboard.writeText(
+            id
+        );
+
 
         alert(
+
             "✅ Appointment ID copied!\n\n" +
+
             id
+
         );
 
     } catch {
 
         alert(
+
             "Appointment ID:\n" +
+
             id
+
         );
 
     }
@@ -2721,7 +3602,10 @@ function initializeSearchButton() {
         );
 
 
-    if (!button || !select) return;
+    if (
+        !button ||
+        !select
+    ) return;
 
 
     button.addEventListener(
@@ -2750,16 +3634,25 @@ function initializeSearchButton() {
 
             try {
 
-                if (!hospitals.length) {
+                if (
+                    !hospitals.length
+                ) {
+
                     await loadHospitals();
+
                 }
 
 
-                showHospitals(service);
+                showHospitals(
+                    service
+                );
+
 
             } finally {
 
-                restoreButton(button);
+                restoreButton(
+                    button
+                );
 
             }
 
@@ -2782,7 +3675,9 @@ function showEmergency() {
 
 
     if (panel) {
-        panel.style.display = "flex";
+
+        panel.style.display =
+            "flex";
     }
 
 }
@@ -2797,7 +3692,9 @@ function closeEmergency() {
 
 
     if (panel) {
-        panel.style.display = "none";
+
+        panel.style.display =
+            "none";
     }
 
 }
@@ -2815,9 +3712,13 @@ function requestAmbulance() {
 
 
     alert(
+
         "🚑 Ambulance Request Started\n\n" +
+
         "This is currently a prototype action.\n\n" +
+
         "For a real emergency, call 112."
+
     );
 
 }
@@ -2825,7 +3726,9 @@ function requestAmbulance() {
 
 function findEmergencyHospital() {
 
-    if (!hospitals.length) {
+    if (
+        !hospitals.length
+    ) {
 
         alert(
             "Hospital data is still loading."
@@ -2838,16 +3741,20 @@ function findEmergencyHospital() {
     const emergencyHospitals =
         hospitals.filter(
             hospital =>
+
                 Array.isArray(
                     hospital.services
                 ) &&
+
                 hospital.services.includes(
                     "Emergency Service"
                 )
         );
 
 
-    if (!emergencyHospitals.length) {
+    if (
+        !emergencyHospitals.length
+    ) {
 
         alert(
             "No emergency hospital information available."
@@ -2867,9 +3774,13 @@ function findEmergencyHospital() {
 
 
     alert(
+
         "🏥 Emergency Hospitals\n\n" +
+
         names +
+
         "\n\nFor immediate emergency assistance, call 112."
+
     );
 
 }
@@ -2894,7 +3805,9 @@ function initializeJeevanSetu() {
     );
 
 
-    /* Restore login */
+    /* --------------------------------
+       RESTORE LOGIN
+    -------------------------------- */
 
     currentUser =
         getLocalStorageJSON(
@@ -2905,27 +3818,37 @@ function initializeJeevanSetu() {
     updateLoginState();
 
 
-    /* Load hospitals */
+    /* --------------------------------
+       LOAD HOSPITALS
+    -------------------------------- */
 
     loadHospitals();
 
 
-    /* Load appointments */
+    /* --------------------------------
+       LOAD APPOINTMENTS
+    -------------------------------- */
 
     loadAppointments();
 
 
-    /* Search */
+    /* --------------------------------
+       SEARCH
+    -------------------------------- */
 
     initializeSearchButton();
 
 
-    /* Profile */
+    /* --------------------------------
+       PROFILE PHOTO
+    -------------------------------- */
 
     initializeProfilePhoto();
 
 
-    /* Buttons */
+    /* --------------------------------
+       EDIT PROFILE
+    -------------------------------- */
 
     const editButton =
         getElement(
@@ -2943,6 +3866,10 @@ function initializeJeevanSetu() {
     }
 
 
+    /* --------------------------------
+       SAVE PROFILE
+    -------------------------------- */
+
     const saveButton =
         getElement(
             "saveProfileBtn"
@@ -2958,6 +3885,10 @@ function initializeJeevanSetu() {
 
     }
 
+
+    /* --------------------------------
+       CHANGE PASSWORD
+    -------------------------------- */
 
     const passwordButton =
         getElement(
@@ -2986,10 +3917,15 @@ window.addEventListener(
     event => {
 
         const authModal =
-            getElement("auth-modal");
+            getElement(
+                "auth-modal"
+            );
+
 
         const emergencyModal =
-            getElement("emergency-panel");
+            getElement(
+                "emergency-panel"
+            );
 
 
         if (
