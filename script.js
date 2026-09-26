@@ -3335,7 +3335,11 @@ document.addEventListener(
 
         loadAppointments();
 
-    }/* =====================================================
+    }
+);
+
+
+/* =====================================================
    JEEVANSETU PROFILE JAVASCRIPT
 ===================================================== */
 
@@ -3380,6 +3384,7 @@ if (profilePhotoInput && profilePreview) {
             };
 
             reader.readAsDataURL(file);
+
         }
     );
 }
@@ -3609,7 +3614,6 @@ const changePasswordBtn =
         "changePasswordBtn"
     );
 
-
 if (changePasswordBtn) {
 
     changePasswordBtn.addEventListener(
@@ -3622,6 +3626,5 @@ if (changePasswordBtn) {
 
         }
     );
-                }
-);
 
+}
