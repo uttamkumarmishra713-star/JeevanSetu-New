@@ -1,67 +1,161 @@
-// ======================================================
+// ============================================================
 // JEEVANSETU - COMPLETE JAVASCRIPT
-// STEP 53 - LOADING STATES
-// LOGIN + REGISTER + FORGOT USER ID + FORGOT PASSWORD
-// OTP + HOSPITAL + DOCTOR + APPOINTMENT + EMERGENCY
-// ======================================================
+// CLEAN REPLACEMENT VERSION
+// ============================================================
 
 
-// ======================================================
-// ELEMENTS
-// ======================================================
+// ============================================================
+// API
+// ============================================================
 
-const searchButton =
-    document.querySelector(".search-btn");
+const API_BASE_URL =
+    "https://jeevansetu-new.onrender.com";
 
-const serviceSelect =
-    document.getElementById("service-select");
 
-const hospitalList =
-    document.getElementById("hospital-list");
-
-const resultMessage =
-    document.getElementById("result-message");
+// ============================================================
+// GLOBAL VARIABLES
+// ============================================================
 
 let hospitals = [];
 
+let currentUser = null;
 
-// ======================================================
-// API
-// ======================================================
-const API_BASE_URL = "https://jeevansetu-new.onrender.com";
-
-// ======================================================
-// AUTH DATA
-// ======================================================
-
-let currentUser =
-    JSON.parse(
-        localStorage.getItem(
-            "jeevansetu_current_user"
-        )
-    ) || null;
-
-let registeredUser =
-    JSON.parse(
-        localStorage.getItem(
-            "jeevansetu_user"
-        )
-    ) || null;
-
-
-// ======================================================
-// OTP VARIABLES
-// ======================================================
+let registeredUser = null;
 
 let userIdOTP = null;
+
 let passwordOTP = null;
 
 let passwordRecoveryUser = null;
 
 
-// ======================================================
+// ============================================================
+// SAFE LOCAL STORAGE
+// ============================================================
+
+function getLocalStorageJSON(key) {
+
+    try {
+
+        const value =
+            localStorage.getItem(key);
+
+        if (!value) {
+            return null;
+        }
+
+        return JSON.parse(value);
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "LocalStorage read error:",
+            error
+        );
+
+        return null;
+    }
+}
+
+
+function setLocalStorageJSON(key, value) {
+
+    try {
+
+        localStorage.setItem(
+            key,
+            JSON.stringify(value)
+        );
+
+        return true;
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "LocalStorage save error:",
+            error
+        );
+
+        return false;
+    }
+}
+
+
+// ============================================================
+// INITIAL AUTH DATA
+// ============================================================
+
+function initializeStoredUser() {
+
+    registeredUser =
+        getLocalStorageJSON(
+            "jeevansetu_user"
+        );
+
+    currentUser =
+        getLocalStorageJSON(
+            "jeevansetu_current_user"
+        );
+
+}
+
+
+// ============================================================
+// ELEMENT HELPER
+// ============================================================
+
+function getElement(id) {
+
+    return document.getElementById(id);
+
+}
+
+
+// ============================================================
+// ESCAPE HTML
+// ============================================================
+
+function escapeHTML(value) {
+
+    return String(
+        value ?? ""
+    )
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+
+// ============================================================
 // LOADING STATE
-// ======================================================
+// ============================================================
 
 function showLoading(
     container,
@@ -85,8 +179,13 @@ function showLoading(
         </div>
 
     `;
+
 }
 
+
+// ============================================================
+// BUTTON LOADING
+// ============================================================
 
 function setButtonLoading(
     button,
@@ -112,9 +211,7 @@ function setButtonLoading(
 }
 
 
-function restoreButton(
-    button
-) {
+function restoreButton(button) {
 
     if (!button) {
         return;
@@ -132,16 +229,14 @@ function restoreButton(
 }
 
 
-// ======================================================
-// OPEN / CLOSE AUTH MODAL
-// ======================================================
+// ============================================================
+// AUTH MODAL
+// ============================================================
 
 function openAuthModal() {
 
     const modal =
-        document.getElementById(
-            "auth-modal"
-        );
+        getElement("auth-modal");
 
     if (modal) {
 
@@ -149,15 +244,14 @@ function openAuthModal() {
             "flex";
 
     }
+
 }
 
 
 function closeAuthModal() {
 
     const modal =
-        document.getElementById(
-            "auth-modal"
-        );
+        getElement("auth-modal");
 
     if (modal) {
 
@@ -165,12 +259,54 @@ function closeAuthModal() {
             "none";
 
     }
+
 }
 
 
-// ======================================================
-// SHOW LOGIN
-// ======================================================
+// ============================================================
+// HIDE ALL AUTH FORMS
+// ============================================================
+
+function hideAllAuthForms() {
+
+    const forms = [
+
+        "login-form",
+
+        "register-form",
+
+        "forgot-user-id-form",
+
+        "forgot-password-form",
+
+        "new-password-form",
+
+        "user-profile"
+
+    ];
+
+    forms.forEach(
+        function(id) {
+
+            const element =
+                getElement(id);
+
+            if (element) {
+
+                element.style.display =
+                    "none";
+
+            }
+
+        }
+    );
+
+}
+
+
+// ============================================================
+// LOGIN FORM
+// ============================================================
 
 function showLoginForm() {
 
@@ -179,9 +315,7 @@ function showLoginForm() {
     hideAllAuthForms();
 
     const form =
-        document.getElementById(
-            "login-form"
-        );
+        getElement("login-form");
 
     if (form) {
 
@@ -189,12 +323,13 @@ function showLoginForm() {
             "block";
 
     }
+
 }
 
 
-// ======================================================
-// SHOW REGISTER
-// ======================================================
+// ============================================================
+// REGISTER FORM
+// ============================================================
 
 function showRegisterForm() {
 
@@ -203,9 +338,7 @@ function showRegisterForm() {
     hideAllAuthForms();
 
     const form =
-        document.getElementById(
-            "register-form"
-        );
+        getElement("register-form");
 
     if (form) {
 
@@ -213,46 +346,13 @@ function showRegisterForm() {
             "block";
 
     }
-}
-
-
-// ======================================================
-// HIDE ALL AUTH FORMS
-// ======================================================
-
-function hideAllAuthForms() {
-
-    const forms = [
-
-        "login-form",
-        "register-form",
-        "forgot-user-id-form",
-        "forgot-password-form",
-        "new-password-form",
-        "user-profile"
-
-    ];
-
-    forms.forEach(function(id) {
-
-        const element =
-            document.getElementById(id);
-
-        if (element) {
-
-            element.style.display =
-                "none";
-
-        }
-
-    });
 
 }
 
 
-// ======================================================
+// ============================================================
 // GENERATE USER ID
-// ======================================================
+// ============================================================
 
 function generateUserId() {
 
@@ -271,44 +371,62 @@ function generateUserId() {
             randomNumber;
 
     }
+
     while (
         registeredUser &&
         registeredUser.id === userId
     );
 
     return userId;
+
 }
 
 
-// ======================================================
-// REGISTER
-// ======================================================
+// ============================================================
+// REGISTER USER
+// ============================================================
 
 function registerUser() {
 
+    const nameElement =
+        getElement("register-name");
+
+    const mobileElement =
+        getElement("register-mobile");
+
+    const emailElement =
+        getElement("register-email");
+
+    const passwordElement =
+        getElement("register-password");
+
+
+    if (
+        !nameElement ||
+        !mobileElement ||
+        !emailElement ||
+        !passwordElement
+    ) {
+
+        alert(
+            "Registration form is not available."
+        );
+
+        return;
+    }
+
+
     const name =
-        document
-            .getElementById("register-name")
-            .value
-            .trim();
+        nameElement.value.trim();
 
     const mobile =
-        document
-            .getElementById("register-mobile")
-            .value
-            .trim();
+        mobileElement.value.trim();
 
     const email =
-        document
-            .getElementById("register-email")
-            .value
-            .trim();
+        emailElement.value.trim();
 
     const password =
-        document
-            .getElementById("register-password")
-            .value
-            .trim();
+        passwordElement.value.trim();
 
 
     if (
@@ -379,21 +497,22 @@ function registerUser() {
     };
 
 
-    localStorage.setItem(
+    setLocalStorageJSON(
         "jeevansetu_user",
-        JSON.stringify(user)
+        user
     );
 
-
-    localStorage.setItem(
+    setLocalStorageJSON(
         "jeevansetu_current_user",
-        JSON.stringify(user)
+        user
     );
 
 
-    registeredUser = user;
+    registeredUser =
+        user;
 
-    currentUser = user;
+    currentUser =
+        user;
 
 
     alert(
@@ -409,30 +528,50 @@ function registerUser() {
     updateLoginState();
 
     loadAppointments();
+
 }
 
 
-// ======================================================
-// LOGIN
-// ======================================================
+// ============================================================
+// LOGIN USER
+// ============================================================
 
 function loginUser() {
 
+    const userIdElement =
+        getElement("login-user-id");
+
+    const passwordElement =
+        getElement("login-password");
+
+
+    if (
+        !userIdElement ||
+        !passwordElement
+    ) {
+
+        alert(
+            "Login form is not available."
+        );
+
+        return;
+    }
+
+
     const userId =
-        document
-            .getElementById("login-user-id")
-            .value
+        userIdElement.value
             .trim()
             .toUpperCase();
 
     const password =
-        document
-            .getElementById("login-password")
-            .value
+        passwordElement.value
             .trim();
 
 
-    if (!userId || !password) {
+    if (
+        !userId ||
+        !password
+    ) {
 
         alert(
             "Please enter User ID and password."
@@ -443,10 +582,8 @@ function loginUser() {
 
 
     const user =
-        JSON.parse(
-            localStorage.getItem(
-                "jeevansetu_user"
-            )
+        getLocalStorageJSON(
+            "jeevansetu_user"
         );
 
 
@@ -463,6 +600,7 @@ function loginUser() {
 
 
     if (
+        !user.id ||
         user.id.toUpperCase() !== userId ||
         user.password !== password
     ) {
@@ -475,14 +613,16 @@ function loginUser() {
     }
 
 
-    currentUser = user;
+    currentUser =
+        user;
 
-    registeredUser = user;
+    registeredUser =
+        user;
 
 
-    localStorage.setItem(
+    setLocalStorageJSON(
         "jeevansetu_current_user",
-        JSON.stringify(user)
+        user
     );
 
 
@@ -500,13 +640,15 @@ function loginUser() {
 }
 
 
-// ======================================================
+// ============================================================
 // LOGOUT
-// ======================================================
+// ============================================================
 
 function logoutUser() {
 
-    currentUser = null;
+    currentUser =
+        null;
+
 
     localStorage.removeItem(
         "jeevansetu_current_user"
@@ -514,7 +656,7 @@ function logoutUser() {
 
 
     const appointmentsList =
-        document.getElementById(
+        getElement(
             "appointments-list"
         );
 
@@ -546,21 +688,21 @@ function logoutUser() {
 }
 
 
-// ======================================================
+// ============================================================
 // LOGIN STATE
-// ======================================================
+// ============================================================
 
 function updateLoginState() {
 
     const authArea =
-        document.getElementById("auth-area");
+        getElement("auth-area");
+
 
     if (!authArea) {
         return;
     }
 
 
-    // USER LOGGED IN
     if (currentUser) {
 
         authArea.innerHTML = `
@@ -570,7 +712,9 @@ function updateLoginState() {
                 class="auth-profile-btn"
                 onclick="showUserProfile()">
 
-                👤 ${escapeHTML(currentUser.name)}
+                👤 ${escapeHTML(
+                    currentUser.name
+                )}
 
             </button>
 
@@ -585,16 +729,8 @@ function updateLoginState() {
 
         `;
 
-
-        console.log(
-            "Logged in as:",
-            currentUser.id
-        );
-
     }
 
-
-    // USER NOT LOGGED IN
     else {
 
         authArea.innerHTML = `
@@ -619,19 +755,14 @@ function updateLoginState() {
 
         `;
 
-
-        console.log(
-            "No user logged in."
-        );
-
     }
 
 }
 
 
-// ======================================================
+// ============================================================
 // FORGOT USER ID
-// ======================================================
+// ============================================================
 
 function showForgotUserId() {
 
@@ -641,7 +772,7 @@ function showForgotUserId() {
 
 
     const form =
-        document.getElementById(
+        getElement(
             "forgot-user-id-form"
         );
 
@@ -655,7 +786,7 @@ function showForgotUserId() {
 
 
     const otpSection =
-        document.getElementById(
+        getElement(
             "forgot-id-otp-section"
         );
 
@@ -669,38 +800,61 @@ function showForgotUserId() {
 
 
     const result =
-        document.getElementById(
+        getElement(
             "forgot-id-result"
         );
 
 
     if (result) {
 
-        result.innerText = "";
+        result.innerHTML =
+            "";
 
     }
 
 }
 
 
-// ======================================================
+// ============================================================
+// GENERATE OTP
+// ============================================================
+
+function generateOTP() {
+
+    return String(
+        Math.floor(
+            100000 +
+            Math.random() * 900000
+        )
+    );
+
+}
+
+
+// ============================================================
 // SEND USER ID OTP
-// ======================================================
+// ============================================================
 
 function sendUserIdOTP() {
 
+    const mobileElement =
+        getElement(
+            "forgot-id-mobile"
+        );
+
+
+    if (!mobileElement) {
+        return;
+    }
+
+
     const mobile =
-        document
-            .getElementById("forgot-id-mobile")
-            .value
-            .trim();
+        mobileElement.value.trim();
 
 
     const user =
-        JSON.parse(
-            localStorage.getItem(
-                "jeevansetu_user"
-            )
+        getLocalStorageJSON(
+            "jeevansetu_user"
         );
 
 
@@ -750,10 +904,18 @@ function sendUserIdOTP() {
         generateOTP();
 
 
-    document.getElementById(
-        "forgot-id-otp-section"
-    ).style.display =
-        "block";
+    const otpSection =
+        getElement(
+            "forgot-id-otp-section"
+        );
+
+
+    if (otpSection) {
+
+        otpSection.style.display =
+            "block";
+
+    }
 
 
     alert(
@@ -765,17 +927,25 @@ function sendUserIdOTP() {
 }
 
 
-// ======================================================
+// ============================================================
 // VERIFY USER ID OTP
-// ======================================================
+// ============================================================
 
 function verifyUserIdOTP() {
 
+    const otpElement =
+        getElement(
+            "forgot-id-otp"
+        );
+
+
+    if (!otpElement) {
+        return;
+    }
+
+
     const enteredOTP =
-        document
-            .getElementById("forgot-id-otp")
-            .value
-            .trim();
+        otpElement.value.trim();
 
 
     if (!enteredOTP) {
@@ -799,30 +969,47 @@ function verifyUserIdOTP() {
 
 
     const user =
-        JSON.parse(
-            localStorage.getItem(
-                "jeevansetu_user"
-            )
+        getLocalStorageJSON(
+            "jeevansetu_user"
         );
 
 
-    document.getElementById(
-        "forgot-id-result"
-    ).innerHTML =
-        "✅ OTP verified.<br><br>" +
-        "<strong>Your User ID: " +
-        escapeHTML(user.id) +
-        "</strong>";
+    if (!user) {
+
+        alert(
+            "User account not found."
+        );
+
+        return;
+    }
 
 
-    userIdOTP = null;
+    const result =
+        getElement(
+            "forgot-id-result"
+        );
+
+
+    if (result) {
+
+        result.innerHTML =
+            "✅ OTP verified.<br><br>" +
+            "<strong>Your User ID: " +
+            escapeHTML(user.id) +
+            "</strong>";
+
+    }
+
+
+    userIdOTP =
+        null;
 
 }
 
 
-// ======================================================
+// ============================================================
 // FORGOT PASSWORD
-// ======================================================
+// ============================================================
 
 function showForgotPassword() {
 
@@ -831,63 +1018,98 @@ function showForgotPassword() {
     hideAllAuthForms();
 
 
-    document.getElementById(
-        "forgot-password-form"
-    ).style.display =
-        "block";
+    const form =
+        getElement(
+            "forgot-password-form"
+        );
 
 
-    document.getElementById(
-        "forgot-password-otp-section"
-    ).style.display =
-        "none";
+    if (form) {
+
+        form.style.display =
+            "block";
+
+    }
 
 
-    document.getElementById(
-        "forgot-password-message"
-    ).innerText =
-        "";
+    const otpSection =
+        getElement(
+            "forgot-password-otp-section"
+        );
 
 
-    passwordRecoveryUser = null;
+    if (otpSection) {
+
+        otpSection.style.display =
+            "none";
+
+    }
+
+
+    const message =
+        getElement(
+            "forgot-password-message"
+        );
+
+
+    if (message) {
+
+        message.innerText =
+            "";
+
+    }
+
+
+    passwordRecoveryUser =
+        null;
 
 }
 
 
-// ======================================================
+// ============================================================
 // SEND PASSWORD OTP
-// ======================================================
+// ============================================================
 
 function sendPasswordOTP() {
 
-    const userId =
-        document
-            .getElementById(
-                "forgot-password-user-id"
-            )
-            .value
-            .trim()
-            .toUpperCase();
+    const userIdElement =
+        getElement(
+            "forgot-password-user-id"
+        );
 
-
-    const mobile =
-        document
-            .getElementById(
-                "forgot-password-mobile"
-            )
-            .value
-            .trim();
-
-
-    const user =
-        JSON.parse(
-            localStorage.getItem(
-                "jeevansetu_user"
-            )
+    const mobileElement =
+        getElement(
+            "forgot-password-mobile"
         );
 
 
-    if (!userId || !mobile) {
+    if (
+        !userIdElement ||
+        !mobileElement
+    ) {
+        return;
+    }
+
+
+    const userId =
+        userIdElement.value
+            .trim()
+            .toUpperCase();
+
+    const mobile =
+        mobileElement.value.trim();
+
+
+    const user =
+        getLocalStorageJSON(
+            "jeevansetu_user"
+        );
+
+
+    if (
+        !userId ||
+        !mobile
+    ) {
 
         alert(
             "Please enter User ID and mobile number."
@@ -920,6 +1142,7 @@ function sendPasswordOTP() {
 
 
     if (
+        !user.id ||
         user.id.toUpperCase() !== userId ||
         user.mobile !== mobile
     ) {
@@ -940,10 +1163,18 @@ function sendPasswordOTP() {
         generateOTP();
 
 
-    document.getElementById(
-        "forgot-password-otp-section"
-    ).style.display =
-        "block";
+    const otpSection =
+        getElement(
+            "forgot-password-otp-section"
+        );
+
+
+    if (otpSection) {
+
+        otpSection.style.display =
+            "block";
+
+    }
 
 
     alert(
@@ -955,19 +1186,25 @@ function sendPasswordOTP() {
 }
 
 
-// ======================================================
+// ============================================================
 // VERIFY PASSWORD OTP
-// ======================================================
+// ============================================================
 
 function verifyPasswordOTP() {
 
+    const otpElement =
+        getElement(
+            "forgot-password-otp"
+        );
+
+
+    if (!otpElement) {
+        return;
+    }
+
+
     const enteredOTP =
-        document
-            .getElementById(
-                "forgot-password-otp"
-            )
-            .value
-            .trim();
+        otpElement.value.trim();
 
 
     if (!enteredOTP) {
@@ -1002,35 +1239,50 @@ function verifyPasswordOTP() {
     }
 
 
-    passwordOTP = null;
+    passwordOTP =
+        null;
 
 
     hideAllAuthForms();
 
 
-    document.getElementById(
-        "new-password-form"
-    ).style.display =
-        "block";
+    const newPasswordForm =
+        getElement(
+            "new-password-form"
+        );
 
 
-    document.getElementById(
-        "new-password"
-    ).value =
-        "";
+    if (newPasswordForm) {
+
+        newPasswordForm.style.display =
+            "block";
+
+    }
 
 
-    document.getElementById(
-        "confirm-new-password"
-    ).value =
-        "";
+    const newPassword =
+        getElement("new-password");
+
+    const confirmPassword =
+        getElement(
+            "confirm-new-password"
+        );
+
+
+    if (newPassword) {
+        newPassword.value = "";
+    }
+
+    if (confirmPassword) {
+        confirmPassword.value = "";
+    }
 
 }
 
 
-// ======================================================
+// ============================================================
 // RESET PASSWORD
-// ======================================================
+// ============================================================
 
 function resetPassword() {
 
@@ -1046,21 +1298,36 @@ function resetPassword() {
     }
 
 
-    const newPassword =
-        document
-            .getElementById("new-password")
-            .value;
+    const newPasswordElement =
+        getElement(
+            "new-password"
+        );
 
+    const confirmPasswordElement =
+        getElement(
+            "confirm-new-password"
+        );
+
+
+    if (
+        !newPasswordElement ||
+        !confirmPasswordElement
+    ) {
+        return;
+    }
+
+
+    const newPassword =
+        newPasswordElement.value;
 
     const confirmPassword =
-        document
-            .getElementById(
-                "confirm-new-password"
-            )
-            .value;
+        confirmPasswordElement.value;
 
 
-    if (!newPassword || !confirmPassword) {
+    if (
+        !newPassword ||
+        !confirmPassword
+    ) {
 
         alert(
             "Please enter and confirm your new password."
@@ -1080,7 +1347,10 @@ function resetPassword() {
     }
 
 
-    if (newPassword !== confirmPassword) {
+    if (
+        newPassword !==
+        confirmPassword
+    ) {
 
         alert(
             "❌ New passwords do not match."
@@ -1091,10 +1361,8 @@ function resetPassword() {
 
 
     const user =
-        JSON.parse(
-            localStorage.getItem(
-                "jeevansetu_user"
-            )
+        getLocalStorageJSON(
+            "jeevansetu_user"
         );
 
 
@@ -1112,15 +1380,14 @@ function resetPassword() {
         newPassword;
 
 
-    localStorage.setItem(
+    setLocalStorageJSON(
         "jeevansetu_user",
-        JSON.stringify(user)
+        user
     );
 
 
     registeredUser =
         user;
-
 
     passwordRecoveryUser =
         null;
@@ -1135,39 +1402,33 @@ function resetPassword() {
     showLoginForm();
 
 
-    document.getElementById(
-        "login-user-id"
-    ).value =
-        user.id;
+    const loginUserId =
+        getElement(
+            "login-user-id"
+        );
+
+    const loginPassword =
+        getElement(
+            "login-password"
+        );
 
 
-    document.getElementById(
-        "login-password"
-    ).value =
-        "";
+    if (loginUserId) {
+        loginUserId.value =
+            user.id;
+    }
 
-}
-
-
-// ======================================================
-// GENERATE OTP
-// ======================================================
-
-function generateOTP() {
-
-    return String(
-        Math.floor(
-            100000 +
-            Math.random() * 900000
-        )
-    );
+    if (loginPassword) {
+        loginPassword.value =
+            "";
+    }
 
 }
 
 
-// ======================================================
+// ============================================================
 // SHOW PROFILE
-// ======================================================
+// ============================================================
 
 function showUserProfile() {
 
@@ -1176,7 +1437,6 @@ function showUserProfile() {
         showLoginForm();
 
         return;
-
     }
 
 
@@ -1185,36 +1445,57 @@ function showUserProfile() {
     hideAllAuthForms();
 
 
-    document.getElementById(
-        "user-profile"
-    ).style.display =
-        "block";
+    const profile =
+        getElement(
+            "user-profile"
+        );
 
 
-    document.getElementById(
-        "profile-name"
-    ).innerText =
-        currentUser.name;
+    if (profile) {
+
+        profile.style.display =
+            "block";
+
+    }
 
 
-    document.getElementById(
-        "profile-user-id"
-    ).innerText =
-        currentUser.id;
+    const profileName =
+        getElement(
+            "profile-name"
+        );
+
+    const profileUserId =
+        getElement(
+            "profile-user-id"
+        );
+
+
+    if (profileName) {
+
+        profileName.innerText =
+            currentUser.name || "";
+
+    }
+
+
+    if (profileUserId) {
+
+        profileUserId.innerText =
+            currentUser.id || "";
+
+    }
 
 }
 
 
-// ======================================================
+// ============================================================
 // COPY USER ID
-// ======================================================
+// ============================================================
 
 async function copyUserId() {
 
     if (!currentUser) {
-
         return;
-
     }
 
 
@@ -1244,9 +1525,9 @@ async function copyUserId() {
 }
 
 
-// ======================================================
-// APPOINTMENT LOGIN CHECK
-// ======================================================
+// ============================================================
+// LOGIN CHECK
+// ============================================================
 
 function isUserLoggedIn() {
 
@@ -1269,7 +1550,6 @@ function requireLoginForAppointment() {
         showLoginForm();
 
         return false;
-
     }
 
     return true;
@@ -1277,12 +1557,22 @@ function requireLoginForAppointment() {
 }
 
 
-// ======================================================
+// ============================================================
 // LOAD HOSPITALS
-// STEP 53 LOADING STATE
-// ======================================================
+// ============================================================
 
 async function loadHospitals() {
+
+    const hospitalList =
+        getElement(
+            "hospital-list"
+        );
+
+    const resultMessage =
+        getElement(
+            "result-message"
+        );
+
 
     if (hospitalList) {
 
@@ -1319,14 +1609,21 @@ async function loadHospitals() {
         }
 
 
-        hospitals =
+        const data =
             await response.json();
 
 
-        console.log(
-            "Hospitals loaded:",
-            hospitals
-        );
+        if (!Array.isArray(data)) {
+
+            throw new Error(
+                "Invalid hospital data."
+            );
+
+        }
+
+
+        hospitals =
+            data;
 
 
         if (resultMessage) {
@@ -1412,69 +1709,25 @@ async function loadHospitals() {
 }
 
 
-// ======================================================
-// SEARCH
-// ======================================================
-
-if (searchButton) {
-
-    searchButton.addEventListener(
-        "click",
-        async function() {
-
-            const selectedService =
-                serviceSelect.value;
-
-
-            if (!selectedService) {
-
-                alert(
-                    "Please select a healthcare service first."
-                );
-
-                return;
-
-            }
-
-
-            setButtonLoading(
-                searchButton,
-                "🔄 Searching..."
-            );
-
-
-            try {
-
-                await showHospitals(
-                    selectedService
-                );
-
-            }
-
-            finally {
-
-                restoreButton(
-                    searchButton
-                );
-
-            }
-
-        }
-    );
-
-}
-
-
-// ======================================================
+// ============================================================
 // SHOW HOSPITALS
-// ======================================================
+// ============================================================
 
 async function showHospitals(service) {
 
+    const hospitalList =
+        getElement(
+            "hospital-list"
+        );
+
+    const resultMessage =
+        getElement(
+            "result-message"
+        );
+
+
     if (!hospitalList) {
-
         return;
-
     }
 
 
@@ -1492,7 +1745,6 @@ async function showHospitals(service) {
     }
 
 
-    // Small delay makes loading state visible
     await new Promise(
         function(resolve) {
 
@@ -1505,16 +1757,8 @@ async function showHospitals(service) {
     );
 
 
-    hospitalList.innerHTML = "";
-
-
-    if (resultMessage) {
-
-        resultMessage.innerText =
-            "Government healthcare services for: " +
-            service;
-
-    }
+    hospitalList.innerHTML =
+        "";
 
 
     const filteredHospitals =
@@ -1534,7 +1778,18 @@ async function showHospitals(service) {
         );
 
 
-    if (filteredHospitals.length === 0) {
+    if (resultMessage) {
+
+        resultMessage.innerText =
+            "Government healthcare services for: " +
+            service;
+
+    }
+
+
+    if (
+        filteredHospitals.length === 0
+    ) {
 
         hospitalList.innerHTML = `
 
@@ -1554,7 +1809,6 @@ async function showHospitals(service) {
         `;
 
         return;
-
     }
 
 
@@ -1582,20 +1836,22 @@ async function showHospitals(service) {
             card.innerHTML = `
 
                 <h3>
-                    🏥 ${escapeHTML(hospital.name)}
+                    🏥 ${escapeHTML(
+                        hospital.name
+                    )}
                 </h3>
 
                 <p>
-                    📍 ${escapeHTML(hospital.district)}
+                    📍 ${escapeHTML(
+                        hospital.district
+                    )}
                 </p>
 
                 <p>
-                    🏛️ ${
-                        escapeHTML(
-                            hospital.type ||
-                            "Government Healthcare Facility"
-                        )
-                    }
+                    🏛️ ${escapeHTML(
+                        hospital.type ||
+                        "Government Healthcare Facility"
+                    )}
                 </p>
 
                 <p>
@@ -1605,13 +1861,35 @@ async function showHospitals(service) {
 
                 <button
                     type="button"
-                    onclick="showDoctors(${Number(hospital.id)})">
+                    class="view-doctors-btn">
 
                     👨‍⚕️ View Doctors
 
                 </button>
 
             `;
+
+
+            const viewDoctorsButton =
+                card.querySelector(
+                    ".view-doctors-btn"
+                );
+
+
+            if (viewDoctorsButton) {
+
+                viewDoctorsButton.onclick =
+                    function() {
+
+                        showDoctors(
+                            Number(
+                                hospital.id
+                            )
+                        );
+
+                    };
+
+            }
 
 
             hospitalList.appendChild(
@@ -1623,7 +1901,7 @@ async function showHospitals(service) {
 
 
     const results =
-        document.getElementById(
+        getElement(
             "results"
         );
 
@@ -1639,17 +1917,27 @@ async function showHospitals(service) {
 }
 
 
-// ======================================================
+// ============================================================
 // SHOW DOCTORS
-// STEP 53 LOADING STATE
-// ======================================================
+// ============================================================
 
-async function showDoctors(hospitalId) {
+async function showDoctors(
+    hospitalId
+) {
+
+    const hospitalList =
+        getElement(
+            "hospital-list"
+        );
+
+    const resultMessage =
+        getElement(
+            "result-message"
+        );
+
 
     if (!hospitalList) {
-
         return;
-
     }
 
 
@@ -1673,10 +1961,10 @@ async function showDoctors(hospitalId) {
 
     const hospital =
         hospitals.find(
-            function(hospital) {
+            function(item) {
 
                 return (
-                    Number(hospital.id) ===
+                    Number(item.id) ===
                     Number(hospitalId)
                 );
 
@@ -1686,18 +1974,19 @@ async function showDoctors(hospitalId) {
 
     if (!hospital) {
 
-        hospitalList.innerHTML = "";
+        hospitalList.innerHTML =
+            "";
 
         alert(
             "Hospital information not found."
         );
 
         return;
-
     }
 
 
-    hospitalList.innerHTML = "";
+    hospitalList.innerHTML =
+        "";
 
 
     if (resultMessage) {
@@ -1718,10 +2007,8 @@ async function showDoctors(hospitalId) {
     backButton.type =
         "button";
 
-
     backButton.className =
         "back-button";
-
 
     backButton.innerText =
         "← Back to Hospitals";
@@ -1730,10 +2017,24 @@ async function showDoctors(hospitalId) {
     backButton.onclick =
         function() {
 
-            showHospitals(
-                serviceSelect.value ||
-                "General Doctor"
-            );
+            const serviceSelect =
+                getElement(
+                    "service-select"
+                );
+
+            const selectedService =
+                serviceSelect
+                    ? serviceSelect.value
+                    : "";
+
+
+            if (selectedService) {
+
+                showHospitals(
+                    selectedService
+                );
+
+            }
 
         };
 
@@ -1781,7 +2082,6 @@ async function showDoctors(hospitalId) {
         );
 
         return;
-
     }
 
 
@@ -1865,7 +2165,6 @@ async function showDoctors(hospitalId) {
                         ) {
 
                             return;
-
                         }
 
 
@@ -1895,10 +2194,8 @@ async function showDoctors(hospitalId) {
                 disabledButton.type =
                     "button";
 
-
                 disabledButton.disabled =
                     true;
-
 
                 disabledButton.innerText =
                     "Appointment Unavailable";
@@ -1921,9 +2218,9 @@ async function showDoctors(hospitalId) {
 }
 
 
-// ======================================================
+// ============================================================
 // APPOINTMENT FORM
-// ======================================================
+// ============================================================
 
 function showAppointmentForm(
     doctorName,
@@ -1936,11 +2233,22 @@ function showAppointmentForm(
     ) {
 
         return;
-
     }
 
 
-    hospitalList.innerHTML = "";
+    const hospitalList =
+        getElement(
+            "hospital-list"
+        );
+
+
+    if (!hospitalList) {
+        return;
+    }
+
+
+    hospitalList.innerHTML =
+        "";
 
 
     const formCard =
@@ -1967,7 +2275,9 @@ function showAppointmentForm(
         </p>
 
         <p>
-            🏥 ${escapeHTML(hospitalName)}
+            🏥 ${escapeHTML(
+                hospitalName
+            )}
         </p>
 
         <p>
@@ -2026,52 +2336,64 @@ function showAppointmentForm(
     );
 
 
-    document
-        .getElementById(
+    const confirmButton =
+        getElement(
             "confirm-appointment-btn"
-        )
-        .onclick =
-        function() {
-
-            submitAppointment(
-                doctorName,
-                hospitalName,
-                timing
-            );
-
-        };
+        );
 
 
-    document
-        .getElementById(
+    if (confirmButton) {
+
+        confirmButton.onclick =
+            function() {
+
+                submitAppointment(
+                    doctorName,
+                    hospitalName,
+                    timing
+                );
+
+            };
+
+    }
+
+
+    const backButton =
+        getElement(
             "back-doctor-btn"
-        )
-        .onclick =
-        function() {
+        );
 
-            goBackToDoctors(
-                hospitalName
-            );
 
-        };
+    if (backButton) {
+
+        backButton.onclick =
+            function() {
+
+                goBackToDoctors(
+                    hospitalName
+                );
+
+            };
+
+    }
 
 
     const dateInput =
-        document.getElementById(
+        getElement(
             "appointment-date"
         );
 
 
-    const today =
-        getLocalDateString();
+    if (dateInput) {
 
+        dateInput.min =
+            getLocalDateString();
 
-    dateInput.min =
-        today;
+    }
 
 
     const results =
-        document.getElementById(
+        getElement(
             "results"
         );
 
@@ -2087,9 +2409,9 @@ function showAppointmentForm(
 }
 
 
-// ======================================================
+// ============================================================
 // BACK TO DOCTORS
-// ======================================================
+// ============================================================
 
 function goBackToDoctors(
     hospitalName
@@ -2097,10 +2419,10 @@ function goBackToDoctors(
 
     const hospital =
         hospitals.find(
-            function(hospital) {
+            function(item) {
 
                 return (
-                    hospital.name ===
+                    item.name ===
                     hospitalName
                 );
 
@@ -2119,10 +2441,9 @@ function goBackToDoctors(
 }
 
 
-// ======================================================
+// ============================================================
 // SUBMIT APPOINTMENT
-// STEP 53 BOOKING LOADING
-// ======================================================
+// ============================================================
 
 async function submitAppointment(
     doctorName,
@@ -2135,46 +2456,62 @@ async function submitAppointment(
     ) {
 
         return;
-
     }
 
 
-    const patientName =
-        document
-            .getElementById("patient-name")
-            .value
-            .trim();
+    const patientNameElement =
+        getElement(
+            "patient-name"
+        );
 
+    const mobileElement =
+        getElement(
+            "patient-mobile"
+        );
 
-    const mobile =
-        document
-            .getElementById("patient-mobile")
-            .value
-            .trim();
+    const ageElement =
+        getElement(
+            "patient-age"
+        );
 
-
-    const age =
-        document
-            .getElementById("patient-age")
-            .value
-            .trim();
-
-
-    const appointmentDate =
-        document
-            .getElementById("appointment-date")
-            .value;
-
+    const dateElement =
+        getElement(
+            "appointment-date"
+        );
 
     const confirmButton =
-        document.getElementById(
+        getElement(
             "confirm-appointment-btn"
         );
 
 
-    // --------------------------------------------------
-    // REQUIRED FIELDS
-    // --------------------------------------------------
+    if (
+        !patientNameElement ||
+        !mobileElement ||
+        !ageElement ||
+        !dateElement
+    ) {
+
+        alert(
+            "Appointment form is not available."
+        );
+
+        return;
+    }
+
+
+    const patientName =
+        patientNameElement.value.trim();
+
+    const mobile =
+        mobileElement.value.trim();
+
+    const age =
+        ageElement.value.trim();
+
+    const appointmentDate =
+        dateElement.value;
+
 
     if (
         !patientName ||
@@ -2188,16 +2525,12 @@ async function submitAppointment(
         );
 
         return;
-
     }
 
 
-    // --------------------------------------------------
-    // PATIENT NAME VALIDATION
-    // --------------------------------------------------
-
     if (
-        patientName.length < 2
+        patientName.length < 2 ||
+        patientName.length > 60
     ) {
 
         alert(
@@ -2205,20 +2538,6 @@ async function submitAppointment(
         );
 
         return;
-
-    }
-
-
-    if (
-        patientName.length > 60
-    ) {
-
-        alert(
-            "Patient name is too long."
-        );
-
-        return;
-
     }
 
 
@@ -2233,13 +2552,8 @@ async function submitAppointment(
         );
 
         return;
-
     }
 
-
-    // --------------------------------------------------
-    // MOBILE VALIDATION
-    // --------------------------------------------------
 
     if (
         !/^[0-9]{10}$/.test(
@@ -2252,13 +2566,8 @@ async function submitAppointment(
         );
 
         return;
-
     }
 
-
-    // --------------------------------------------------
-    // AGE VALIDATION
-    // --------------------------------------------------
 
     const numericAge =
         Number(age);
@@ -2277,13 +2586,8 @@ async function submitAppointment(
         );
 
         return;
-
     }
 
-
-    // --------------------------------------------------
-    // DATE VALIDATION
-    // --------------------------------------------------
 
     const today =
         getLocalDateString();
@@ -2298,13 +2602,8 @@ async function submitAppointment(
         );
 
         return;
-
     }
 
-
-    // --------------------------------------------------
-    // LOADING START
-    // --------------------------------------------------
 
     setButtonLoading(
         confirmButton,
@@ -2363,8 +2662,20 @@ async function submitAppointment(
             );
 
 
-        const data =
-            await response.json();
+        let data = {};
+
+        try {
+
+            data =
+                await response.json();
+
+        }
+
+        catch (jsonError) {
+
+            data = {};
+
+        }
 
 
         if (!response.ok) {
@@ -2374,12 +2685,7 @@ async function submitAppointment(
                 "Appointment booking failed."
             );
 
-            restoreButton(
-                confirmButton
-            );
-
             return;
-
         }
 
 
@@ -2407,7 +2713,7 @@ async function submitAppointment(
 
 
         const appointmentsSection =
-            document.getElementById(
+            getElement(
                 "my-appointments"
             );
 
@@ -2421,7 +2727,6 @@ async function submitAppointment(
         }
 
     }
-
 
     catch (error) {
 
@@ -2437,7 +2742,6 @@ async function submitAppointment(
 
     }
 
-
     finally {
 
         restoreButton(
@@ -2449,29 +2753,22 @@ async function submitAppointment(
 }
 
 
-// ======================================================
+// ============================================================
 // LOAD APPOINTMENTS
-// STEP 53 LOADING STATE
-// ======================================================
+// ============================================================
 
 async function loadAppointments() {
 
     const appointmentsList =
-        document.getElementById(
+        getElement(
             "appointments-list"
         );
 
 
     if (!appointmentsList) {
-
         return;
-
     }
 
-
-    // --------------------------------------------------
-    // LOGIN CHECK
-    // --------------------------------------------------
 
     if (!currentUser) {
 
@@ -2488,13 +2785,8 @@ async function loadAppointments() {
         `;
 
         return;
-
     }
 
-
-    // --------------------------------------------------
-    // LOADING STATE
-    // --------------------------------------------------
 
     showLoading(
         appointmentsList,
@@ -2549,7 +2841,6 @@ async function loadAppointments() {
             `;
 
             return;
-
         }
 
 
@@ -2630,7 +2921,9 @@ async function loadAppointments() {
                             ${escapeHTML(
                                 appointment.patientName
                             )}
-                            (${appointment.age} years)
+                            (${escapeHTML(
+                                appointment.age
+                            )} years)
                         </p>
 
                         <p>
@@ -2680,11 +2973,7 @@ async function loadAppointments() {
 
                             <button
                                 type="button"
-                                onclick="copyAppointmentId(
-                                    '${escapeHTML(
-                                        displayAppointmentId
-                                    )}'
-                                )">
+                                class="copy-appointment-btn">
 
                                 📋 Copy ID
 
@@ -2696,18 +2985,56 @@ async function loadAppointments() {
 
                     <button
                         type="button"
-                        class="cancel-appointment-btn"
-                        onclick="cancelAppointment(
-                            ${Number(
-                                appointment.id
-                            )}
-                        )">
+                        class="cancel-appointment-btn">
 
                         ❌ Cancel Appointment
 
                     </button>
 
                 `;
+
+
+                const copyButton =
+                    card.querySelector(
+                        ".copy-appointment-btn"
+                    );
+
+
+                if (copyButton) {
+
+                    copyButton.onclick =
+                        function() {
+
+                            copyAppointmentId(
+                                displayAppointmentId
+                            );
+
+                        };
+
+                }
+
+
+                const cancelButton =
+                    card.querySelector(
+                        ".cancel-appointment-btn"
+                    );
+
+
+                if (cancelButton) {
+
+                    cancelButton.onclick =
+                        function() {
+
+                            cancelAppointment(
+                                Number(
+                                    appointment.id
+                                ),
+                                cancelButton
+                            );
+
+                        };
+
+                }
 
 
                 appointmentsList.appendChild(
@@ -2718,7 +3045,6 @@ async function loadAppointments() {
         );
 
     }
-
 
     catch (error) {
 
@@ -2757,9 +3083,9 @@ async function loadAppointments() {
 }
 
 
-// ======================================================
+// ============================================================
 // COPY APPOINTMENT ID
-// ======================================================
+// ============================================================
 
 async function copyAppointmentId(
     appointmentId
@@ -2791,9 +3117,9 @@ async function copyAppointmentId(
 }
 
 
-// ======================================================
+// ============================================================
 // FORMAT APPOINTMENT ID
-// ======================================================
+// ============================================================
 
 function formatAppointmentId(
     numericId
@@ -2824,9 +3150,9 @@ function formatAppointmentId(
 }
 
 
-// ======================================================
-// DATE
-// ======================================================
+// ============================================================
+// FORMAT DATE
+// ============================================================
 
 function formatDate(
     dateString
@@ -2840,10 +3166,12 @@ function formatDate(
 
 
     const parts =
-        dateString.split("-");
+        String(dateString).split("-");
 
 
-    if (parts.length !== 3) {
+    if (
+        parts.length !== 3
+    ) {
 
         return dateString;
 
@@ -2861,9 +3189,9 @@ function formatDate(
 }
 
 
-// ======================================================
+// ============================================================
 // LOCAL DATE
-// ======================================================
+// ============================================================
 
 function getLocalDateString() {
 
@@ -2904,9 +3232,9 @@ function getLocalDateString() {
 }
 
 
-// ======================================================
+// ============================================================
 // BOOKING DATE
-// ======================================================
+// ============================================================
 
 function formatBookingDate(
     dateString
@@ -2959,13 +3287,13 @@ function formatBookingDate(
 }
 
 
-// ======================================================
+// ============================================================
 // CANCEL APPOINTMENT
-// STEP 53 LOADING STATE
-// ======================================================
+// ============================================================
 
 async function cancelAppointment(
-    appointmentId
+    appointmentId,
+    clickedButton = null
 ) {
 
     if (
@@ -2973,7 +3301,6 @@ async function cancelAppointment(
     ) {
 
         return;
-
     }
 
 
@@ -2984,45 +3311,8 @@ async function cancelAppointment(
 
 
     if (!confirmCancel) {
-
         return;
-
     }
-
-
-    // Find clicked button
-    const buttons =
-        document.querySelectorAll(
-            ".cancel-appointment-btn"
-        );
-
-
-    let clickedButton = null;
-
-
-    buttons.forEach(
-        function(button) {
-
-            const onclickText =
-                button.getAttribute(
-                    "onclick"
-                );
-
-
-            if (
-                onclickText &&
-                onclickText.includes(
-                    String(appointmentId)
-                )
-            ) {
-
-                clickedButton =
-                    button;
-
-            }
-
-        }
-    );
 
 
     setButtonLoading(
@@ -3046,8 +3336,20 @@ async function cancelAppointment(
             );
 
 
-        const data =
-            await response.json();
+        let data = {};
+
+        try {
+
+            data =
+                await response.json();
+
+        }
+
+        catch (jsonError) {
+
+            data = {};
+
+        }
 
 
         if (!response.ok) {
@@ -3057,12 +3359,7 @@ async function cancelAppointment(
                 "Appointment cancellation failed."
             );
 
-            restoreButton(
-                clickedButton
-            );
-
             return;
-
         }
 
 
@@ -3074,7 +3371,6 @@ async function cancelAppointment(
         await loadAppointments();
 
     }
-
 
     catch (error) {
 
@@ -3088,6 +3384,10 @@ async function cancelAppointment(
             "Backend se connection nahi ho pa raha."
         );
 
+    }
+
+    finally {
+
         restoreButton(
             clickedButton
         );
@@ -3097,14 +3397,14 @@ async function cancelAppointment(
 }
 
 
-// ======================================================
+// ============================================================
 // EMERGENCY
-// ======================================================
+// ============================================================
 
 function showEmergency() {
 
     const panel =
-        document.getElementById(
+        getElement(
             "emergency-panel"
         );
 
@@ -3122,7 +3422,7 @@ function showEmergency() {
 function closeEmergency() {
 
     const panel =
-        document.getElementById(
+        getElement(
             "emergency-panel"
         );
 
@@ -3137,9 +3437,9 @@ function closeEmergency() {
 }
 
 
-// ======================================================
+// ============================================================
 // AMBULANCE
-// ======================================================
+// ============================================================
 
 function requestAmbulance() {
 
@@ -3151,9 +3451,7 @@ function requestAmbulance() {
 
 
     if (!confirmed) {
-
         return;
-
     }
 
 
@@ -3166,9 +3464,9 @@ function requestAmbulance() {
 }
 
 
-// ======================================================
+// ============================================================
 // FIND EMERGENCY HOSPITAL
-// ======================================================
+// ============================================================
 
 function findEmergencyHospital() {
 
@@ -3179,7 +3477,6 @@ function findEmergencyHospital() {
         );
 
         return;
-
     }
 
 
@@ -3209,7 +3506,6 @@ function findEmergencyHospital() {
         );
 
         return;
-
     }
 
 
@@ -3240,9 +3536,9 @@ function findEmergencyHospital() {
 }
 
 
-// ======================================================
+// ============================================================
 // CALL EMERGENCY
-// ======================================================
+// ============================================================
 
 function callEmergency() {
 
@@ -3252,276 +3548,259 @@ function callEmergency() {
 }
 
 
-// ======================================================
-// SAFE HTML
-// ======================================================
+// ============================================================
+// PROFILE PHOTO
+// ============================================================
 
-function escapeHTML(value) {
+function initializeProfilePhoto() {
 
-    return String(value)
-
-        .replace(
-            /&/g,
-            "&amp;"
-        )
-
-        .replace(
-            /</g,
-            "&lt;"
-        )
-
-        .replace(
-            />/g,
-            "&gt;"
-        )
-
-        .replace(
-            /"/g,
-            "&quot;"
-        )
-
-        .replace(
-            /'/g,
-            "&#039;"
+    const profilePhotoInput =
+        getElement(
+            "profilePhotoInput"
         );
 
-}
-
-
-// ======================================================
-// INITIAL AUTH
-// ======================================================
-
-function initializeAuth() {
-
-    /*
-        IMPORTANT:
-
-        Do NOT automatically open the profile modal
-        after page refresh.
-
-        Login session remains stored in localStorage,
-        but profile popup stays closed until
-        the user clicks the profile/login button.
-    */
-
-
-    if (currentUser) {
-
-        updateLoginState();
-
-
-        console.log(
-            "Existing login session:",
-            currentUser.id
+    const profilePreview =
+        getElement(
+            "profilePreview"
         );
 
+
+    if (
+        !profilePhotoInput ||
+        !profilePreview
+    ) {
+
+        return;
     }
 
-}
-
-
-// ======================================================
-// PAGE LOAD
-// ======================================================
-
-document.addEventListener(
-    "DOMContentLoaded",
-    function() {
-
-        loadHospitals();
-
-        initializeAuth();
-
-        loadAppointments();
-
-    }
-);
-
-
-/* =====================================================
-   JEEVANSETU PROFILE JAVASCRIPT
-===================================================== */
-
-
-/* PROFILE PHOTO PREVIEW */
-
-const profilePhotoInput =
-    document.getElementById("profilePhotoInput");
-
-const profilePreview =
-    document.getElementById("profilePreview");
-
-
-if (profilePhotoInput && profilePreview) {
 
     profilePhotoInput.addEventListener(
         "change",
-        function () {
+        function() {
 
-            const file = this.files[0];
+            const file =
+                this.files &&
+                this.files[0];
+
 
             if (!file) {
                 return;
             }
 
-            if (!file.type.startsWith("image/")) {
 
-                alert("Please select an image file.");
+            if (
+                !file.type.startsWith(
+                    "image/"
+                )
+            ) {
 
-                this.value = "";
+                alert(
+                    "Please select an image file."
+                );
+
+                this.value =
+                    "";
 
                 return;
             }
 
-            const reader = new FileReader();
 
-            reader.onload = function (event) {
+            const reader =
+                new FileReader();
 
-                profilePreview.src =
-                    event.target.result;
 
-            };
+            reader.onload =
+                function(event) {
 
-            reader.readAsDataURL(file);
+                    profilePreview.src =
+                        event.target.result;
+
+                };
+
+
+            reader.readAsDataURL(
+                file
+            );
 
         }
     );
+
 }
 
 
-/* EDIT PROFILE */
+// ============================================================
+// EDIT PROFILE
+// ============================================================
 
-const editProfileBtn =
-    document.getElementById("editProfileBtn");
+function initializeEditProfile() {
+
+    const editProfileBtn =
+        getElement(
+            "editProfileBtn"
+        );
 
 
-if (editProfileBtn) {
+    if (!editProfileBtn) {
+        return;
+    }
+
 
     editProfileBtn.addEventListener(
         "click",
-        function () {
+        function() {
 
             const fields =
                 document.querySelectorAll(
-                    "#profileSection input, #profileSection select, #profileSection textarea"
+                    "#profileSection input, " +
+                    "#profileSection select, " +
+                    "#profileSection textarea"
                 );
 
-            fields.forEach(function (field) {
 
-                if (field.id !== "profilePhotoInput") {
-                    field.disabled = false;
+            fields.forEach(
+                function(field) {
+
+                    if (
+                        field.id !==
+                        "profilePhotoInput"
+                    ) {
+
+                        field.disabled =
+                            false;
+
+                    }
+
                 }
+            );
 
-            });
 
-            alert("You can now edit your profile.");
+            alert(
+                "You can now edit your profile."
+            );
 
         }
     );
+
 }
 
 
-/* SAVE PROFILE */
+// ============================================================
+// SAVE PROFILE
+// ============================================================
 
-const saveProfileBtn =
-    document.getElementById("saveProfileBtn");
+function initializeSaveProfile() {
+
+    const saveProfileBtn =
+        getElement(
+            "saveProfileBtn"
+        );
 
 
-if (saveProfileBtn) {
+    if (!saveProfileBtn) {
+        return;
+    }
+
 
     saveProfileBtn.addEventListener(
         "click",
-        function () {
+        function() {
+
+            const getValue =
+                function(id) {
+
+                    const element =
+                        getElement(id);
+
+                    return element
+                        ? element.value
+                        : "";
+
+                };
+
 
             const profileData = {
 
                 firstName:
-                    document.getElementById(
+                    getValue(
                         "profileFirstName"
-                    )?.value || "",
+                    ),
 
                 lastName:
-                    document.getElementById(
+                    getValue(
                         "profileLastName"
-                    )?.value || "",
+                    ),
 
                 mobile:
-                    document.getElementById(
+                    getValue(
                         "profileMobile"
-                    )?.value || "",
+                    ),
 
                 email:
-                    document.getElementById(
+                    getValue(
                         "profileEmail"
-                    )?.value || "",
+                    ),
 
                 dob:
-                    document.getElementById(
+                    getValue(
                         "profileDOB"
-                    )?.value || "",
+                    ),
 
                 gender:
-                    document.getElementById(
+                    getValue(
                         "profileGender"
-                    )?.value || "",
+                    ),
 
                 address:
-                    document.getElementById(
+                    getValue(
                         "profileAddress"
-                    )?.value || "",
+                    ),
 
                 city:
-                    document.getElementById(
+                    getValue(
                         "profileCity"
-                    )?.value || "",
+                    ),
 
                 state:
-                    document.getElementById(
+                    getValue(
                         "profileState"
-                    )?.value || "",
+                    ),
 
                 pin:
-                    document.getElementById(
+                    getValue(
                         "profilePin"
-                    )?.value || "",
+                    ),
 
                 bloodGroup:
-                    document.getElementById(
+                    getValue(
                         "profileBloodGroup"
-                    )?.value || "",
+                    ),
 
                 height:
-                    document.getElementById(
+                    getValue(
                         "profileHeight"
-                    )?.value || "",
+                    ),
 
                 weight:
-                    document.getElementById(
+                    getValue(
                         "profileWeight"
-                    )?.value || "",
+                    ),
 
                 emergencyName:
-                    document.getElementById(
+                    getValue(
                         "emergencyContactName"
-                    )?.value || "",
+                    ),
 
                 emergencyNumber:
-                    document.getElementById(
+                    getValue(
                         "emergencyContactNumber"
-                    )?.value || ""
+                    )
+
             };
 
 
-            /*
-             * Temporary local save.
-             * Later this can be connected
-             * to your Node.js backend.
-             */
-
-            localStorage.setItem(
+            setLocalStorageJSON(
                 "jeevansetuProfile",
-                JSON.stringify(profileData)
+                profileData
             );
 
 
@@ -3531,10 +3810,13 @@ if (saveProfileBtn) {
 
         }
     );
+
 }
 
 
-/* LOAD SAVED PROFILE */
+// ============================================================
+// LOAD PROFILE
+// ============================================================
 
 function loadJeevanSetuProfile() {
 
@@ -3543,52 +3825,90 @@ function loadJeevanSetuProfile() {
             "jeevansetuProfile"
         );
 
+
     if (!savedProfile) {
         return;
     }
 
+
     try {
 
         const data =
-            JSON.parse(savedProfile);
+            JSON.parse(
+                savedProfile
+            );
 
 
         const fields = {
 
-            profileFirstName: data.firstName,
-            profileLastName: data.lastName,
-            profileMobile: data.mobile,
-            profileEmail: data.email,
-            profileDOB: data.dob,
-            profileGender: data.gender,
-            profileAddress: data.address,
-            profileCity: data.city,
-            profileState: data.state,
-            profilePin: data.pin,
-            profileBloodGroup: data.bloodGroup,
-            profileHeight: data.height,
-            profileWeight: data.weight,
-            emergencyContactName: data.emergencyName,
-            emergencyContactNumber: data.emergencyNumber
+            profileFirstName:
+                data.firstName,
+
+            profileLastName:
+                data.lastName,
+
+            profileMobile:
+                data.mobile,
+
+            profileEmail:
+                data.email,
+
+            profileDOB:
+                data.dob,
+
+            profileGender:
+                data.gender,
+
+            profileAddress:
+                data.address,
+
+            profileCity:
+                data.city,
+
+            profileState:
+                data.state,
+
+            profilePin:
+                data.pin,
+
+            profileBloodGroup:
+                data.bloodGroup,
+
+            profileHeight:
+                data.height,
+
+            profileWeight:
+                data.weight,
+
+            emergencyContactName:
+                data.emergencyName,
+
+            emergencyContactNumber:
+                data.emergencyNumber
 
         };
 
 
         Object.keys(fields).forEach(
-            function (id) {
+            function(id) {
 
                 const element =
-                    document.getElementById(id);
+                    getElement(id);
+
 
                 if (element) {
+
                     element.value =
                         fields[id] || "";
+
                 }
 
             }
         );
 
-    } catch (error) {
+    }
+
+    catch (error) {
 
         console.error(
             "Could not load profile:",
@@ -3596,29 +3916,30 @@ function loadJeevanSetuProfile() {
         );
 
     }
+
 }
 
 
-/* LOAD PROFILE WHEN PAGE OPENS */
+// ============================================================
+// CHANGE PASSWORD BUTTON
+// ============================================================
 
-document.addEventListener(
-    "DOMContentLoaded",
-    loadJeevanSetuProfile
-);
+function initializeChangePassword() {
+
+    const changePasswordBtn =
+        getElement(
+            "changePasswordBtn"
+        );
 
 
-/* CHANGE PASSWORD */
+    if (!changePasswordBtn) {
+        return;
+    }
 
-const changePasswordBtn =
-    document.getElementById(
-        "changePasswordBtn"
-    );
-
-if (changePasswordBtn) {
 
     changePasswordBtn.addEventListener(
         "click",
-        function () {
+        function() {
 
             alert(
                 "Change Password feature will be connected to the account system."
@@ -3628,3 +3949,146 @@ if (changePasswordBtn) {
     );
 
 }
+
+
+// ============================================================
+// SEARCH BUTTON
+// ============================================================
+
+function initializeSearchButton() {
+
+    const searchButton =
+        document.querySelector(
+            ".search-btn"
+        );
+
+    const serviceSelect =
+        getElement(
+            "service-select"
+        );
+
+
+    if (!searchButton) {
+        return;
+    }
+
+
+    searchButton.addEventListener(
+        "click",
+        async function() {
+
+            const selectedService =
+                serviceSelect
+                    ? serviceSelect.value
+                    : "";
+
+
+            if (!selectedService) {
+
+                alert(
+                    "Please select a healthcare service first."
+                );
+
+                return;
+            }
+
+
+            setButtonLoading(
+                searchButton,
+                "🔄 Searching..."
+            );
+
+
+            try {
+
+                await showHospitals(
+                    selectedService
+                );
+
+            }
+
+            finally {
+
+                restoreButton(
+                    searchButton
+                );
+
+            }
+
+        }
+    );
+
+}
+
+
+// ============================================================
+// INITIALIZE EVERYTHING
+// ============================================================
+
+function initializeJeevanSetu() {
+
+    console.log(
+        "JeevanSetu JavaScript initialized."
+    );
+
+
+    // Stored login
+    initializeStoredUser();
+
+
+    // Authentication UI
+    updateLoginState();
+
+
+    // Hospital data
+    loadHospitals();
+
+
+    // Appointments
+    loadAppointments();
+
+
+    // Search
+    initializeSearchButton();
+
+
+    // Profile
+    initializeProfilePhoto();
+
+    initializeEditProfile();
+
+    initializeSaveProfile();
+
+    initializeChangePassword();
+
+    loadJeevanSetuProfile();
+
+}
+
+
+// ============================================================
+// PAGE LOAD
+// ============================================================
+
+if (
+    document.readyState ===
+    "loading"
+) {
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        initializeJeevanSetu
+    );
+
+}
+
+else {
+
+    initializeJeevanSetu();
+
+}
+
+
+// ============================================================
+// END OF JEEVANSETU JAVASCRIPT
+// ============================================================
