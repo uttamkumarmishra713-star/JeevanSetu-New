@@ -1,6 +1,6 @@
 /* =========================================================
-   JEEVANSETU - COMPLETE STYLE.CSS
-   Compatible with current HTML
+   JEEVANSETU - NEW STYLE.CSS
+   Compatible with JeevanSetu HTML + JavaScript
 ========================================================= */
 
 * {
@@ -17,6 +17,7 @@ body {
     font-family: Arial, Helvetica, sans-serif;
     background: #f4f8fb;
     color: #17202a;
+    line-height: 1.5;
 }
 
 /* =========================================================
@@ -24,21 +25,32 @@ body {
 ========================================================= */
 
 .navbar {
-    background: #ffffff;
-    padding: 16px 7%;
+    width: 100%;
+    min-height: 68px;
+    padding: 14px 7%;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    justify-content: space-between;
+    gap: 20px;
+
     position: sticky;
     top: 0;
     z-index: 1000;
+
+    background: rgba(255, 255, 255, 0.97);
+    border-bottom: 1px solid #e5ecef;
+    box-shadow: 0 3px 15px rgba(15, 23, 42, 0.07);
+
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
 }
 
 .logo {
+    color: #17202a;
     font-size: 25px;
     font-weight: 700;
-    color: #17202a;
+    white-space: nowrap;
+    cursor: pointer;
 }
 
 .logo span {
@@ -47,17 +59,41 @@ body {
 
 .nav-links {
     display: flex;
-    gap: 25px;
+    align-items: center;
+    gap: 6px;
 }
 
 .nav-links a {
-    text-decoration: none;
+    position: relative;
+    padding: 9px 12px;
     color: #344054;
-    font-size: 15px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 8px;
+    transition: 0.2s ease;
 }
 
 .nav-links a:hover {
     color: #087f78;
+    background: #effaf8;
+}
+
+.nav-links a::after {
+    content: "";
+    position: absolute;
+    left: 12px;
+    right: 12px;
+    bottom: 3px;
+    height: 2px;
+    background: #087f78;
+    border-radius: 2px;
+    transform: scaleX(0);
+    transition: 0.2s ease;
+}
+
+.nav-links a:hover::after {
+    transform: scaleX(1);
 }
 
 /* =========================================================
@@ -67,7 +103,7 @@ body {
 .auth-area {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 9px;
 }
 
 .auth-area button {
@@ -75,37 +111,61 @@ body {
     cursor: pointer;
 }
 
-.auth-login-btn {
-    padding: 10px 18px;
-    border: 1px solid #b7ddd9 !important;
-    border-radius: 9px !important;
-    background: #ffffff !important;
-    color: #087f78 !important;
+.auth-login-btn,
+.auth-register-btn,
+.auth-profile-btn,
+.auth-logout-btn {
+    min-height: 40px;
+    padding: 9px 16px;
+    border-radius: 9px;
     font-size: 14px;
     font-weight: 600;
     transition: 0.2s ease;
 }
 
+.auth-login-btn {
+    background: #ffffff;
+    color: #087f78;
+    border: 1px solid #b7ddd9;
+}
+
 .auth-login-btn:hover {
-    background: #effaf8 !important;
+    background: #effaf8;
     transform: translateY(-1px);
 }
 
 .auth-register-btn {
-    padding: 10px 19px;
-    border: none !important;
-    border-radius: 9px !important;
-    background: #087f78 !important;
-    color: #ffffff !important;
-    font-size: 14px;
-    font-weight: 600;
-    transition: 0.2s ease;
+    background: #087f78;
+    color: #ffffff;
+    border: 1px solid #087f78;
 }
 
 .auth-register-btn:hover {
-    background: #066a65 !important;
+    background: #066a65;
     transform: translateY(-1px);
-    box-shadow: 0 5px 15px rgba(8, 127, 120, 0.22);
+    box-shadow: 0 5px 15px rgba(8, 127, 120, 0.2);
+}
+
+.auth-profile-btn {
+    background: #effaf8;
+    color: #087f78;
+    border: 1px solid #b7ddd9;
+}
+
+.auth-profile-btn:hover {
+    background: #dff5f1;
+    transform: translateY(-1px);
+}
+
+.auth-logout-btn {
+    background: #fff3f3;
+    color: #c62828;
+    border: 1px solid #efc5c5;
+}
+
+.auth-logout-btn:hover {
+    background: #c62828;
+    color: #ffffff;
 }
 
 /* =========================================================
@@ -114,34 +174,42 @@ body {
 
 .auth-modal {
     display: none;
+
     position: fixed;
     inset: 0;
+    z-index: 10000;
+
     width: 100%;
     height: 100%;
-    background: rgba(15, 23, 42, 0.62);
+
+    padding: 20px;
+
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(15, 23, 42, 0.65);
+
     backdrop-filter: blur(5px);
     -webkit-backdrop-filter: blur(5px);
-    z-index: 10000;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
 }
-
-/* =========================================================
-   AUTH BOX
-========================================================= */
 
 .auth-box {
     position: relative;
+
     width: 100%;
     max-width: 430px;
     max-height: 92vh;
+
     overflow-y: auto;
-    background: #ffffff;
-    border-radius: 20px;
+
     padding: 34px;
+
+    background: #ffffff;
     border: 1px solid #e4ebf0;
-    box-shadow: 0 25px 70px rgba(0, 0, 0, 0.20);
+    border-radius: 20px;
+
+    box-shadow: 0 25px 70px rgba(0, 0, 0, 0.2);
+
     animation: authPopup 0.22s ease;
 }
 
@@ -158,24 +226,30 @@ body {
 }
 
 /* =========================================================
-   CLOSE BUTTON
+   AUTH CLOSE
 ========================================================= */
 
 .auth-close-btn {
     position: absolute;
     top: 14px;
     right: 14px;
+
     width: 32px !important;
     height: 32px !important;
+
     padding: 0 !important;
     margin: 0 !important;
+
     display: flex;
     align-items: center;
     justify-content: center;
+
     border: none !important;
     border-radius: 50% !important;
+
     background: #f1f5f9 !important;
     color: #64748b !important;
+
     font-size: 17px;
     cursor: pointer;
 }
@@ -197,7 +271,6 @@ body {
     text-align: center;
     color: #17202a;
     font-size: 27px;
-    font-weight: 700;
     margin-bottom: 8px;
 }
 
@@ -209,23 +282,24 @@ body {
     margin-bottom: 23px;
 }
 
-/* =========================================================
-   AUTH INPUTS
-========================================================= */
-
 .auth-form input {
     display: block;
     width: 100%;
     height: 48px;
+
     padding: 0 15px;
-    margin: 0 0 13px 0;
-    border: 1px solid #d7e0e7 !important;
-    border-radius: 10px !important;
+    margin-bottom: 13px;
+
     background: #f8fafc !important;
     color: #17202a !important;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 14px;
+
+    border: 1px solid #d7e0e7 !important;
+    border-radius: 10px !important;
+
     outline: none;
+    font-family: inherit;
+    font-size: 14px;
+
     transition: 0.2s ease;
 }
 
@@ -236,28 +310,28 @@ body {
 .auth-form input:focus {
     background: #ffffff !important;
     border-color: #087f78 !important;
-    box-shadow: 0 0 0 3px rgba(8, 127, 120, 0.10);
+    box-shadow: 0 0 0 3px rgba(8, 127, 120, 0.1);
 }
 
 /* =========================================================
-   MAIN AUTH BUTTON
+   AUTH SUBMIT
 ========================================================= */
 
 .auth-submit-btn {
     width: 100%;
     height: 48px;
+
     margin-top: 5px;
-    padding: 0 15px;
+
     border: none !important;
     border-radius: 10px !important;
-    background: linear-gradient(
-        135deg,
-        #087f78,
-        #066a65
-    ) !important;
+
+    background: linear-gradient(135deg, #087f78, #066a65) !important;
     color: #ffffff !important;
+
     font-size: 15px;
     font-weight: 700;
+
     cursor: pointer;
     transition: 0.2s ease;
 }
@@ -269,52 +343,43 @@ body {
 
 /* =========================================================
    FORGOT LINKS
-   IMPORTANT:
-   HTML uses .forgot-links
 ========================================================= */
 
 .forgot-links {
     width: 100%;
+
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 8px;
+
     margin: 17px 0 4px;
 }
 
 .forgot-links button {
-    appearance: none !important;
-    -webkit-appearance: none !important;
-    display: inline-flex !important;
-    align-items: center;
-    justify-content: center;
     width: auto !important;
     min-width: 0 !important;
     height: auto !important;
-    margin: 0 !important;
+
     padding: 7px 9px !important;
+    margin: 0 !important;
+
     border: 1px solid transparent !important;
     border-radius: 8px !important;
+
     background: transparent !important;
     color: #087f78 !important;
-    font-family: Arial, Helvetica, sans-serif !important;
+
     font-size: 13px !important;
     font-weight: 600 !important;
-    line-height: 1.2;
+
     cursor: pointer;
     box-shadow: none !important;
-    transition: 0.2s ease;
 }
 
 .forgot-links button:hover {
     background: #effaf8 !important;
-    color: #066a65 !important;
     border-color: #c7e6e2 !important;
-}
-
-.forgot-links button:active {
-    background: #e1f4f1 !important;
-    transform: scale(0.98);
 }
 
 /* =========================================================
@@ -324,62 +389,38 @@ body {
 .auth-switch {
     text-align: center;
     margin-top: 18px !important;
-    margin-bottom: 0 !important;
     color: #718096 !important;
     font-size: 13px !important;
 }
 
 .auth-switch button {
-    appearance: none;
+    padding: 0 !important;
+    margin-left: 3px !important;
+
     border: none !important;
     background: transparent !important;
+
     color: #087f78 !important;
     font-size: 13px !important;
     font-weight: 700;
+
     cursor: pointer;
-    padding: 0 !important;
-    margin-left: 3px !important;
-    box-shadow: none !important;
 }
 
 .auth-switch button:hover {
     text-decoration: underline;
 }
 
-/* =========================================================
-   RECOVERY RESULT
-========================================================= */
-
 .recovery-result {
     min-height: 20px;
-    text-align: center !important;
-    margin-top: 12px !important;
-    margin-bottom: 5px !important;
-    font-size: 13px !important;
+    text-align: center;
+    margin-top: 12px;
+    font-size: 13px;
     line-height: 1.5;
 }
 
 /* =========================================================
-   OTP SECTION
-========================================================= */
-
-#forgot-id-otp-section,
-#forgot-password-otp-section {
-    margin-top: 8px;
-}
-
-#forgot-id-otp-section input,
-#forgot-password-otp-section input {
-    margin-top: 12px;
-}
-
-#forgot-id-otp-section .auth-submit-btn,
-#forgot-password-otp-section .auth-submit-btn {
-    margin-top: 2px;
-}
-
-/* =========================================================
-   USER PROFILE
+   PROFILE POPUP
 ========================================================= */
 
 .user-profile {
@@ -389,13 +430,17 @@ body {
 .profile-icon {
     width: 72px;
     height: 72px;
+
     margin: 0 auto 15px;
+
     display: flex;
     align-items: center;
     justify-content: center;
+
     background: #effaf8;
     border: 1px solid #c7e6e2;
     border-radius: 50%;
+
     font-size: 33px;
 }
 
@@ -412,21 +457,16 @@ body {
     margin-bottom: 20px !important;
 }
 
-/* =========================================================
-   USER ID BOX
-========================================================= */
-
 .user-id-box {
     width: 100%;
     padding: 16px;
     margin-bottom: 17px;
-    background: linear-gradient(
-        135deg,
-        #effaf8,
-        #f1f7ff
-    );
+
+    background: linear-gradient(135deg, #effaf8, #f1f7ff);
+
     border: 1px solid #d4e7e4;
     border-radius: 12px;
+
     text-align: left;
 }
 
@@ -450,54 +490,29 @@ body {
     letter-spacing: 0.5px;
 }
 
-/* =========================================================
-   COPY ID
-========================================================= */
-
 .copy-id-btn {
     width: auto !important;
     min-width: 80px;
     height: 34px !important;
+
     margin: 0 !important;
     padding: 0 11px !important;
+
     border: 1px solid #b7ddd9 !important;
     border-radius: 7px !important;
+
     background: #ffffff !important;
     color: #087f78 !important;
+
     font-size: 12px !important;
     font-weight: 600 !important;
+
     cursor: pointer;
-    transition: 0.2s ease;
 }
 
 .copy-id-btn:hover {
     background: #087f78 !important;
     color: #ffffff !important;
-    border-color: #087f78 !important;
-    transform: translateY(-1px);
-}
-
-/* =========================================================
-   LOGOUT
-========================================================= */
-
-.logout-btn {
-    width: 100%;
-    height: 45px;
-    border: 1px solid #efc5c5;
-    border-radius: 9px;
-    background: #fff5f5;
-    color: #c62828;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: 0.2s ease;
-}
-
-.logout-btn:hover {
-    background: #c62828;
-    color: #ffffff;
-    border-color: #c62828;
 }
 
 /* =========================================================
@@ -507,15 +522,13 @@ body {
 .hero {
     padding: 80px 7%;
     text-align: center;
-    background: linear-gradient(
-        135deg,
-        #e7f8f5,
-        #eef5ff
-    );
+
+    background: linear-gradient(135deg, #e7f8f5, #eef5ff);
 }
 
 .hero h1 {
     font-size: 48px;
+    line-height: 1.2;
     margin-bottom: 15px;
 }
 
@@ -524,9 +537,11 @@ body {
 }
 
 .hero p {
-    font-size: 19px;
+    max-width: 750px;
+    margin: 0 auto 35px;
+
     color: #555;
-    margin-bottom: 35px;
+    font-size: 19px;
 }
 
 /* =========================================================
@@ -534,31 +549,47 @@ body {
 ========================================================= */
 
 .search-box {
+    width: 100%;
     max-width: 700px;
+
     margin: auto;
     padding: 25px;
+
     background: #ffffff;
     border-radius: 12px;
-    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.10);
+
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
 }
 
 .search-box select {
     width: 65%;
     padding: 14px;
+
     border: 1px solid #ddd;
     border-radius: 7px;
+
     font-size: 16px;
+    outline: none;
+}
+
+.search-box select:focus {
+    border-color: #087f78;
 }
 
 .search-btn {
     padding: 14px 25px;
+
+    margin-left: 8px;
+
     border: none;
     border-radius: 7px;
+
     background: #087f78;
     color: #ffffff;
-    cursor: pointer;
+
     font-size: 16px;
-    margin-left: 8px;
+    cursor: pointer;
+    transition: 0.2s ease;
 }
 
 .search-btn:hover {
@@ -589,15 +620,20 @@ body {
 }
 
 /* =========================================================
-   HOSPITAL GRID
+   HOSPITAL LIST
 ========================================================= */
 
 .hospital-list {
+    width: 100%;
+    max-width: 1100px;
+
+    margin: auto;
+
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
-    max-width: 1100px;
-    margin: auto;
+
+    align-items: stretch;
 }
 
 /* =========================================================
@@ -605,66 +641,259 @@ body {
 ========================================================= */
 
 .hospital-card {
-    background: #f8fafc;
-    border: 1px solid #e5e7eb;
-    border-radius: 12px;
-    padding: 25px;
-    transition: 0.2s;
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+
+    padding: 24px;
+
+    background: #ffffff;
+
+    border: 1px solid #e3e9ee;
+    border-radius: 16px;
+
+    box-shadow: 0 4px 16px rgba(23, 32, 42, 0.06);
+
+    overflow: hidden;
+
+    transition: 0.22s ease;
+}
+
+.hospital-card::before {
+    content: "";
+
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 4px;
+
+    background: linear-gradient(90deg, #087f78, #22a69a);
 }
 
 .hospital-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 7px 18px rgba(0, 0, 0, 0.07);
+    transform: translateY(-4px);
+
+    border-color: #c9e2df;
+
+    box-shadow: 0 12px 30px rgba(23, 32, 42, 0.1);
 }
 
 .hospital-card h3 {
-    margin-bottom: 10px;
-    font-size: 18px;
+    position: relative;
+
+    margin: 4px 0 15px;
+    padding: 0 0 13px 12px;
+
+    color: #17202a;
+
+    font-size: 20px;
+    line-height: 1.35;
+
+    border-bottom: 1px solid #edf1f3;
+}
+
+.hospital-card h3::before {
+    content: "";
+
+    position: absolute;
+    left: 0;
+    top: 4px;
+
+    width: 3px;
+    height: calc(100% - 8px);
+
+    min-height: 18px;
+
+    background: #087f78;
+    border-radius: 4px;
 }
 
 .hospital-card p {
-    margin: 7px 0;
-    color: #555;
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+
+    margin: 8px 0;
+
+    color: #59636d;
+
     font-size: 14px;
+    line-height: 1.55;
 }
 
-.hospital-card button {
-    margin-top: 18px;
-    width: 100%;
-    padding: 11px;
-    border: none;
-    border-radius: 7px;
-    background: #087f78;
-    color: #ffffff;
-    cursor: pointer;
-    font-size: 15px;
-}
+.hospital-card p strong {
+    flex-shrink: 0;
+    min-width: 82px;
 
-.hospital-card button:hover {
-    background: #066a65;
+    color: #087f78;
+    font-weight: 700;
 }
-
-/* =========================================================
-   APPOINTMENT INPUT
-========================================================= */
 
 .hospital-card input {
-    display: block;
     width: 100%;
-    height: 48px;
-    padding: 12px 15px;
-    margin-top: 14px;
-    border: 1px solid #d1d5db;
-    border-radius: 8px;
-    background: #ffffff;
-    color: #1f2937;
-    font-size: 15px;
+    height: 46px;
+
+    margin-top: auto;
+    margin-bottom: 2px;
+
+    padding: 0 14px;
+
+    background: #f8fafc;
+
+    border: 1px solid #d9e1e7;
+    border-radius: 9px;
+
+    color: #17202a;
+
+    font-family: inherit;
+    font-size: 14px;
+
     outline: none;
+
+    transition: 0.2s ease;
+}
+
+.hospital-card input::placeholder {
+    color: #9aa5b1;
+}
+
+.hospital-card input:hover {
+    border-color: #b8d4d1;
 }
 
 .hospital-card input:focus {
+    background: #ffffff;
     border-color: #087f78;
-    box-shadow: 0 0 0 3px rgba(8, 127, 120, 0.12);
+
+    box-shadow: 0 0 0 3px rgba(8, 127, 120, 0.1);
+}
+
+.hospital-card button {
+    width: 100%;
+    min-height: 44px;
+
+    margin-top: 15px;
+    padding: 11px 16px;
+
+    border: none;
+    border-radius: 9px;
+
+    background: #087f78;
+    color: #ffffff;
+
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.18s ease;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hospital-card button:hover:not(:disabled) {
+    background: #066a65;
+    transform: translateY(-1px);
+    box-shadow: 0 5px 14px rgba(8, 127, 120, 0.18);
+}
+
+.hospital-card button:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.hospital-card button:disabled {
+    opacity: 1;
+    background: #e2e8f0;
+    color: #94a3b8;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+/* =========================================================
+   STATUS BADGE
+========================================================= */
+
+.hospital-card .status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+
+    width: fit-content;
+
+    margin-bottom: 12px;
+    padding: 5px 10px;
+
+    background: #ecfdf5;
+    color: #087f78;
+
+    border: 1px solid #c8ebe5;
+    border-radius: 20px;
+
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.hospital-card .status-badge::before {
+    content: "";
+
+    width: 6px;
+    height: 6px;
+
+    background: #10a37f;
+    border-radius: 50%;
+}
+
+.hospital-card .status-badge.unavailable {
+    background: #fff7ed;
+    color: #c2410c;
+    border-color: #fed7aa;
+}
+
+.hospital-card .status-badge.unavailable::before {
+    background: #f97316;
+}
+
+/* =========================================================
+   BACK BUTTON
+========================================================= */
+
+.back-button,
+.hospital-card .back-button {
+    width: auto !important;
+    min-width: 170px;
+
+    margin: 0 0 18px 0 !important;
+    padding: 10px 17px !important;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+
+    background: #f4f8f8 !important;
+    color: #087f78 !important;
+
+    border: 1px solid #c9e2df !important;
+    border-radius: 9px !important;
+
+    font-size: 13px !important;
+    font-weight: 600;
+
+    box-shadow: none !important;
+}
+
+.back-button:hover {
+    background: #e7f5f3 !important;
+    color: #066a65 !important;
+    border-color: #a9d6d0 !important;
+
+    transform: none !important;
 }
 
 /* =========================================================
@@ -672,18 +901,23 @@ body {
 ========================================================= */
 
 .appointments-section {
+    width: 100%;
     max-width: 1100px;
+
     margin: 0 auto 40px;
     padding: 22px;
+
     background: #f8fafc;
+
     border: 1px solid #e3e8e8;
     border-radius: 12px;
 }
 
 .appointments-header {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
+
     margin-bottom: 18px;
 }
 
@@ -694,36 +928,48 @@ body {
 }
 
 .appointment-card {
+    min-height: 145px;
+
+    padding: 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 18px;
+
     background: #ffffff;
+
     border: 1px solid #e1e7e7;
     border-radius: 12px;
-    padding: 20px;
-    min-height: 145px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 18px;
+
     box-shadow: 0 3px 12px rgba(0, 0, 0, 0.05);
 }
 
 .appointment-card h3 {
     margin-bottom: 7px;
+
     color: #087f78;
     font-size: 16px;
 }
 
 .appointment-card p {
     margin: 4px 0;
+
     color: #59636d;
     font-size: 13px;
 }
 
 .appointment-status {
     display: inline-block;
+
     padding: 4px 10px;
-    border-radius: 20px;
+
     background: #e6f6f3;
     color: #08756f;
+
+    border-radius: 20px;
+
     font-size: 11px;
     font-weight: bold;
 }
@@ -732,14 +978,14 @@ body {
     display: flex;
     align-items: center;
     gap: 10px;
+
+    width: fit-content;
+
     margin-top: 12px;
     padding: 9px 10px;
-    width: fit-content;
-    background: linear-gradient(
-        135deg,
-        #e7f8f5,
-        #eef8ff
-    );
+
+    background: linear-gradient(135deg, #e7f8f5, #eef8ff);
+
     border: 1px solid #c5e4e0;
     border-radius: 10px;
 }
@@ -747,11 +993,15 @@ body {
 .appointment-id-text {
     display: inline-flex;
     align-items: center;
+
     padding: 6px 9px;
+
     background: #ffffff;
     color: #087f78;
+
     border: 1px solid #c9e5e2;
     border-radius: 7px;
+
     font-size: 14px;
     font-weight: 800;
 }
@@ -759,12 +1009,16 @@ body {
 .cancel-appointment-btn {
     width: auto !important;
     min-width: 105px;
+
     margin: 0 !important;
     padding: 9px 13px !important;
+
     background: #fff2f2 !important;
     color: #c62828 !important;
+
     border: 1px solid #efc5c5 !important;
     border-radius: 7px !important;
+
     font-size: 12px !important;
 }
 
@@ -789,20 +1043,34 @@ body {
 }
 
 .service-grid {
+    width: 100%;
+    max-width: 1100px;
+
+    margin: auto;
+
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 20px;
-    max-width: 1100px;
-    margin: auto;
 }
 
 .service-card {
-    background: #ffffff;
     padding: 30px 20px;
-    border-radius: 12px;
+
     text-align: center;
+
+    background: #ffffff;
+
     border: 1px solid #e7ebee;
+    border-radius: 12px;
+
     box-shadow: 0 3px 15px rgba(0, 0, 0, 0.07);
+
+    transition: 0.2s ease;
+}
+
+.service-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.09);
 }
 
 .service-card .icon {
@@ -827,10 +1095,13 @@ body {
 .emergency {
     margin: 10px 7% 60px;
     padding: 30px;
+
+    text-align: center;
+
     background: #fff0f0;
+
     border: 1px solid #ffd0d0;
     border-radius: 12px;
-    text-align: center;
 }
 
 .emergency h2 {
@@ -841,11 +1112,19 @@ body {
 .emergency button {
     margin-top: 15px;
     padding: 12px 25px;
+
     border: none;
     border-radius: 7px;
+
     background: #d32f2f;
     color: #ffffff;
+
     cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.emergency button:hover {
+    background: #b71c1c;
 }
 
 /* =========================================================
@@ -854,25 +1133,36 @@ body {
 
 #emergency-panel {
     display: none;
+
     position: fixed;
     inset: 0;
+    z-index: 9999;
+
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.6);
-    z-index: 9999;
-    justify-content: center;
-    align-items: center;
+
     padding: 20px;
+
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(0, 0, 0, 0.6);
 }
 
 .emergency-box {
     position: relative;
+
     width: 90%;
     max-width: 450px;
-    background: #ffffff;
+
     padding: 35px;
-    border-radius: 15px;
+
     text-align: center;
+
+    background: #ffffff;
+
+    border-radius: 15px;
+
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
 }
 
@@ -880,12 +1170,16 @@ body {
     position: absolute;
     top: 12px;
     right: 12px;
+
     width: 32px;
     height: 32px;
+
     border: none;
     border-radius: 50%;
+
     background: #f1f5f9;
     color: #64748b;
+
     cursor: pointer;
 }
 
@@ -895,13 +1189,18 @@ body {
 
 .emergency-box button:not(.close-btn) {
     display: block;
+
     width: 100%;
+
     margin-top: 12px;
     padding: 12px;
+
     border: none;
     border-radius: 8px;
+
     background: #d32f2f;
     color: #ffffff;
+
     cursor: pointer;
     font-size: 14px;
 }
@@ -911,209 +1210,7 @@ body {
 }
 
 /* =========================================================
-   FOOTER
-========================================================= */
-
-footer {
-    background: #17202a;
-    color: #ffffff;
-    text-align: center;
-    padding: 25px;
-}
-
-footer p {
-    margin: 5px 0;
-}
-
-/* =========================================================
-   BACK BUTTON
-========================================================= */
-
-.back-button {
-    width: auto !important;
-    min-width: 190px;
-    margin: 0 0 22px 0 !important;
-    padding: 12px 20px !important;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    background: #e7f8f5 !important;
-    color: #087f78 !important;
-    border: 1px solid #b9e5df !important;
-    border-radius: 9px !important;
-    font-size: 14px !important;
-    font-weight: 600;
-    cursor: pointer;
-}
-
-.back-button:hover {
-    background: #087f78 !important;
-    color: #ffffff !important;
-    border-color: #087f78 !important;
-}
-
-/* =========================================================
-   TABLET
-========================================================= */
-
-@media (max-width: 900px) {
-
-    .hospital-list {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .service-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    #appointments-list {
-        grid-template-columns: 1fr;
-    }
-
-    .hero h1 {
-        font-size: 40px;
-    }
-}
-
-/* =========================================================
-   MOBILE
-========================================================= */
-
-@media (max-width: 600px) {
-
-    .navbar {
-        padding: 14px 5%;
-    }
-
-    .logo {
-        font-size: 21px;
-    }
-
-    .nav-links {
-        display: none;
-    }
-
-    .auth-area {
-        gap: 6px;
-    }
-
-    .auth-login-btn,
-    .auth-register-btn {
-        padding: 8px 11px !important;
-        font-size: 12px !important;
-    }
-
-    .hero {
-        padding: 55px 5%;
-    }
-
-    .hero h1 {
-        font-size: 30px;
-    }
-
-    .hero p {
-        font-size: 15px;
-    }
-
-    .search-box {
-        padding: 15px;
-    }
-
-    .search-box select {
-        width: 100%;
-        margin-bottom: 10px;
-    }
-
-    .search-btn {
-        width: 100%;
-        margin-left: 0;
-    }
-
-    .results {
-        padding: 45px 5%;
-    }
-
-    .hospital-list {
-        grid-template-columns: 1fr;
-    }
-
-    .appointments-section {
-        padding: 18px;
-    }
-
-    .appointments-header {
-        display: block;
-    }
-
-    .appointment-card {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    .cancel-appointment-btn {
-        width: 100% !important;
-    }
-
-    .appointment-reference {
-        width: 100%;
-        justify-content: space-between;
-    }
-
-    .services {
-        padding: 50px 5%;
-    }
-
-    .service-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .emergency {
-        margin: 35px 5% 45px;
-    }
-
-    .auth-box {
-        width: 100%;
-        max-width: 100%;
-        padding: 30px 20px;
-    }
-
-    .forgot-links {
-        gap: 4px;
-    }
-
-    .forgot-links button {
-        font-size: 12px !important;
-        padding: 7px 6px !important;
-    }
-}
-
-/* =========================================================
-   SMALL MOBILE
-========================================================= */
-
-@media (max-width: 400px) {
-
-    .auth-box {
-        padding: 27px 17px;
-    }
-
-    .forgot-links {
-        flex-direction: column;
-        gap: 3px;
-    }
-
-    .forgot-links button {
-        font-size: 12px !important;
-        padding: 6px 8px !important;
-    }
-
-    .forgot-links button:first-child {
-        margin-bottom: 0 !important;
-    }
-}
-/* =========================================================
-   STEP 53 - LOADING STATES
+   LOADING
 ========================================================= */
 
 .is-loading {
@@ -1122,27 +1219,32 @@ footer p {
     pointer-events: none;
 }
 
-
-/* Hospital loading */
-
 .loading-card {
     grid-column: 1 / -1;
+
     min-height: 190px;
+
     padding: 35px 20px;
+
     background: #ffffff;
+
     border: 1px solid #e3e8ed;
     border-radius: 12px;
+
     text-align: center;
+
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+
     box-shadow: 0 3px 15px rgba(0, 0, 0, 0.05);
 }
 
 .loading-card h3 {
     margin-top: 15px;
     margin-bottom: 6px;
+
     color: #17202a;
     font-size: 17px;
 }
@@ -1152,20 +1254,19 @@ footer p {
     font-size: 13px;
 }
 
-
-/* Spinner */
-
 .loading-spinner {
     width: 38px;
     height: 38px;
+
     border: 4px solid #dcefeb;
     border-top-color: #087f78;
+
     border-radius: 50%;
+
     animation: jeevanSetuSpin 0.8s linear infinite;
 }
 
 @keyframes jeevanSetuSpin {
-
     from {
         transform: rotate(0deg);
     }
@@ -1173,23 +1274,24 @@ footer p {
     to {
         transform: rotate(360deg);
     }
-
 }
-
-
-/* Appointment loading */
 
 .appointment-loading {
     width: 100%;
     min-height: 140px;
+
     padding: 30px;
+
     background: #ffffff;
+
     border: 1px solid #e3e8ed;
     border-radius: 12px;
+
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+
     text-align: center;
 }
 
@@ -1199,694 +1301,387 @@ footer p {
     font-size: 14px;
 }
 
-
-/* Disabled buttons */
-
 button:disabled {
     opacity: 0.7;
     cursor: not-allowed !important;
 }
-/* ======================================================
-   STEP 55 — HOSPITAL + DOCTOR CARDS POLISH
-   Clean Healthcare UI
-   Compatible with current HTML
-   ====================================================== */
 
-/* ======================================================
-   HOSPITAL / DOCTOR CARD
-   ====================================================== */
+/* =========================================================
+   EMPTY STATES
+========================================================= */
 
-.hospital-card {
-    position: relative;
-    background: #ffffff;
-    border: 1px solid #e3e9ee;
-    border-radius: 16px;
-    padding: 24px;
-    margin-bottom: 18px;
-    box-shadow: 0 4px 16px rgba(23, 32, 42, 0.06);
-    transition:
-        transform 0.22s ease,
-        box-shadow 0.22s ease,
-        border-color 0.22s ease;
-    overflow: hidden;
-}
-
-/* Soft top accent */
-.hospital-card::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 0;
+.empty-state {
     width: 100%;
-    height: 4px;
-    background: linear-gradient(
-        90deg,
-        #087f78,
-        #22a69a
-    );
+    min-height: 190px;
+
+    padding: 35px 25px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    background: #ffffff;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.04);
 }
 
-/* Hover */
-.hospital-card:hover {
-    transform: translateY(-3px);
-    border-color: #c9e2df;
-    box-shadow: 0 10px 28px rgba(23, 32, 42, 0.10);
+.empty-state-icon {
+    width: 58px;
+    height: 58px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 14px;
+
+    background: #effaf8;
+    border: 1px solid #c7e6e2;
+    border-radius: 50%;
+
+    color: #087f78;
+    font-size: 25px;
 }
 
+.empty-state h3 {
+    margin-bottom: 7px;
 
-/* ======================================================
-   HOSPITAL / DOCTOR TITLE
-   ====================================================== */
-
-.hospital-card h3 {
-    margin: 4px 0 15px;
     color: #17202a;
-    font-size: 20px;
-    line-height: 1.35;
-    font-weight: 700;
+    font-size: 18px;
 }
 
+.empty-state p {
+    max-width: 500px;
 
-/* ======================================================
-   CARD INFORMATION
-   ====================================================== */
-
-.hospital-card p {
-    margin: 8px 0;
-    color: #59636d;
+    color: #718096;
     font-size: 14px;
     line-height: 1.6;
 }
 
-.hospital-card p strong {
-    color: #273444;
-    font-weight: 600;
+.hospital-empty-state {
+    grid-column: 1 / -1;
 }
 
-
-/* ======================================================
-   DOCTOR / HOSPITAL INFO ROW
-   Works with normal paragraph content
-   ====================================================== */
-
-.hospital-card p:first-of-type {
-    margin-top: 0;
-}
-
-
-/* ======================================================
-   APPOINTMENT INPUT
-   ====================================================== */
-
-.hospital-card input {
+.appointment-empty-state {
     width: 100%;
-    height: 46px;
-    margin-top: 14px;
-    padding: 0 14px;
+    min-height: 160px;
 
-    background: #f8fafc;
-    border: 1px solid #d9e1e7;
-    border-radius: 9px;
+    padding: 30px 20px;
 
-    color: #17202a;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 14px;
-
-    outline: none;
-    transition:
-        border-color 0.2s ease,
-        background 0.2s ease,
-        box-shadow 0.2s ease;
-}
-
-.hospital-card input::placeholder {
-    color: #9aa5b1;
-}
-
-.hospital-card input:focus {
-    background: #ffffff;
-    border-color: #087f78;
-    box-shadow: 0 0 0 3px rgba(8, 127, 120, 0.10);
-}
-
-
-/* ======================================================
-   CARD BUTTON
-   ====================================================== */
-
-.hospital-card button {
-    width: 100%;
-    margin-top: 16px;
-    padding: 11px 16px;
-
-    border: none;
-    border-radius: 9px;
-
-    background: #087f78;
-    color: #ffffff;
-
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-
-    cursor: pointer;
-
-    transition:
-        background 0.2s ease,
-        transform 0.2s ease,
-        box-shadow 0.2s ease;
-}
-
-.hospital-card button:hover {
-    background: #066a65;
-    transform: translateY(-1px);
-    box-shadow: 0 5px 14px rgba(8, 127, 120, 0.20);
-}
-
-.hospital-card button:active {
-    transform: translateY(0);
-}
-
-
-/* ======================================================
-   DISABLED BUTTON
-   ====================================================== */
-
-.hospital-card button:disabled {
-    background: #e2e8f0;
-    color: #94a3b8;
-    border-color: #e2e8f0;
-    cursor: not-allowed;
-    box-shadow: none;
-    transform: none;
-}
-
-
-/* ======================================================
-   BACK BUTTON
-   ====================================================== */
-
-.hospital-card .back-button,
-.back-button {
-    width: auto !important;
-    min-width: 170px;
-
-    margin: 0 0 18px 0 !important;
-    padding: 10px 17px !important;
-
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 7px;
-
-    background: #f4f8f8 !important;
-    color: #087f78 !important;
-
-    border: 1px solid #c9e2df !important;
-    border-radius: 9px !important;
-
-    font-size: 13px !important;
-    font-weight: 600;
-
-    box-shadow: none !important;
-}
-
-.hospital-card .back-button:hover,
-.back-button:hover {
-    background: #e7f5f3 !important;
-    color: #066a65 !important;
-    border-color: #a9d6d0 !important;
-    transform: none !important;
-    box-shadow: none !important;
-}
-
-
-/* ======================================================
-   EMPTY / UNAVAILABLE CARD
-   ====================================================== */
-
-.hospital-card:has(h3:first-child) {
-    min-height: 80px;
-}
-
-
-/* ======================================================
-   HOSPITAL GRID
-   ====================================================== */
-
-.hospital-list {
-    align-items: stretch;
-}
-
-.hospital-list .hospital-card {
-    height: 100%;
-}
-
-
-/* ======================================================
-   MOBILE
-   ====================================================== */
-
-@media (max-width: 600px) {
-
-    .hospital-card {
-        padding: 20px;
-        border-radius: 14px;
-        margin-bottom: 15px;
-    }
-
-    .hospital-card h3 {
-        font-size: 18px;
-        margin-bottom: 13px;
-    }
-
-    .hospital-card p {
-        font-size: 14px;
-        line-height: 1.55;
-    }
-
-    .hospital-card input {
-        height: 46px;
-    }
-
-    .hospital-card button {
-        width: 100%;
-        padding: 12px 15px;
-    }
-
-    .hospital-card .back-button,
-    .back-button {
-        width: 100% !important;
-    }
-}
-/* ======================================================
-   STEP 56 — HOSPITAL / DOCTOR INFORMATION POLISH
-   Add at the END of style.css
-   ====================================================== */
-
-.hospital-card p {
-    display: flex;
-    align-items: flex-start;
-    gap: 6px;
-}
-
-.hospital-card p strong {
-    flex-shrink: 0;
-    min-width: 82px;
-}
-
-.hospital-card h3 {
-    padding-bottom: 2px;
-}
-
-/* Keep appointment input visually separated */
-.hospital-card input {
-    margin-top: 16px;
-}
-
-/* Appointment button */
-.hospital-card button {
-    margin-top: 12px;
-}
-
-/* Better spacing when multiple cards appear */
-.hospital-list .hospital-card + .hospital-card {
-    margin-top: 0;
-}
-
-/* Mobile */
-@media (max-width: 600px) {
-
-    .hospital-card p {
-        display: block;
-    }
-
-    .hospital-card p strong {
-        display: inline;
-        min-width: auto;
-    }
-}
-/* ======================================================
-   STEP 57 — HOSPITAL / DOCTOR STATUS BADGE
-   Add at the END of style.css
-   ====================================================== */
-
-.hospital-card .status-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-
-    margin-bottom: 12px;
-    padding: 5px 10px;
-
-    background: #ecfdf5;
-    color: #087f78;
-
-    border: 1px solid #c8ebe5;
-    border-radius: 20px;
-
-    font-size: 11px;
-    font-weight: 700;
-    line-height: 1;
-}
-
-/* Small status dot */
-.hospital-card .status-badge::before {
-    content: "";
-    width: 6px;
-    height: 6px;
-    background: #10a37f;
-    border-radius: 50%;
-}
-
-/* If unavailable */
-.hospital-card .status-badge.unavailable {
-    background: #fff7ed;
-    color: #c2410c;
-    border-color: #fed7aa;
-}
-
-.hospital-card .status-badge.unavailable::before {
-    background: #f97316;
-}
-/* ======================================================
-   STEP 58 — CARD INTERACTION POLISH
-   Add at the END of style.css
-   ====================================================== */
-
-.hospital-card {
-    transition:
-        transform 0.22s ease,
-        box-shadow 0.22s ease,
-        border-color 0.22s ease;
-}
-
-.hospital-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 30px rgba(23, 32, 42, 0.10);
-}
-
-/* Button interaction */
-.hospital-card button:not(:disabled) {
-    transition:
-        transform 0.18s ease,
-        box-shadow 0.18s ease,
-        background 0.18s ease;
-}
-
-.hospital-card button:not(:disabled):hover {
-    transform: translateY(-1px);
-    box-shadow: 0 5px 14px rgba(8, 127, 120, 0.18);
-}
-
-.hospital-card button:not(:disabled):active {
-    transform: translateY(0);
-    box-shadow: none;
-}
-
-/* Input interaction */
-.hospital-card input:hover {
-    border-color: #b8d4d1;
-}
-
-.hospital-card input:focus {
-    transform: none;
-}
-
-/* Don't animate disabled controls */
-.hospital-card button:disabled {
-    transform: none !important;
-    box-shadow: none !important;
-}
-/* ======================================================
-   STEP 59 — CARD SPACING & ALIGNMENT POLISH
-   Add at the END of style.css
-   ====================================================== */
-
-.hospital-card {
     display: flex;
     flex-direction: column;
-}
-
-/* Keep card content comfortable */
-.hospital-card h3 {
-    margin-bottom: 12px;
-}
-
-/* Information area */
-.hospital-card p {
-    margin: 7px 0;
-}
-
-/* Push appointment controls toward the bottom
-   when cards have different content lengths */
-.hospital-card input {
-    margin-top: auto;
-    margin-bottom: 2px;
-}
-
-/* Buttons stay neatly aligned */
-.hospital-card button {
-    flex-shrink: 0;
-}
-
-/* Back button should remain at the top */
-.hospital-card .back-button {
-    margin-top: 0 !important;
-    margin-bottom: 16px !important;
-}
-
-/* Mobile adjustment */
-@media (max-width: 600px) {
-
-    .hospital-card {
-        display: block;
-    }
-
-    .hospital-card input {
-        margin-top: 14px;
-    }
-}
-/* ======================================================
-   STEP 60 — CARD HEADER POLISH
-   Add at the END of style.css
-   ====================================================== */
-
-.hospital-card h3 {
-    position: relative;
-    padding-left: 12px;
-    margin-bottom: 15px;
-}
-
-/* Small healthcare accent beside the title */
-.hospital-card h3::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 4px;
-    width: 3px;
-    height: calc(100% - 8px);
-    min-height: 18px;
-    background: #087f78;
-    border-radius: 4px;
-}
-
-/* Improve title readability */
-.hospital-card h3 {
-    letter-spacing: -0.15px;
-}
-
-/* Keep information visually separated from heading */
-.hospital-card h3 + p {
-    margin-top: 2px;
-}
-/* ======================================================
-   STEP 61 — CARD CONTENT DIVIDER
-   Add at the END of style.css
-   ====================================================== */
-
-.hospital-card h3 {
-    padding-bottom: 13px;
-    border-bottom: 1px solid #edf1f3;
-}
-
-/* Keep the first information line close to divider */
-.hospital-card h3 + p {
-    margin-top: 12px;
-}
-
-/* Give information lines consistent spacing */
-.hospital-card p {
-    line-height: 1.55;
-}
-
-/* Make important information slightly clearer */
-.hospital-card p strong {
-    color: #344054;
-    font-weight: 600;
-}
-/* ======================================================
-   STEP 62 — INFORMATION HIGHLIGHT
-   Add at the END of style.css
-   ====================================================== */
-
-.hospital-card p strong {
-    display: inline-block;
-    color: #087f78;
-    font-weight: 700;
-}
-
-/* Keep normal information calm and readable */
-.hospital-card p {
-    color: #59636d;
-}
-
-/* Better visual separation between information rows */
-.hospital-card p + p {
-    margin-top: 9px;
-}
-
-/* Highlight important text without making it too heavy */
-.hospital-card p strong + span {
-    color: #344054;
-}
-
-/* Mobile */
-@media (max-width: 600px) {
-    .hospital-card p strong {
-        margin-right: 2px;
-    }
-}
-/* ======================================================
-   STEP 63 — CARD BUTTON AREA POLISH
-   Add at the END of style.css
-   ====================================================== */
-
-.hospital-card button {
-    min-height: 44px;
-    margin-top: 15px;
-    letter-spacing: 0.1px;
-}
-
-/* Keep button text properly centered */
-.hospital-card button {
-    display: flex;
     align-items: center;
     justify-content: center;
+
+    text-align: center;
+
+    background: #ffffff;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
 }
 
-/* Slightly cleaner hover */
-.hospital-card button:not(:disabled):hover {
-    background: #066a65;
-}
+.empty-state-action {
+    margin-top: 16px;
+    padding: 10px 18px;
 
-/* Disabled button should remain neutral */
-.hospital-card button:disabled {
-    opacity: 1;
-    background: #e2e8f0;
-    color: #94a3b8;
-}
-
-/* Mobile */
-@media (max-width: 600px) {
-    .hospital-card button {
-        min-height: 46px;
-    }
-}
-/* ======================================================
-   STEP 57 — NAVIGATION POLISH
-   ====================================================== */
-
-.navbar {
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-
-    background: rgba(255, 255, 255, 0.96);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-
-    border-bottom: 1px solid #e8eef2;
-    box-shadow: 0 2px 12px rgba(15, 23, 42, 0.06);
-}
-
-.nav-links {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.nav-links a {
-    position: relative;
-
-    padding: 9px 12px;
-    border-radius: 7px;
-
-    text-decoration: none;
-    color: #344054;
-    font-size: 14px;
-    font-weight: 500;
-
-    transition:
-        color 0.2s ease,
-        background 0.2s ease;
-}
-
-.nav-links a:hover {
-    color: #087f78;
     background: #effaf8;
-}
+    color: #087f78;
 
+    border: 1px solid #b7ddd9;
+    border-radius: 8px;
 
-/* Active-style underline */
+    font-size: 13px;
+    font-weight: 600;
 
-.nav-links a::after {
-    content: "";
-    position: absolute;
-
-    left: 12px;
-    right: 12px;
-    bottom: 3px;
-
-    height: 2px;
-    border-radius: 2px;
-
-    background: #087f78;
-
-    transform: scaleX(0);
-    transform-origin: center;
-
-    transition: transform 0.2s ease;
-}
-
-.nav-links a:hover::after {
-    transform: scaleX(1);
-}
-
-
-/* Navbar logo */
-
-.logo {
-    white-space: nowrap;
     cursor: pointer;
-    transition: opacity 0.2s ease;
 }
 
-.logo:hover {
-    opacity: 0.88;
+.empty-state-action:hover {
+    background: #087f78;
+    color: #ffffff;
 }
 
+/* =========================================================
+   PROFILE SECTION
+========================================================= */
 
-/* Auth area spacing */
+.profile-section {
+    width: 100%;
+    padding: 35px 20px 50px;
 
-.auth-area {
+    background: #f5f9fa;
+}
+
+.profile-container {
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.profile-heading {
+    margin-bottom: 22px;
+}
+
+.profile-heading h2 {
+    margin-bottom: 6px;
+
+    color: #173b3a;
+    font-size: 30px;
+}
+
+.profile-heading p {
+    color: #687878;
+    font-size: 15px;
+}
+
+.profile-card {
+    width: 100%;
+
+    padding: 30px;
+
+    background: #ffffff;
+
+    border-radius: 16px;
+
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
+}
+
+/* Profile photo */
+
+.profile-photo-area {
     display: flex;
     align-items: center;
-    gap: 9px;
+    gap: 22px;
+
+    padding-bottom: 25px;
+    margin-bottom: 25px;
+
+    border-bottom: 1px solid #e5eeee;
 }
 
+.profile-photo {
+    width: 115px;
+    height: 115px;
 
-/* Tablet */
+    object-fit: cover;
+
+    border-radius: 50%;
+    border: 4px solid #0b8f87;
+
+    background: #eef7f6;
+}
+
+.photo-info h3 {
+    margin-bottom: 10px;
+
+    color: #233333;
+    font-size: 18px;
+}
+
+.change-photo-btn {
+    display: inline-block;
+
+    padding: 10px 15px;
+
+    background: #0b8f87;
+    color: #ffffff;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.change-photo-btn:hover {
+    background: #08736d;
+}
+
+/* Profile headings */
+
+.profile-section-title {
+    margin: 28px 0 16px;
+
+    color: #173b3a;
+    font-size: 19px;
+}
+
+.emergency-heading {
+    color: #b33a3a;
+}
+
+/* Profile grid */
+
+.profile-grid {
+    width: 100%;
+
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    gap: 18px;
+}
+
+.profile-field {
+    min-width: 0;
+}
+
+.profile-field.profile-full {
+    grid-column: 1 / -1;
+}
+
+.profile-field label {
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: #344545;
+
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.profile-field label span {
+    color: #888;
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.profile-field input,
+.profile-field select,
+.profile-field textarea {
+    width: 100%;
+    max-width: 100%;
+
+    padding: 12px 13px;
+
+    background: #ffffff;
+    color: #263535;
+
+    border: 1px solid #d6dfdf;
+    border-radius: 8px;
+
+    outline: none;
+
+    font-family: inherit;
+    font-size: 14px;
+
+    transition: 0.2s ease;
+}
+
+.profile-field textarea {
+    min-height: 85px;
+    resize: vertical;
+}
+
+.profile-field input:focus,
+.profile-field select:focus,
+.profile-field textarea:focus {
+    border-color: #0b8f87;
+
+    box-shadow: 0 0 0 3px rgba(11, 143, 135, 0.1);
+}
+
+/* Profile buttons */
+
+.profile-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+
+    margin-top: 32px;
+    padding-top: 24px;
+
+    border-top: 1px solid #e5eeee;
+}
+
+.profile-actions button {
+    min-height: 44px;
+
+    padding: 11px 18px;
+
+    border-radius: 8px;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+.profile-edit-btn {
+    background: #ffffff;
+    color: #0b817b;
+
+    border: 1px solid #0b8f87;
+}
+
+.profile-save-btn {
+    background: #0b8f87;
+    color: #ffffff;
+
+    border: 1px solid #0b8f87;
+}
+
+.profile-password-btn {
+    background: #f1f5f5;
+    color: #344545;
+
+    border: 1px solid #d7e0e0;
+}
+
+.profile-actions button:hover {
+    transform: translateY(-1px);
+}
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 30px;
+
+    padding: 25px 7%;
+
+    background: #17202a;
+    color: #ffffff;
+}
+
+footer p {
+    margin: 5px 0;
+}
+
+.footer-left {
+    text-align: left;
+}
+
+.footer-contact {
+    text-align: right;
+}
+
+.footer-contact strong {
+    display: block;
+    margin-bottom: 6px;
+}
+
+.footer-contact p {
+    margin: 3px 0;
+    font-size: 14px;
+}
+
+/* =========================================================
+   TABLET
+========================================================= */
 
 @media (max-width: 900px) {
 
@@ -1895,44 +1690,12 @@ button:disabled {
     }
 
     .nav-links {
-        gap: 3px;
+        gap: 2px;
     }
 
     .nav-links a {
-        padding: 8px 9px;
+        padding: 8px 8px;
         font-size: 13px;
-    }
-
-}
-
-
-/* Mobile */
-
-@media (max-width: 600px) {
-
-    .navbar {
-        padding: 13px 5%;
-    }
-
-    .nav-links {
-        display: none;
-    }
-
-    .auth-area {
-        gap: 6px;
-    }
-
-}
-/* ======================================================
-   STEP 58 — MOBILE RESPONSIVE POLISH
-   ====================================================== */
-
-/* ---------- Tablet ---------- */
-
-@media (max-width: 900px) {
-
-    .navbar {
-        padding: 14px 5%;
     }
 
     .hero {
@@ -1943,20 +1706,6 @@ button:disabled {
         font-size: 40px;
     }
 
-    .hero p {
-        font-size: 17px;
-    }
-
-    .search-box {
-        max-width: 650px;
-    }
-
-    .results,
-    .services {
-        padding-left: 5%;
-        padding-right: 5%;
-    }
-
     .hospital-list {
         grid-template-columns: repeat(2, 1fr);
         gap: 16px;
@@ -1970,22 +1719,17 @@ button:disabled {
     #appointments-list {
         grid-template-columns: 1fr;
     }
-
-    .appointment-card {
-        min-height: auto;
-    }
 }
 
-
-/* ---------- Mobile ---------- */
+/* =========================================================
+   MOBILE
+========================================================= */
 
 @media (max-width: 600px) {
 
-    /* Navbar */
-
     .navbar {
-        padding: 12px 5%;
         min-height: 58px;
+        padding: 12px 5%;
     }
 
     .logo {
@@ -2001,11 +1745,13 @@ button:disabled {
     }
 
     .auth-login-btn,
-    .auth-register-btn {
-        padding: 8px 10px !important;
-        font-size: 12px !important;
+    .auth-register-btn,
+    .auth-profile-btn,
+    .auth-logout-btn {
+        min-height: 36px;
+        padding: 8px 10px;
+        font-size: 12px;
     }
-
 
     /* Hero */
 
@@ -2016,7 +1762,6 @@ button:disabled {
     .hero h1 {
         font-size: 30px;
         line-height: 1.2;
-        margin-bottom: 12px;
     }
 
     .hero p {
@@ -2025,19 +1770,19 @@ button:disabled {
         margin-bottom: 25px;
     }
 
-
     /* Search */
 
     .search-box {
         width: 100%;
         padding: 15px;
-        border-radius: 10px;
     }
 
     .search-box select {
         width: 100%;
         height: 46px;
-        margin: 0 0 10px 0;
+
+        margin: 0 0 10px;
+
         font-size: 14px;
     }
 
@@ -2048,15 +1793,10 @@ button:disabled {
         font-size: 14px;
     }
 
-
     /* Results */
 
     .results {
         padding: 40px 5%;
-    }
-
-    .results-header {
-        margin-bottom: 22px;
     }
 
     .results-header h2 {
@@ -2065,11 +1805,9 @@ button:disabled {
 
     .results-header p {
         font-size: 14px;
-        line-height: 1.5;
     }
 
-
-    /* Hospital cards */
+    /* Hospital */
 
     .hospital-list {
         grid-template-columns: 1fr;
@@ -2079,7 +1817,7 @@ button:disabled {
     .hospital-card {
         width: 100%;
         padding: 18px;
-        margin-bottom: 0;
+        border-radius: 14px;
     }
 
     .hospital-card h3 {
@@ -2087,32 +1825,35 @@ button:disabled {
     }
 
     .hospital-card p {
+        display: block;
         font-size: 14px;
-        line-height: 1.5;
+    }
+
+    .hospital-card p strong {
+        display: inline;
+        min-width: auto;
+        margin-right: 2px;
     }
 
     .hospital-card input {
         height: 46px;
-        font-size: 14px;
+        margin-top: 14px;
     }
 
     .hospital-card button {
         width: 100%;
-        padding: 12px;
+        min-height: 46px;
     }
-
 
     /* Appointments */
 
     .appointments-section {
         width: 90%;
-        margin: 0 auto 30px;
         padding: 16px;
     }
 
     .appointments-header {
         display: block;
-        margin-bottom: 15px;
     }
 
     .appointments-header h2 {
@@ -2122,37 +1863,28 @@ button:disabled {
 
     #appointments-list {
         grid-template-columns: 1fr;
-        gap: 12px;
     }
 
     .appointment-card {
         width: 100%;
+
         min-height: 0;
+
         padding: 16px;
+
         flex-direction: column;
         align-items: stretch;
-        gap: 14px;
-    }
-
-    .appointment-card h3 {
-        font-size: 15px;
-    }
-
-    .appointment-card p {
-        font-size: 13px;
     }
 
     .appointment-reference {
         width: 100%;
         justify-content: space-between;
         flex-wrap: wrap;
-        gap: 8px;
     }
 
     .cancel-appointment-btn {
         width: 100% !important;
     }
-
 
     /* Services */
 
@@ -2162,7 +1894,6 @@ button:disabled {
 
     .services h2 {
         font-size: 24px;
-        margin-bottom: 25px;
     }
 
     .service-grid {
@@ -2173,11 +1904,6 @@ button:disabled {
     .service-card {
         padding: 24px 18px;
     }
-
-    .service-card .icon {
-        font-size: 32px;
-    }
-
 
     /* Emergency */
 
@@ -2192,17 +1918,12 @@ button:disabled {
 
     .emergency button {
         width: 100%;
-        padding: 12px;
     }
-
-
-    /* Emergency popup */
 
     .emergency-box {
         width: 92%;
         padding: 30px 20px;
     }
-
 
     /* Loading */
 
@@ -2211,22 +1932,14 @@ button:disabled {
         padding: 25px 15px;
     }
 
-    .appointment-loading {
-        min-height: 130px;
-        padding: 25px 15px;
-    }
-
-
     /* Back button */
 
     .back-button {
         width: 100% !important;
         min-width: 0;
-        margin-bottom: 18px !important;
     }
 
-
-    /* Auth modal */
+    /* Auth */
 
     .auth-modal {
         padding: 12px;
@@ -2236,7 +1949,9 @@ button:disabled {
         width: 100%;
         max-width: 100%;
         max-height: 94vh;
+
         padding: 28px 18px;
+
         border-radius: 16px;
     }
 
@@ -2255,10 +1970,80 @@ button:disabled {
     .auth-submit-btn {
         height: 46px;
     }
+
+    .forgot-links {
+        gap: 4px;
+    }
+
+    .forgot-links button {
+        font-size: 12px !important;
+        padding: 7px 6px !important;
+    }
+
+    /* Profile */
+
+    .profile-section {
+        padding: 22px 12px 35px;
+    }
+
+    .profile-heading h2 {
+        font-size: 25px;
+    }
+
+    .profile-heading p {
+        font-size: 14px;
+    }
+
+    .profile-card {
+        padding: 20px 15px;
+        border-radius: 13px;
+    }
+
+    .profile-photo-area {
+        flex-direction: column;
+        text-align: center;
+        gap: 14px;
+    }
+
+    .profile-photo {
+        width: 105px;
+        height: 105px;
+    }
+
+    .profile-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .profile-field.profile-full {
+        grid-column: auto;
+    }
+
+    .profile-actions {
+        flex-direction: column;
+    }
+
+    .profile-actions button {
+        width: 100%;
+        min-height: 46px;
+    }
+
+    /* Footer */
+
+    footer {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .footer-left,
+    .footer-contact {
+        text-align: center;
+    }
 }
 
-
-/* ---------- Small Mobile ---------- */
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
 
 @media (max-width: 400px) {
 
@@ -2271,9 +2056,11 @@ button:disabled {
     }
 
     .auth-login-btn,
-    .auth-register-btn {
-        padding: 7px 8px !important;
-        font-size: 11px !important;
+    .auth-register-btn,
+    .auth-profile-btn,
+    .auth-logout-btn {
+        padding: 7px 8px;
+        font-size: 11px;
     }
 
     .hero {
@@ -2306,540 +2093,19 @@ button:disabled {
         margin-left: 4%;
         margin-right: 4%;
     }
-}
-/* ======================================================
-   STEP 59 — EMPTY STATES
-   ====================================================== */
 
-/* ---------- Common Empty State ---------- */
-
-.empty-state {
-    width: 100%;
-    min-height: 190px;
-    padding: 35px 25px;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-
-    text-align: center;
-
-    background: #ffffff;
-    border: 1px solid #e5e7eb;
-    border-radius: 12px;
-
-    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.04);
-}
-
-
-/* Empty State Icon */
-
-.empty-state-icon {
-    width: 58px;
-    height: 58px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    margin-bottom: 14px;
-
-    background: #effaf8;
-    border: 1px solid #c7e6e2;
-    border-radius: 50%;
-
-    color: #087f78;
-    font-size: 25px;
-}
-
-
-/* Empty State Heading */
-
-.empty-state h3 {
-    margin: 0 0 7px;
-
-    color: #17202a;
-    font-size: 18px;
-    font-weight: 700;
-}
-
-
-/* Empty State Description */
-
-.empty-state p {
-    max-width: 500px;
-    margin: 0;
-
-    color: #718096;
-    font-size: 14px;
-    line-height: 1.6;
-}
-
-
-/* ---------- Hospital / Doctor Empty ---------- */
-
-.hospital-empty-state {
-    grid-column: 1 / -1;
-}
-
-
-/* ---------- Appointment Empty ---------- */
-
-.appointment-empty-state {
-    width: 100%;
-    min-height: 160px;
-
-    padding: 30px 20px;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-
-    text-align: center;
-
-    background: #ffffff;
-    border: 1px solid #e5e7eb;
-    border-radius: 12px;
-}
-
-
-/* Appointment Empty Icon */
-
-.appointment-empty-state .empty-state-icon {
-    width: 52px;
-    height: 52px;
-    font-size: 22px;
-    margin-bottom: 12px;
-}
-
-
-/* Appointment Empty Heading */
-
-.appointment-empty-state h3 {
-    margin-bottom: 6px;
-
-    color: #17202a;
-    font-size: 17px;
-}
-
-
-/* Appointment Empty Text */
-
-.appointment-empty-state p {
-    color: #718096;
-    font-size: 13px;
-    line-height: 1.5;
-}
-
-
-/* ---------- Optional Action Button ---------- */
-
-.empty-state-action {
-    margin-top: 16px;
-
-    padding: 10px 18px;
-
-    border: 1px solid #b7ddd9;
-    border-radius: 8px;
-
-    background: #effaf8;
-    color: #087f78;
-
-    font-size: 13px;
-    font-weight: 600;
-
-    cursor: pointer;
-
-    transition: 0.2s ease;
-}
-
-.empty-state-action:hover {
-    background: #087f78;
-    color: #ffffff;
-    border-color: #087f78;
-    transform: translateY(-1px);
-}
-
-
-/* ---------- Mobile ---------- */
-
-@media (max-width: 600px) {
-
-    .empty-state {
-        min-height: 170px;
-        padding: 28px 18px;
+    .auth-box {
+        padding: 27px 17px;
     }
 
-    .empty-state-icon {
-        width: 52px;
-        height: 52px;
-        font-size: 22px;
-    }
-
-    .empty-state h3 {
-        font-size: 17px;
-    }
-
-    .empty-state p {
-        font-size: 13px;
-    }
-
-    .appointment-empty-state {
-        min-height: 145px;
-        padding: 25px 16px;
-    }
-
-}
-/* Logged-in user buttons */
-.auth-profile-btn {
-    background: #e8f5e9;
-    color: #166534;
-    border: 1px solid #86efac;
-    padding: 10px 16px;
-    border-radius: 10px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    margin-right: 8px;
-    transition: 0.2s ease;
-}
-
-.auth-profile-btn:hover {
-    background: #dcfce7;
-    transform: translateY(-1px);
-}
-
-
-/* Logout button */
-.auth-logout-btn {
-    background: #ef4444;
-    color: white;
-    border: none;
-    padding: 10px 16px;
-    border-radius: 10px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: 0.2s ease;
-}
-
-.auth-logout-btn:hover {
-    background: #dc2626;
-    transform: translateY(-1px);
-}
-
-/* Contact Footer */
-
-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 30px;
-}
-
-.footer-left {
-    text-align: left;
-}
-
-.footer-contact {
-    text-align: right;
-}
-
-.footer-contact strong {
-    display: block;
-    margin-bottom: 6px;
-}
-
-.footer-contact p {
-    margin: 3px 0;
-    font-size: 14px;
-}
-
-@media (max-width: 700px) {
-
-    footer {
+    .forgot-links {
         flex-direction: column;
-        text-align: center;
+        gap: 3px;
     }
 
-    .footer-left,
-    .footer-contact {
-        text-align: center;
+    .forgot-links button {
+        font-size: 12px !important;
     }
-
-}
-
-/* =====================================================
-   JEEVANSETU PROFILE SECTION
-   DESKTOP + MOBILE RESPONSIVE
-===================================================== */
-
-.profile-section {
-    width: 100%;
-    padding: 35px 20px 50px;
-    background: #f5f9fa;
-}
-
-.profile-container {
-    width: 100%;
-    max-width: 1000px;
-    margin: 0 auto;
-}
-
-.profile-heading {
-    margin-bottom: 22px;
-}
-
-.profile-heading h2 {
-    font-size: 30px;
-    margin: 0 0 6px;
-    color: #173b3a;
-}
-
-.profile-heading p {
-    margin: 0;
-    color: #687878;
-    font-size: 15px;
-}
-
-.profile-card {
-    width: 100%;
-    background: #ffffff;
-    border-radius: 16px;
-    padding: 30px;
-    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
-}
-
-
-/* PROFILE PHOTO */
-
-.profile-photo-area {
-    display: flex;
-    align-items: center;
-    gap: 22px;
-    padding-bottom: 25px;
-    margin-bottom: 25px;
-    border-bottom: 1px solid #e5eeee;
-}
-
-.profile-photo {
-    width: 115px;
-    height: 115px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 4px solid #0b8f87;
-    background: #eef7f6;
-}
-
-.photo-info h3 {
-    margin: 0 0 10px;
-    font-size: 18px;
-    color: #233333;
-}
-
-.change-photo-btn {
-    display: inline-block;
-    padding: 10px 15px;
-    background: #0b8f87;
-    color: white;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: 0.2s;
-}
-
-.change-photo-btn:hover {
-    background: #08736d;
-}
-
-
-/* SECTION TITLES */
-
-.profile-section-title {
-    margin: 28px 0 16px;
-    font-size: 19px;
-    color: #173b3a;
-}
-
-.emergency-heading {
-    color: #b33a3a;
-}
-
-
-/* FORM GRID */
-
-.profile-grid {
-    width: 100%;
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 18px;
-}
-
-.profile-field {
-    min-width: 0;
-}
-
-.profile-field.profile-full {
-    grid-column: 1 / -1;
-}
-
-.profile-field label {
-    display: block;
-    margin-bottom: 7px;
-    font-size: 14px;
-    font-weight: 600;
-    color: #344545;
-}
-
-.profile-field label span {
-    color: #888;
-    font-size: 12px;
-    font-weight: 400;
-}
-
-.profile-field input,
-.profile-field select,
-.profile-field textarea {
-    width: 100%;
-    max-width: 100%;
-    padding: 12px 13px;
-    border: 1px solid #d6dfdf;
-    border-radius: 8px;
-    background: #ffffff;
-    color: #263535;
-    font-size: 14px;
-    font-family: inherit;
-    outline: none;
-    transition: border 0.2s, box-shadow 0.2s;
-}
-
-.profile-field textarea {
-    resize: vertical;
-    min-height: 85px;
-}
-
-.profile-field input:focus,
-.profile-field select:focus,
-.profile-field textarea:focus {
-    border-color: #0b8f87;
-    box-shadow: 0 0 0 3px rgba(11, 143, 135, 0.10);
-}
-
-
-/* BUTTONS */
-
-.profile-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    margin-top: 32px;
-    padding-top: 24px;
-    border-top: 1px solid #e5eeee;
-}
-
-.profile-actions button {
-    min-height: 44px;
-    padding: 11px 18px;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-.profile-edit-btn {
-    background: #ffffff;
-    color: #0b817b;
-    border: 1px solid #0b8f87;
-}
-
-.profile-save-btn {
-    background: #0b8f87;
-    color: #ffffff;
-    border: 1px solid #0b8f87;
-}
-
-.profile-password-btn {
-    background: #f1f5f5;
-    color: #344545;
-    border: 1px solid #d7e0e0;
-}
-
-.profile-actions button:hover {
-    transform: translateY(-1px);
-}
-
-
-/* =====================================================
-   MOBILE
-===================================================== */
-
-@media (max-width: 768px) {
-
-    .profile-section {
-        padding: 22px 12px 35px;
-    }
-
-    .profile-container {
-        width: 100%;
-    }
-
-    .profile-heading h2 {
-        font-size: 25px;
-    }
-
-    .profile-heading p {
-        font-size: 14px;
-        line-height: 1.5;
-    }
-
-    .profile-card {
-        padding: 20px 15px;
-        border-radius: 13px;
-    }
-
-    .profile-photo-area {
-        flex-direction: column;
-        text-align: center;
-        gap: 14px;
-    }
-
-    .profile-photo {
-        width: 105px;
-        height: 105px;
-    }
-
-    .profile-grid {
-        grid-template-columns: 1fr;
-        gap: 15px;
-    }
-
-    .profile-field.profile-full {
-        grid-column: auto;
-    }
-
-    .profile-section-title {
-        font-size: 18px;
-        margin-top: 25px;
-    }
-
-    .profile-actions {
-        flex-direction: column;
-    }
-
-    .profile-actions button {
-        width: 100%;
-        min-height: 46px;
-    }
-
-}
-
-
-/* SMALL PHONES */
-
-@media (max-width: 400px) {
 
     .profile-section {
         padding-left: 8px;
@@ -2854,16 +2120,8 @@ footer {
         font-size: 22px;
     }
 
-    .profile-field input,
-    .profile-field select,
-    .profile-field textarea {
-        font-size: 14px;
-        padding: 11px;
-    }
-
     .profile-photo {
         width: 95px;
         height: 95px;
     }
-
-   }
+}
